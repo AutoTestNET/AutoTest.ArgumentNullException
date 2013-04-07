@@ -34,12 +34,32 @@
     <DocumentationFile>bin\Release\AutoTest.ArgumentNullException.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ploeh.AutoFixture">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.3.0.3\lib\net40\Ploeh.AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="Ploeh.AutoFixture.Xunit">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoFixture.Xunit.3.0.3\lib\net40\Ploeh.AutoFixture.Xunit.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="xunit">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xunit.extensions.1.9.1\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
