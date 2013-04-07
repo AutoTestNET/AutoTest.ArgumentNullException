@@ -6,8 +6,10 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
+    using Framework;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
+    using TypeFilter;
     using Xunit.Extensions;
 
     /// <summary>
@@ -20,6 +22,11 @@
         /// The assembly under test.
         /// </summary>
         private readonly Assembly _assemblyUnderTest;
+
+        /// <summary>
+        /// The auto discovered list of type filters.
+        /// </summary>
+        private IDiscoverableCollection<ITypeFilter> _typeFilters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
@@ -44,6 +51,15 @@
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
             _assemblyUnderTest = assemblyUnderTest;
+            _typeFilters = new ReflectionDiscoverableCollection<ITypeFilter>();
+        }
+
+        /// <summary>
+        /// Gets the list of type filters.
+        /// </summary>
+        public IEnumerable<ITypeFilter> TypeFilters
+        {
+            get { return _typeFilters; }
         }
 
         /// <summary>
@@ -54,9 +70,12 @@
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
+            _typeFilters.Discover();
+
+            IEnumerable<Type> classesInAut = GetTypesInAssembly(_assemblyUnderTest, _typeFilters);
+
             var data = new List<MethodData>();
 
-            IEnumerable<Type> classesInAut = _assemblyUnderTest.GetTypes().Where(t => t.IsClass && !IsCompilerGenerated(t)).ToArray();
             foreach (Type type in classesInAut)
             {
                 MethodInfo[] methods = type.GetMethods();
@@ -107,18 +126,16 @@
         }
 
         /// <summary>
-        /// Determines if a <paramref name="type"/> is compiler generated.
+        /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns><c>true</c> if the type was compiler generated; otherwise <c>false</c>.</returns>
-        private static bool IsCompilerGenerated(MemberInfo type)
+        /// <param name="assembly">The assembly from which to retrieve the types.</param>
+        /// <param name="filters">The collection of filters to limit the types.</param>
+        /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
+        private static IEnumerable<Type> GetTypesInAssembly(Assembly assembly, IEnumerable<ITypeFilter> filters)
         {
-            if (type == null) throw new ArgumentNullException("type");
-
-            if (type.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
-                return true;
-
-            return type.DeclaringType != null && IsCompilerGenerated(type.DeclaringType);
+            return filters.Aggregate(
+                assembly.GetTypes().AsEnumerable(),
+                (current, filter) => current.Where(filter.FilterType));
         }
 
         /// <summary>

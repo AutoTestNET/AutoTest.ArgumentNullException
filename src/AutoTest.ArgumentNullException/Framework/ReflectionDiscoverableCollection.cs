@@ -1,4 +1,8 @@
-﻿// Shamelessly taken from Glimpse see: http://getglimpse.com/
+﻿//-----------------------------------------------------------------------
+// <copyright file="ReflectionDiscoverableCollection.cs" company="The glimpse dudes">
+//  Shamelessly lifted from Glimpse see: http://getglimpse.com/.
+// </copyright>
+//-----------------------------------------------------------------------
 
 namespace AutoTest.ArgumentNullException.Framework
 {
