@@ -4,7 +4,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace AutoTest.ArgumentNullException.Framework
+namespace AutoTest.ArgNullEx.Framework
 {
     using System;
     using System.Collections.Generic;

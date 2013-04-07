@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgumentNullException.TypeFilter
+﻿namespace AutoTest.ArgNullEx.TypeFilter
 {
     using System;
     using System.Reflection;

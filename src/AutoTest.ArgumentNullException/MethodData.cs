@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgumentNullException
+﻿namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Diagnostics;
