@@ -4,13 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
-    using Framework;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
-    using TypeFilter;
     using Xunit.Extensions;
+    using AutoTest.ArgNullEx.Framework;
+    using AutoTest.ArgNullEx.TypeFilter;
 
     /// <summary>
     /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/>s.
@@ -26,7 +25,7 @@
         /// <summary>
         /// The auto discovered list of type filters.
         /// </summary>
-        private IDiscoverableCollection<ITypeFilter> _typeFilters;
+        private readonly IDiscoverableCollection<ITypeFilter> _typeFilters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
