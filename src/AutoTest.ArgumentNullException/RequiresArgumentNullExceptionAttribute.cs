@@ -30,10 +30,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
-        /// <param name="typeInAssembly">A type in the assembly under test.</param>
-        public RequiresArgumentNullExceptionAttribute(
-            Type typeInAssembly)
-            : this(new AutoDataAttribute(), typeInAssembly.Assembly)
+        /// <param name="assemblyUnderTest">A type in the assembly under test.</param>
+        public RequiresArgumentNullExceptionAttribute(Type assemblyUnderTest)
+            : this(new AutoDataAttribute(), assemblyUnderTest != null ? assemblyUnderTest.Assembly : null)
         {
         }
 
