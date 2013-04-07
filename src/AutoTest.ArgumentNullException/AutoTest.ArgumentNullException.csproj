@@ -63,8 +63,10 @@
     <Compile Include="MethodFilter\IMethodFilter.cs" />
     <Compile Include="MethodFilter\NotNamedEquals.cs" />
     <Compile Include="MethodFilter\HasNullableParameters.cs" />
+    <Compile Include="MethodFilter\NotNullableParametersDefaultedToNull.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAttribute.cs" />
+    <Compile Include="NullExtensions.cs" />
     <Compile Include="TypeFilter\IsClass.cs" />
     <Compile Include="TypeFilter\ITypeFilter.cs" />
     <Compile Include="TypeFilter\NotCompilerGenerated.cs" />

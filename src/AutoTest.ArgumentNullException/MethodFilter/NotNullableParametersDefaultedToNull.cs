@@ -5,22 +5,21 @@
     using System.Reflection;
 
     /// <summary>
-    /// Filters out methods that do not have nullable parameters.
+    /// Filters out the methods that have nullable parameters, but have null defaults.
     /// </summary>
-    public class HasNullableParameters : IMethodFilter
+    public class NotNullableParametersDefaultedToNull : IMethodFilter
     {
         /// <summary>
-        /// Filters out methods that do not have nullable parameterTypes.
+        /// Filters out the methods that have nullable parameters, but have null defaults.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
         /// <returns><c>true</c> if the <paramref name="method"/> should be included, otherwise <c>false</c>.</returns>
         bool IMethodFilter.IncludeMethod(Type type, MethodInfo method)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
-
-            return method.GetParameters().Any(p => p.ParameterType.IsNullable());
+            return method.GetParameters()
+                         .Where(pi => pi.ParameterType.IsNullable())
+                         .Any(pi => !pi.HasNullDefault());
         }
     }
 }

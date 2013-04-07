@@ -11,7 +11,7 @@
         /// A predicate function for filtering on a <see cref="Type"/>.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns><c>true</c> of the <paramref name="type"/> should be included, otherwise <c>false</c>.</returns>
+        /// <returns><c>true</c> if the <paramref name="type"/> should be included, otherwise <c>false</c>.</returns>
         bool IncludeType(Type type);
     }
 }
