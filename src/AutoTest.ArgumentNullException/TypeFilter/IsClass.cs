@@ -5,7 +5,7 @@
     /// <summary>
     /// Filters out types that are not classes.
     /// </summary>
-    public class IsClass : ITypeFilter
+    public class IsClass : FilterBase, ITypeFilter
     {
         /// <summary>
         /// Filters out types that are not classes.

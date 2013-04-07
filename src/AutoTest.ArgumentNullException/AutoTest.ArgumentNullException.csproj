@@ -57,8 +57,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilterBase.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
+    <Compile Include="IFilter.cs" />
     <Compile Include="MethodData.cs" />
     <Compile Include="IMethodFilter.cs" />
     <Compile Include="MethodFilter\NotNamedEquals.cs" />

@@ -6,8 +6,6 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Framework;
-    using AutoTest.ArgNullEx.MethodFilter;
-    using AutoTest.ArgNullEx.TypeFilter;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
     using Xunit.Extensions;

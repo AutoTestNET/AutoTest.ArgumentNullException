@@ -7,7 +7,7 @@
     /// <summary>
     /// Filters out methods that do not have nullable parameters.
     /// </summary>
-    public class HasNullableParameters : IMethodFilter
+    public class HasNullableParameters : FilterBase, IMethodFilter
     {
         /// <summary>
         /// Filters out methods that do not have nullable parameterTypes.

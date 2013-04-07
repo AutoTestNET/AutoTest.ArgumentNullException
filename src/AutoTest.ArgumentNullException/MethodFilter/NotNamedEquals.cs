@@ -6,7 +6,7 @@
     /// <summary>
     /// Filters out the <see cref="object.Equals(object)"/> method.
     /// </summary>
-    public class NotNamedEquals : IMethodFilter
+    public class NotNamedEquals : FilterBase, IMethodFilter
     {
         /// <summary>
         /// Filters out the <see cref="object.Equals(object)"/> method.

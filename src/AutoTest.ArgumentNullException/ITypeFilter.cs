@@ -1,11 +1,11 @@
-﻿namespace AutoTest.ArgNullEx.TypeFilter
+﻿namespace AutoTest.ArgNullEx
 {
     using System;
 
     /// <summary>
     /// Interface defining a predicate on a <see cref="Type"/>.
     /// </summary>
-    public interface ITypeFilter
+    public interface ITypeFilter : IFilter
     {
         /// <summary>
         /// A predicate function for filtering on a <see cref="Type"/>.

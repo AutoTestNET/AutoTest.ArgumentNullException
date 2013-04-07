@@ -1,6 +1,7 @@
 <StyleCopSettings Version="105">
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
+      <Value>behaviour</Value>
       <Value>nullable</Value>
     </CollectionProperty>
   </GlobalSettings>

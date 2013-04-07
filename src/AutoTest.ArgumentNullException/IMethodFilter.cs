@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgNullEx.MethodFilter
+﻿namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Reflection;
@@ -6,7 +6,7 @@
     /// <summary>
     /// Interface defining a predicate on a <see cref="MethodInfo"/> of a <see cref="Type"/>.
     /// </summary>
-    public interface IMethodFilter
+    public interface IMethodFilter : IFilter
     {
         /// <summary>
         /// A predicate function for filtering on a <see cref="MethodInfo"/> of a <see cref="Type"/>.

@@ -7,7 +7,7 @@
     /// <summary>
     /// Filters out types that are compiler generated.
     /// </summary>
-    public class NotCompilerGenerated : ITypeFilter
+    public class NotCompilerGenerated : FilterBase, ITypeFilter
     {
         /// <summary>
         /// Filters out types that are compiler generated.
