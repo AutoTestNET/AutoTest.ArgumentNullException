@@ -65,7 +65,7 @@
         /// <returns>A human readable representation of the <see cref="MethodData"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2}", ClassUnderTest.Name, MethodUnderTest.Name, NullArgument);
+            return string.Format("{0}.{1} {2}=null", ClassUnderTest.Name, MethodUnderTest.Name, NullArgument);
         }
     }
 }

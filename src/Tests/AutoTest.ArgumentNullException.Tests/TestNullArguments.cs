@@ -6,11 +6,11 @@
 
     public class TestNullArguments
     {
-        [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(TestNullArguments))]
+        [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(MethodData))]
         public void TestAllNullArguments(MethodData methodData)
         {
-            //string actualParamName = Assert.Throws<ArgumentNullException>(() => methodData.ExecutingActionSync()).ParamName;
-            //Assert.Equal(methodData.NullArgument, actualParamName);
+            string actualParamName = Assert.Throws<ArgumentNullException>(() => methodData.ExecutingActionSync()).ParamName;
+            Assert.Equal(methodData.NullArgument, actualParamName);
         }
     }
 }

@@ -15,6 +15,8 @@
         /// <returns><c>true</c> if the <paramref name="type"/> can have a null value; otherwise <c>false</c>.</returns>
         public static bool IsNullable(this Type type)
         {
+            if (type == null) throw new ArgumentNullException("type");
+
             return !type.IsValueType || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
         }
 

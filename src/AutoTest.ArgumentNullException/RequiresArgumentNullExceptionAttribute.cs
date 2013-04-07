@@ -75,6 +75,9 @@
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
+            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
+            if (parameterTypes == null) throw new ArgumentNullException("parameterTypes");
+
             _methodFilters.Discover();
             _typeFilters.Discover();
 
