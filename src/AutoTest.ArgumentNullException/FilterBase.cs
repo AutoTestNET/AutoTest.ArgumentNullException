@@ -1,16 +1,18 @@
 ﻿namespace AutoTest.ArgNullEx
 {
+    using System.Reflection;
+
     /// <summary>
     /// Base implementation of <see cref="IFilter"/> providing default behaviour.
     /// </summary>
     public abstract class FilterBase : IFilter
     {
         /// <summary>
-        /// Gets the name of the filter. The default is to use <see cref="object.ToString"/>.
+        /// Gets the name of the filter. The default is to use <see cref="MemberInfo.Name"/>.
         /// </summary>
         public virtual string Name
         {
-            get { return ToString(); }
+            get { return GetType().Name; }
         }
     }
 }

@@ -127,6 +127,29 @@
         }
 
         /// <summary>
+        /// Executes the <paramref name="filter"/> on the <paramref name="type"/>, logging information if it was excluded.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="filter">The <see cref="Type"/> filter.</param>
+        /// <returns>The result of <see cref="ITypeFilter.IncludeType"/>.</returns>
+        private static bool IncludeType(Type type, ITypeFilter filter)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+            if (filter == null) throw new ArgumentNullException("filter");
+
+            bool includeType = filter.IncludeType(type);
+            if (includeType == false)
+            {
+                System.Diagnostics.Trace.TraceInformation(
+                    "The type '{0}' was excluded by the filter '{1}'.",
+                    type,
+                    filter.Name);
+            }
+
+            return includeType;
+        }
+
+        /// <summary>
         /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
         /// </summary>
         /// <param name="assembly">The <see cref="Assembly"/> from which to retrieve the types.</param>
@@ -136,7 +159,33 @@
         {
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(filter.IncludeType));
+                (current, filter) => current.Where(type => IncludeType(type, filter)));
+        }
+
+        /// <summary>
+        /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was excluded.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="method">The method.</param>
+        /// <param name="filter">The <see cref="Type"/> filter.</param>
+        /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
+        private static bool IncludeMethod(Type type, MethodInfo method, IMethodFilter filter)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+            if (method == null) throw new ArgumentNullException("method");
+            if (filter == null) throw new ArgumentNullException("filter");
+
+            bool includeMethod = filter.IncludeMethod(type, method);
+            if (includeMethod == false)
+            {
+                System.Diagnostics.Trace.TraceInformation(
+                    "The method '{0}.{1}' was excluded by the filter '{2}'.",
+                    type.Name,
+                    method.Name,
+                    filter.Name);
+            }
+
+            return includeMethod;
         }
 
         /// <summary>
@@ -149,7 +198,7 @@
         {
             return filters.Aggregate(
                 type.GetMethods().AsEnumerable(),
-                (current, filter) => current.Where(method => filter.IncludeMethod(type, method)));
+                (current, filter) => current.Where(method => IncludeMethod(type, method, filter)));
         }
 
         /// <summary>
