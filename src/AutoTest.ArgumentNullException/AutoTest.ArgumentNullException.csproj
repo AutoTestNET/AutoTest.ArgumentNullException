@@ -60,7 +60,7 @@
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
     <Compile Include="MethodData.cs" />
-    <Compile Include="MethodFilter\IMethodFilter.cs" />
+    <Compile Include="IMethodFilter.cs" />
     <Compile Include="MethodFilter\NotNamedEquals.cs" />
     <Compile Include="MethodFilter\HasNullableParameters.cs" />
     <Compile Include="MethodFilter\NotNullableParametersDefaultedToNull.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="RequiresArgumentNullExceptionAttribute.cs" />
     <Compile Include="NullExtensions.cs" />
     <Compile Include="TypeFilter\IsClass.cs" />
-    <Compile Include="TypeFilter\ITypeFilter.cs" />
+    <Compile Include="ITypeFilter.cs" />
     <Compile Include="TypeFilter\NotCompilerGenerated.cs" />
   </ItemGroup>
   <ItemGroup>
