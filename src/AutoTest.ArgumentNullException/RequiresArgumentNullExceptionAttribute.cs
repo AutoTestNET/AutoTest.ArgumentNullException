@@ -6,6 +6,7 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Framework;
+    using AutoTest.ArgNullEx.MethodFilter;
     using AutoTest.ArgNullEx.TypeFilter;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
@@ -26,6 +27,11 @@
         /// The auto discovered list of type filters.
         /// </summary>
         private readonly IDiscoverableCollection<ITypeFilter> _typeFilters;
+
+        /// <summary>
+        /// The auto discovered list of type filters.
+        /// </summary>
+        private readonly IDiscoverableCollection<IMethodFilter> _methodFilters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
@@ -49,6 +55,7 @@
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
             _assemblyUnderTest = assemblyUnderTest;
+            _methodFilters = new ReflectionDiscoverableCollection<IMethodFilter>();
             _typeFilters = new ReflectionDiscoverableCollection<ITypeFilter>();
         }
 
@@ -68,23 +75,18 @@
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
+            _methodFilters.Discover();
             _typeFilters.Discover();
-
-            IEnumerable<Type> classesInAut = GetTypesInAssembly(_assemblyUnderTest, _typeFilters);
 
             var data = new List<MethodData>();
 
-            foreach (Type type in classesInAut)
+            IEnumerable<Type> types = GetTypesInAssembly(_assemblyUnderTest, _typeFilters);
+            foreach (Type type in types)
             {
-                MethodInfo[] methods = type.GetMethods();
+                IEnumerable<MethodInfo> methods = GetMethodsInType(type, _methodFilters);
                 foreach (MethodInfo method in methods)
                 {
-                    if (method.Name == "Equals") continue;
-
                     ParameterInfo[] parameterInfos = method.GetParameters();
-
-                    // If there are no parameters, or all the parameters are defaulted to null.
-                    if (parameterInfos.Length == 0 || parameterInfos.All(pi => pi.HasDefaultValue && pi.DefaultValue == null)) continue;
 
                     try
                     {
@@ -126,7 +128,7 @@
         /// <summary>
         /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
         /// </summary>
-        /// <param name="assembly">The assembly from which to retrieve the types.</param>
+        /// <param name="assembly">The <see cref="Assembly"/> from which to retrieve the types.</param>
         /// <param name="filters">The collection of filters to limit the types.</param>
         /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
         private static IEnumerable<Type> GetTypesInAssembly(Assembly assembly, IEnumerable<ITypeFilter> filters)
@@ -134,6 +136,19 @@
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
                 (current, filter) => current.Where(filter.IncludeType));
+        }
+
+        /// <summary>
+        /// Gets all the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> from which to retrieve the methods.</param>
+        /// <param name="filters">The collection of filters to limit the methods.</param>
+        /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
+        private static IEnumerable<MethodInfo> GetMethodsInType(Type type, IEnumerable<IMethodFilter> filters)
+        {
+            return filters.Aggregate(
+                type.GetMethods().AsEnumerable(),
+                (current, filter) => current.Where(method => filter.IncludeMethod(type, method)));
         }
 
         /// <summary>
