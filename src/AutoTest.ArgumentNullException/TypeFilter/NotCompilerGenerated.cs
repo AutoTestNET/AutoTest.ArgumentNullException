@@ -14,7 +14,7 @@
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns><c>true</c> of the type should be included, otherwise <c>false</c>.</returns>
-        bool ITypeFilter.FilterType(Type type)
+        bool ITypeFilter.IncludeType(Type type)
         {
             if (type == null) throw new ArgumentNullException("type");
 

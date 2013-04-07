@@ -60,6 +60,7 @@
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
     <Compile Include="MethodData.cs" />
+    <Compile Include="MethodFilter\IMethodFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAttribute.cs" />
     <Compile Include="TypeFilter\IsClass.cs" />

@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Framework;
+    using AutoTest.ArgNullEx.TypeFilter;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
     using Xunit.Extensions;
-    using AutoTest.ArgNullEx.Framework;
-    using AutoTest.ArgNullEx.TypeFilter;
 
     /// <summary>
     /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/>s.
@@ -133,7 +133,7 @@
         {
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(filter.FilterType));
+                (current, filter) => current.Where(filter.IncludeType));
         }
 
         /// <summary>
