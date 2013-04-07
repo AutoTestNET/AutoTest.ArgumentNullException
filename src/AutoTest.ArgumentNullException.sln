@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ArgumentNullException", "AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj", "{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F6353456-CCA6-4B1E-BB7E-A61C602C6CD5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ArgumentNullException.Tests", "Tests\AutoTest.ArgumentNullException.Tests\AutoTest.ArgumentNullException.Tests.csproj", "{6587C33F-8849-4C90-8E49-ABCE9823F4CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,8 +17,15 @@ Global
 		{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6587C33F-8849-4C90-8E49-ABCE9823F4CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6587C33F-8849-4C90-8E49-ABCE9823F4CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6587C33F-8849-4C90-8E49-ABCE9823F4CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6587C33F-8849-4C90-8E49-ABCE9823F4CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6587C33F-8849-4C90-8E49-ABCE9823F4CB} = {F6353456-CCA6-4B1E-BB7E-A61C602C6CD5}
 	EndGlobalSection
 EndGlobal
