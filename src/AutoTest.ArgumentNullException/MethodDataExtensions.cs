@@ -41,7 +41,7 @@
                 return;
             }
 
-            throw new Exception("The method data does not have an executing action.");
+            throw new ArgumentException("The method data does not have an executing action.", "method");
         }
     }
 }
