@@ -63,6 +63,7 @@
     <Compile Include="IFilter.cs" />
     <Compile Include="MethodData.cs" />
     <Compile Include="IMethodFilter.cs" />
+    <Compile Include="MethodDataExtensions.cs" />
     <Compile Include="MethodFilter\NotNamedEquals.cs" />
     <Compile Include="MethodFilter\HasNullableParameters.cs" />
     <Compile Include="MethodFilter\NotNullableParametersDefaultedToNull.cs" />

@@ -254,7 +254,7 @@
                 sut = context.Resolve(new SeededRequest(methodData.ClassUnderTest, null));
             }
 
-            if (methodData.MethodUnderTest.ReturnType.IsSubclassOf(typeof(Task)))
+            if (typeof(Task).IsAssignableFrom(methodData.MethodUnderTest.ReturnType))
             {
                 methodData.ExecutingActionAsync = () => ExecuteAsynchronously(methodData.MethodUnderTest, sut, methodData.Arguments);
             }

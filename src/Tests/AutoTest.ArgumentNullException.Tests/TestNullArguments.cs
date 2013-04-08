@@ -1,16 +1,14 @@
 ﻿namespace AutoTest.ArgNullEx
 {
-    using System;
-    using Xunit;
+    using System.Threading.Tasks;
     using Xunit.Extensions;
 
     public class TestNullArguments
     {
         [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(MethodData))]
-        public void TestAllNullArguments(MethodData methodData)
+        public Task TestAllNullArguments(MethodData methodData)
         {
-            string actualParamName = Assert.Throws<ArgumentNullException>(() => methodData.ExecutingActionSync()).ParamName;
-            Assert.Equal(methodData.NullArgument, actualParamName);
+            return methodData.Execute();
         }
     }
 }
