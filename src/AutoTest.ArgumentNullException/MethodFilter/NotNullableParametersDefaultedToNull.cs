@@ -18,7 +18,7 @@
         bool IMethodFilter.IncludeMethod(Type type, MethodInfo method)
         {
             return method.GetParameters()
-                         .Where(pi => pi.ParameterType.IsNullable())
+                         .Where(pi => pi.IsNullable())
                          .Any(pi => !pi.HasNullDefault());
         }
     }

@@ -20,7 +20,7 @@
             if (type == null) throw new ArgumentNullException("type");
             if (method == null) throw new ArgumentNullException("method");
 
-            return method.GetParameters().Any(p => p.ParameterType.IsNullable());
+            return method.GetParameters().Any(p => p.IsNullable());
         }
     }
 }

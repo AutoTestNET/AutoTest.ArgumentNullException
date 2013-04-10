@@ -21,6 +21,18 @@
         }
 
         /// <summary>
+        /// Returns <c>true</c> if the <paramref name="parameter"/> can have a null value; otherwise <c>false</c>.
+        /// </summary>
+        /// <param name="parameter">The parameter info.</param>
+        /// <returns><c>true</c> if the <paramref name="parameter"/> can have a null value; otherwise <c>false</c>.</returns>
+        public static bool IsNullable(this ParameterInfo parameter)
+        {
+            if (parameter == null) throw new ArgumentNullException("parameter");
+
+            return parameter.ParameterType.IsNullable();
+        }
+
+        /// <summary>
         /// Returns <c>true</c> if the <paramref name="parameter"/> has a <c>null</c> default value; otherwise <c>false</c>.
         /// </summary>
         /// <param name="parameter">The information about the parameter.</param>

@@ -89,17 +89,17 @@
                 {
                     ParameterInfo[] parameterInfos = method.GetParameters();
 
-                    try
+                    Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
+
+                    for (int i = 0; i < parameterInfos.Length; ++i)
                     {
-                        Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
+                        ParameterInfo parameterInfo = parameterInfos[i];
 
-                        for (int i = 0; i < parameterInfos.Length; ++i)
+                        // Do nothing if the parameter is not nullable, or is defaulted to null.
+                        if (!parameterInfo.IsNullable() || parameterInfo.HasNullDefault()) continue;
+
+                        try
                         {
-                            ParameterInfo parameterInfo = parameterInfos[i];
-
-                            if (parameterInfo.ParameterType.IsValueType) continue;
-                            if (parameterInfo.HasDefaultValue && parameterInfo.DefaultValue == null) continue;
-
                             object[] arguments = base.GetData(method, methodParameterTypes).Single();
                             arguments[i] = null;
 
@@ -110,15 +110,25 @@
                                     MethodUnderTest = method,
                                     Arguments = arguments,
                                     NullArgument = parameterInfo.Name,
-                                    NullIndex = 0,
+                                    NullIndex = i,
                                 };
                             SetupExecutingAction(methodData);
 
                             data.Add(methodData);
                         }
-                    }
-                    catch (Exception)
-                    {
+                        catch (Exception ex)
+                        {
+                            data.Add(
+                                new MethodData
+                                {
+                                    ClassUnderTest = type,
+                                    MethodUnderTest = method,
+                                    Arguments = new object[] { },
+                                    NullArgument = parameterInfo.Name,
+                                    NullIndex = 0,
+                                    ExecutingActionSync = () => { throw ex; },
+                                });
+                        }
                     }
                 }
             }
