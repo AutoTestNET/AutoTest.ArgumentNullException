@@ -44,8 +44,6 @@
             }
 
             fixture.Inject(ParameterInfo);
-            //fixture.Customize<ParameterInfo>(composer => composer.OmitAutoProperties());
-            //fixture.Freeze(ParameterInfo);
         }
     }
 

@@ -79,61 +79,11 @@
             _methodFilters.Discover();
             _typeFilters.Discover();
 
-            var data = new List<MethodData>();
-
-            IEnumerable<Type> types = GetTypesInAssembly(_assemblyUnderTest, _typeFilters);
-            foreach (Type type in types)
-            {
-                IEnumerable<MethodInfo> methods = GetMethodsInType(type, _methodFilters);
-                foreach (MethodInfo method in methods)
-                {
-                    ParameterInfo[] parameterInfos = method.GetParameters();
-
-                    Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
-
-                    for (int i = 0; i < parameterInfos.Length; ++i)
-                    {
-                        ParameterInfo parameterInfo = parameterInfos[i];
-
-                        // Do nothing if the parameter is not nullable, or is defaulted to null.
-                        if (!parameterInfo.IsNullable() || parameterInfo.HasNullDefault()) continue;
-
-                        try
-                        {
-                            object[] arguments = base.GetData(method, methodParameterTypes).Single();
-                            arguments[i] = null;
-
-                            var methodData =
-                                new MethodData
-                                {
-                                    ClassUnderTest = type,
-                                    MethodUnderTest = method,
-                                    Arguments = arguments,
-                                    NullArgument = parameterInfo.Name,
-                                    NullIndex = i,
-                                };
-                            SetupExecutingAction(methodData);
-
-                            data.Add(methodData);
-                        }
-                        catch (Exception ex)
-                        {
-                            data.Add(
-                                new MethodData
-                                {
-                                    ClassUnderTest = type,
-                                    MethodUnderTest = method,
-                                    Arguments = new object[] { },
-                                    NullArgument = parameterInfo.Name,
-                                    NullIndex = 0,
-                                    ExecutingActionSync = () => { throw ex; },
-                                });
-                        }
-                    }
-                }
-            }
-
-            return data.Select(d => new object[] { d });
+            return
+                from type in GetTypesInAssembly(_assemblyUnderTest, _typeFilters)
+                from method in GetMethodsInType(type, _methodFilters)
+                from data in SetupParameterData(type, method)
+                select new object[] { data };
         }
 
         /// <summary>
@@ -167,6 +117,9 @@
         /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
         private static IEnumerable<Type> GetTypesInAssembly(Assembly assembly, IEnumerable<ITypeFilter> filters)
         {
+            if (assembly == null) throw new ArgumentNullException("assembly");
+            if (filters == null) throw new ArgumentNullException("filters");
+
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
                 (current, filter) => current.Where(type => IncludeType(type, filter)));
@@ -206,6 +159,9 @@
         /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
         private static IEnumerable<MethodInfo> GetMethodsInType(Type type, IEnumerable<IMethodFilter> filters)
         {
+            if (type == null) throw new ArgumentNullException("type");
+            if (filters == null) throw new ArgumentNullException("filters");
+
             return filters.Aggregate(
                 type.GetMethods().AsEnumerable(),
                 (current, filter) => current.Where(method => IncludeMethod(type, method, filter)));
@@ -247,6 +203,62 @@
             {
                 throw targetInvocationException.InnerException;
             }
+        }
+
+        /// <summary>
+        /// Sets up the parameter data for the <paramref name="method"/> on the <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
+        /// <param name="method">The method.</param>
+        /// <returns>The parameter data for the <paramref name="method"/> on the <paramref name="type"/>.</returns>
+        private IEnumerable<MethodData> SetupParameterData(Type type, MethodInfo method)
+        {
+            ParameterInfo[] parameterInfos = method.GetParameters();
+            var data = new List<MethodData>(parameterInfos.Length);
+
+            Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
+
+            for (int i = 0; i < parameterInfos.Length; ++i)
+            {
+                ParameterInfo parameterInfo = parameterInfos[i];
+
+                // Do nothing if the parameter is not nullable, or is defaulted to null.
+                if (!parameterInfo.IsNullable() || parameterInfo.HasNullDefault()) continue;
+
+                try
+                {
+                    object[] arguments = base.GetData(method, methodParameterTypes).Single();
+                    arguments[i] = null;
+
+                    var methodData =
+                        new MethodData
+                        {
+                            ClassUnderTest = type,
+                            MethodUnderTest = method,
+                            Arguments = arguments,
+                            NullArgument = parameterInfo.Name,
+                            NullIndex = i,
+                        };
+                    SetupExecutingAction(methodData);
+
+                    data.Add(methodData);
+                }
+                catch (Exception ex)
+                {
+                    data.Add(
+                        new MethodData
+                        {
+                            ClassUnderTest = type,
+                            MethodUnderTest = method,
+                            Arguments = new object[] { },
+                            NullArgument = parameterInfo.Name,
+                            NullIndex = 0,
+                            ExecutingActionSync = () => { throw ex; },
+                        });
+                }
+            }
+
+            return data;
         }
 
         /// <summary>
