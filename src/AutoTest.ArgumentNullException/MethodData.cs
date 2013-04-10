@@ -54,10 +54,12 @@
         /// <summary>
         /// Gets the test to display within the debugger.
         /// </summary>
+// ReSharper disable UnusedMember.Local
         private string DebuggerDisplay
         {
             get { return "MethodData: " + ToString(); }
         }
+// ReSharper restore UnusedMember.Local
 
         /// <summary>
         /// Returns a human readable representation of the <see cref="MethodData"/>.

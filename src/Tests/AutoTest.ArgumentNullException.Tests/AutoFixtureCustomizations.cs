@@ -1,5 +1,7 @@
 ﻿namespace AutoTest.ArgNullEx
 {
+    using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
@@ -19,10 +21,38 @@
         }
     }
 
+    public class NullTestsCustomization : ICustomization
+    {
+        private static readonly ParameterInfo ParameterInfo = GetParameterInfo();
+
+        private static ParameterInfo GetParameterInfo(object unused = null)
+        {
+            return
+                typeof(NullTestsCustomization).GetMethod("GetParameterInfo",
+                                                          BindingFlags.NonPublic | BindingFlags.Static)
+                                              .GetParameters()
+                                              .Single();
+        }
+
+        void ICustomization.Customize(IFixture fixture)
+        {
+            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            if (throwingRecursionBehavior != null)
+            {
+                fixture.Behaviors.Remove(throwingRecursionBehavior);
+                fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            }
+
+            fixture.Inject(ParameterInfo);
+            //fixture.Customize<ParameterInfo>(composer => composer.OmitAutoProperties());
+            //fixture.Freeze(ParameterInfo);
+        }
+    }
+
     public class AutoFixtureCustomizations : CompositeCustomization
     {
         public AutoFixtureCustomizations()
-            : base(new AsyncCustomization(), new AutoMoqCustomization())
+            : base(new AsyncCustomization(), new NullTestsCustomization(), new AutoMoqCustomization())
         {
         }
     }

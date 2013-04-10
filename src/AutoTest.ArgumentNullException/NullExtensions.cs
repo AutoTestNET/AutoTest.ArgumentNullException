@@ -39,6 +39,8 @@
         /// <returns><c>true</c> if the <paramref name="parameter"/> has a <c>null</c> default value; otherwise <c>false</c>.</returns>
         public static bool HasNullDefault(this ParameterInfo parameter)
         {
+            if (parameter == null) throw new ArgumentNullException("parameter");
+
             return parameter.HasDefaultValue && parameter.DefaultValue == null;
         }
     }
