@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="assemblyUnderTest">A type in the assembly under test.</param>
         public RequiresArgumentNullExceptionAutoMoqAttribute(Type assemblyUnderTest)
-            : base(new AutoMockAttribute(), assemblyUnderTest != null ? assemblyUnderTest.Assembly : null)
+            : base(new AutoMockAttribute(new NullTestsCustomization()), assemblyUnderTest != null ? assemblyUnderTest.Assembly : null)
         {
         }
     }

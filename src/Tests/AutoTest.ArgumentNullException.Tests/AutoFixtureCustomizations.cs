@@ -1,5 +1,6 @@
 ﻿namespace AutoTest.ArgNullEx
 {
+    using System;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -23,15 +24,17 @@
 
     public class NullTestsCustomization : ICustomization
     {
-        private static readonly ParameterInfo ParameterInfo = GetParameterInfo();
+        private static readonly MethodInfo MethodInfo = GetParameterInfo().Item1;
 
-        private static ParameterInfo GetParameterInfo(object unused = null)
+        private static readonly ParameterInfo ParameterInfo = GetParameterInfo().Item2;
+
+        private static Tuple<MethodInfo, ParameterInfo> GetParameterInfo(object unused = null)
         {
-            return
+            var method =
                 typeof(NullTestsCustomization).GetMethod("GetParameterInfo",
-                                                          BindingFlags.NonPublic | BindingFlags.Static)
-                                              .GetParameters()
-                                              .Single();
+                                                          BindingFlags.NonPublic | BindingFlags.Static);
+
+            return Tuple.Create(method, method.GetParameters().Single());
         }
 
         void ICustomization.Customize(IFixture fixture)
@@ -43,6 +46,8 @@
                 fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             }
 
+            fixture.Inject(MethodInfo);
+            fixture.Inject<MethodBase>(MethodInfo);
             fixture.Inject(ParameterInfo);
         }
     }
@@ -50,7 +55,7 @@
     public class AutoFixtureCustomizations : CompositeCustomization
     {
         public AutoFixtureCustomizations()
-            : base(new AsyncCustomization(), new NullTestsCustomization(), new AutoMoqCustomization())
+            : base(new AsyncCustomization(), new AutoMoqCustomization())
         {
         }
     }
