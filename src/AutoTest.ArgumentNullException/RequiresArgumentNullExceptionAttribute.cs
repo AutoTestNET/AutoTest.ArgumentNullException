@@ -163,7 +163,8 @@
             if (filters == null) throw new ArgumentNullException("filters");
 
             return filters.Aggregate(
-                type.GetMethods().AsEnumerable(),
+                type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
+                    .AsEnumerable(),
                 (current, filter) => current.Where(method => IncludeMethod(type, method, filter)));
         }
 
@@ -171,11 +172,14 @@
         /// Executes the <paramref name="methodUnderTest"/> synchronously.
         /// </summary>
         /// <param name="methodUnderTest">The method information.</param>
-        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
         /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
+        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
         /// <returns>The <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        private static async Task ExecuteAsynchronously(MethodBase methodUnderTest, object sut, object[] parameters)
+        private static async Task ExecuteAsynchronously(MethodBase methodUnderTest, object[] parameters, object sut = null)
         {
+            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
+            if (parameters == null) throw new ArgumentNullException("parameters");
+
             try
             {
                 var result = (Task)methodUnderTest.Invoke(sut, parameters);
@@ -183,6 +187,8 @@
             }
             catch (TargetInvocationException targetInvocationException)
             {
+                if (targetInvocationException.InnerException == null) throw;
+
                 throw targetInvocationException.InnerException;
             }
         }
@@ -191,16 +197,21 @@
         /// Executes the <paramref name="methodUnderTest"/> synchronously.
         /// </summary>
         /// <param name="methodUnderTest">The method information.</param>
-        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
         /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
-        private static void ExecuteSynchronously(MethodBase methodUnderTest, object sut, object[] parameters)
+        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
+        private static void ExecuteSynchronously(MethodBase methodUnderTest, object[] parameters, object sut = null)
         {
+            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
+            if (parameters == null) throw new ArgumentNullException("parameters");
+
             try
             {
                 methodUnderTest.Invoke(sut, parameters);
             }
             catch (TargetInvocationException targetInvocationException)
             {
+                if (targetInvocationException.InnerException == null) throw;
+
                 throw targetInvocationException.InnerException;
             }
         }
@@ -213,6 +224,9 @@
         /// <returns>The parameter data for the <paramref name="method"/> on the <paramref name="type"/>.</returns>
         private IEnumerable<MethodData> SetupParameterData(Type type, MethodInfo method)
         {
+            if (type == null) throw new ArgumentNullException("type");
+            if (method == null) throw new ArgumentNullException("method");
+
             ParameterInfo[] parameterInfos = method.GetParameters();
             var data = new List<MethodData>(parameterInfos.Length);
 
@@ -278,11 +292,11 @@
 
             if (typeof(Task).IsAssignableFrom(methodData.MethodUnderTest.ReturnType))
             {
-                methodData.ExecutingActionAsync = () => ExecuteAsynchronously(methodData.MethodUnderTest, sut, methodData.Arguments);
+                methodData.ExecutingActionAsync = () => ExecuteAsynchronously(methodData.MethodUnderTest, methodData.Arguments, sut);
             }
             else
             {
-                methodData.ExecutingActionSync = () => ExecuteSynchronously(methodData.MethodUnderTest, sut, methodData.Arguments);
+                methodData.ExecutingActionSync = () => ExecuteSynchronously(methodData.MethodUnderTest, methodData.Arguments, sut);
             }
         }
     }

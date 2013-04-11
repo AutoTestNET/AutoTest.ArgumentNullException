@@ -1,16 +1,15 @@
 ﻿namespace AutoTest.ArgNullEx.MethodFilter
 {
     using System;
-    using System.Linq;
     using System.Reflection;
 
     /// <summary>
-    /// Filters out the methods that have nullable parameters, but have null defaults.
+    /// Filters out methods that are compiler generated.
     /// </summary>
-    public class NotNullableParametersDefaultedToNull : FilterBase, IMethodFilter
+    public class NotCompilerGenerated : FilterBase, IMethodFilter
     {
         /// <summary>
-        /// Filters out the methods that have nullable parameters, but have null defaults.
+        /// Filters out methods that are compiler generated.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
@@ -20,9 +19,7 @@
             if (type == null) throw new ArgumentNullException("type");
             if (method == null) throw new ArgumentNullException("method");
 
-            return method.GetParameters()
-                         .Where(pi => pi.IsNullable())
-                         .Any(pi => !pi.HasNullDefault());
+            return !method.IsCompilerGenerated();
         }
     }
 }
