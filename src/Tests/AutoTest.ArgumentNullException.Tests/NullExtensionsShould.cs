@@ -3,11 +3,33 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using System.Runtime.CompilerServices;
     using Xunit;
     using Xunit.Extensions;
 
     public class NullExtensionsShould
     {
+        [CompilerGenerated]
+        public class OuterCg
+        {
+            [CompilerGenerated]
+            public class InnerCgOuterCg
+            {}
+
+            public class InnerNoCgOuterCg
+            { }
+        }
+
+        public class OuterNoCg
+        {
+            [CompilerGenerated]
+            public class InnerCgOuterNoCg
+            { }
+
+            public class InnerNoCgOuterNoCg
+            { }
+        }
+
         public static IEnumerable<object[]> NullableParams
         {
             get { return GetTestNullableParams(); }
@@ -16,6 +38,11 @@
         public static IEnumerable<object[]> NullDefaultParams
         {
             get { return GetTestNullDefaultParams(); }
+        }
+
+        public static IEnumerable<object[]> CompilerGeneratedTypes
+        {
+            get { return GetCompilerGeneratedTypes(); }
         }
 
 // ReSharper disable UnusedMember.Local
@@ -78,6 +105,19 @@
                 };
         }
 
+        private static IEnumerable<object[]> GetCompilerGeneratedTypes()
+        {
+            return new[]
+                {
+                    new object[] {typeof(OuterCg), true},
+                    new object[] {typeof(OuterCg.InnerCgOuterCg), true},
+                    new object[] {typeof(OuterCg.InnerNoCgOuterCg), true},
+                    new object[] {typeof(OuterNoCg), false},
+                    new object[] {typeof(OuterNoCg.InnerCgOuterNoCg), true},
+                    new object[] {typeof(OuterNoCg.InnerNoCgOuterNoCg), false},
+                };
+        }
+
         [Theory]
         [InlineData(typeof(int), false)]
         [InlineData(typeof(bool), false)]
@@ -124,6 +164,16 @@
         {
             // Act
             bool actual = param.HasNullDefault();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, PropertyData("CompilerGeneratedTypes")]
+        public void IdentifyCompilerGeneratedTypes(Type type, bool expected)
+        {
+            // Act
+            bool actual = type.IsCompilerGenerated();
 
             // Assert
             Assert.Equal(expected, actual);
