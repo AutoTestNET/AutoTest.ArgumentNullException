@@ -13,6 +13,13 @@
             get { return GetTestNullableParams(); }
         }
 
+        public static IEnumerable<object[]> NullDefaultParams
+        {
+            get { return GetTestNullDefaultParams(); }
+        }
+
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
         private static void TestNullableParams(
             int unusedInt,
             Guid? unusedNullableGuid,
@@ -20,6 +27,8 @@
             IDisposable unusedDisposable)
         {
         }
+// ReSharper restore UnusedParameter.Local
+// ReSharper restore UnusedMember.Local
 
         private static IEnumerable<object[]> GetTestNullableParams()
         {
@@ -34,6 +43,38 @@
                     new object[] {testParams[1], true},
                     new object[] {testParams[2], false},
                     new object[] {testParams[3], true}
+                };
+        }
+
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
+        private static void TestNullDefaultParams(
+            int intWithoutDefault,
+            string stringWithoutDefault,
+            int intWithDefault = 10,
+            Guid? guidWithDefaultNull = null,
+            string stringWithDefault = "default value",
+            IDisposable disposableDefaultNull = null)
+        {
+        }
+// ReSharper restore UnusedParameter.Local
+// ReSharper restore UnusedMember.Local
+
+        private static IEnumerable<object[]> GetTestNullDefaultParams()
+        {
+            ParameterInfo[] testParams =
+                typeof(NullExtensionsShould).GetMethod("TestNullDefaultParams",
+                                                        BindingFlags.NonPublic | BindingFlags.Static)
+                                            .GetParameters();
+
+            return new[]
+                {
+                    new object[] {testParams[0], false},
+                    new object[] {testParams[1], false},
+                    new object[] {testParams[2], false},
+                    new object[] {testParams[3], true},
+                    new object[] {testParams[4], false},
+                    new object[] {testParams[5], true}
                 };
         }
 
@@ -73,6 +114,16 @@
         {
             // Act
             bool actual = param.IsNullable();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Theory, PropertyData("NullDefaultParams")]
+        public void IdentifyNullDefault(ParameterInfo param, bool expected)
+        {
+            // Act
+            bool actual = param.HasNullDefault();
 
             // Assert
             Assert.Equal(expected, actual);
