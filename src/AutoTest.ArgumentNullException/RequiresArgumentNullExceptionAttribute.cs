@@ -244,31 +244,43 @@
                     object[] arguments = base.GetData(method, methodParameterTypes).Single();
                     arguments[i] = null;
 
-                    var methodData =
-                        new MethodData
-                        {
-                            ClassUnderTest = type,
-                            MethodUnderTest = method,
-                            Arguments = arguments,
-                            NullArgument = parameterInfo.Name,
-                            NullIndex = i,
-                        };
-                    SetupExecutingAction(methodData);
-
-                    data.Add(methodData);
+                    var executingAction = SetupExecutingAction(method, type, arguments);
+                    if (executingAction.Item2 != null)
+                    {
+                        data.Add(
+                            new MethodData(
+                                classUnderTest: type,
+                                instanceUnderTest: executingAction.Item1,
+                                methodUnderTest: method,
+                                arguments: arguments,
+                                nullArgument: parameterInfo.Name,
+                                nullIndex: i,
+                                executingActionSync: executingAction.Item2));
+                    }
+                    else
+                    {
+                        data.Add(
+                            new MethodData(
+                                classUnderTest: type,
+                                instanceUnderTest: executingAction.Item1,
+                                methodUnderTest: method,
+                                arguments: arguments,
+                                nullArgument: parameterInfo.Name,
+                                nullIndex: i,
+                                executingActionAsync: executingAction.Item3));
+                    }
                 }
                 catch (Exception ex)
                 {
                     data.Add(
-                        new MethodData
-                        {
-                            ClassUnderTest = type,
-                            MethodUnderTest = method,
-                            Arguments = new object[] { },
-                            NullArgument = parameterInfo.Name,
-                            NullIndex = 0,
-                            ExecutingActionSync = () => { throw ex; },
-                        });
+                        new MethodData(
+                            classUnderTest: type,
+                            instanceUnderTest: null,
+                            methodUnderTest: method,
+                            arguments: new object[] { },
+                            nullArgument: parameterInfo.Name,
+                            nullIndex: 0,
+                            executingActionSync: () => { throw ex; }));
                 }
             }
 
@@ -276,28 +288,40 @@
         }
 
         /// <summary>
-        /// Sets up either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.
+        /// Returns either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.
         /// </summary>
-        /// <param name="methodData">The method data.</param>
-        private void SetupExecutingAction(MethodData methodData)
+        /// <param name="methodUnderTest">The method under test.</param>
+        /// <param name="classUnderTest">The type of the call under test.</param>
+        /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
+        /// <returns>Either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.</returns>
+        private Tuple<object, Action, Func<Task>> SetupExecutingAction(
+            MethodInfo methodUnderTest,
+            Type classUnderTest,
+            object[] arguments)
         {
-            if (methodData == null) throw new ArgumentNullException("methodData");
+            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
+            if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
+            if (arguments == null) throw new ArgumentNullException("arguments");
 
             object sut = null;
-            if (!methodData.MethodUnderTest.IsStatic)
+            if (!methodUnderTest.IsStatic)
             {
                 var context = new SpecimenContext(AutoDataAttribute.Fixture);
-                sut = context.Resolve(new SeededRequest(methodData.ClassUnderTest, null));
+                sut = context.Resolve(new SeededRequest(classUnderTest, null));
             }
 
-            if (typeof(Task).IsAssignableFrom(methodData.MethodUnderTest.ReturnType))
+            if (typeof(Task).IsAssignableFrom(methodUnderTest.ReturnType))
             {
-                methodData.ExecutingActionAsync = () => ExecuteAsynchronously(methodData.MethodUnderTest, methodData.Arguments, sut);
+                return Tuple.Create<object, Action, Func<Task>>(
+                    sut,
+                    null,
+                    () => ExecuteAsynchronously(methodUnderTest, arguments, sut));
             }
-            else
-            {
-                methodData.ExecutingActionSync = () => ExecuteSynchronously(methodData.MethodUnderTest, methodData.Arguments, sut);
-            }
+
+            return Tuple.Create<object, Action, Func<Task>>(
+                sut,
+                () => ExecuteSynchronously(methodUnderTest, arguments, sut),
+                null);
         }
     }
 }
