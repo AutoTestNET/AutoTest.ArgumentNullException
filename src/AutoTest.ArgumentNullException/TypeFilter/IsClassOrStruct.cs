@@ -5,7 +5,7 @@
     /// <summary>
     /// Filters out types that are not classes.
     /// </summary>
-    public class IsClass : FilterBase, ITypeFilter
+    public class IsClassOrStruct : FilterBase, ITypeFilter
     {
         /// <summary>
         /// Filters out types that are not classes.
@@ -16,7 +16,7 @@
         {
             if (type == null) throw new ArgumentNullException("type");
 
-            return type.IsClass;
+            return type.IsClass || (type.IsValueType && !type.IsEnum);
         }
     }
 }

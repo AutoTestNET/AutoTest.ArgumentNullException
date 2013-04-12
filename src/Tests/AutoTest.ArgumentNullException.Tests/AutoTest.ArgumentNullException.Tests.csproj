@@ -68,7 +68,7 @@
     <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />
     <Compile Include="TestNullArguments.cs" />
     <Compile Include="TypeFilter\ExcludeTypes.cs" />
-    <Compile Include="TypeFilter\IsClassShould.cs" />
+    <Compile Include="TypeFilter\IsClassOrStructShould.cs" />
     <Compile Include="TypeFilter\NotCompilerGeneratedShould.cs" />
   </ItemGroup>
   <ItemGroup>

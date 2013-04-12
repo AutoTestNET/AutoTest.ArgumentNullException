@@ -3,12 +3,12 @@
     using Xunit;
     using Xunit.Extensions;
 
-    public class IsClassShould
+    public class IsClassOrStructShould
     {
         [Theory, AutoMock]
-        public void ReturnName(IsClass sut)
+        public void ReturnName(IsClassOrStruct sut)
         {
-            Assert.Equal("IsClass", sut.Name);
+            Assert.Equal("IsClassOrStruct", sut.Name);
         }
     }
 }
