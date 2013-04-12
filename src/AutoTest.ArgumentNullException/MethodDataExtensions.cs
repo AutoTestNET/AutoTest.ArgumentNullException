@@ -10,7 +10,7 @@
     public static class MethodDataExtensions
     {
         /// <summary>
-        /// Executes the <paramref name="method"/>,
+        /// Executes the <paramref name="method"/> and checks whether it correctly throws a <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="method">The method data.</param>
         /// <returns>A task representing the asynchronous execution of the <paramref name="method"/>.</returns>

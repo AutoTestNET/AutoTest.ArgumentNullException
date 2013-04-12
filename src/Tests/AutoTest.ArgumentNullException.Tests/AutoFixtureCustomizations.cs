@@ -18,7 +18,7 @@
         {
             // Customize the MethodData to setup the ExecutingActionAsync to return a completed task.
             fixture.Customize<MethodData>(
-                composer => composer.With(m => m.ExecutingActionAsync, () => CompletedTask));
+                composer => composer.Do(m => m.ExecutingActionAsync = () => CompletedTask));
         }
     }
 

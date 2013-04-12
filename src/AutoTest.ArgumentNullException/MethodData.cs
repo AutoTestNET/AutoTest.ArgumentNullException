@@ -78,6 +78,11 @@
             string nullArgument,
             int nullIndex)
         {
+            if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
+            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
+            if (arguments == null) throw new ArgumentNullException("arguments");
+            if (nullArgument == null) throw new ArgumentNullException("nullArgument");
+
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;
             MethodUnderTest = methodUnderTest;
@@ -87,44 +92,44 @@
         }
 
         /// <summary>
-        /// Gets or sets the type of the class under test.
+        /// Gets the type of the class under test.
         /// </summary>
-        public Type ClassUnderTest { get; set; }
+        public Type ClassUnderTest { get; private set; }
 
         /// <summary>
-        /// Gets or sets the instance of the class under test if the <see cref="MethodUnderTest"/> is not static.
+        /// Gets the instance of the class under test if the <see cref="MethodUnderTest"/> is not static.
         /// </summary>
-        public object InstanceUnderTest { get; set; }
+        public object InstanceUnderTest { get; private set; }
 
         /// <summary>
-        /// Gets or sets the method under test.
+        /// Gets the method under test.
         /// </summary>
-        public MethodInfo MethodUnderTest { get; set; }
+        public MethodInfo MethodUnderTest { get; private set; }
 
         /// <summary>
-        /// Gets or sets the arguments to the <see cref="MethodUnderTest"/>.
+        /// Gets the arguments to the <see cref="MethodUnderTest"/>.
         /// </summary>
-        public object[] Arguments { get; set; }
+        public object[] Arguments { get; private set; }
 
         /// <summary>
-        /// Gets or sets the name of the null argument in the <see cref="Arguments"/>.
+        /// Gets the name of the null argument in the <see cref="Arguments"/>.
         /// </summary>
-        public string NullArgument { get; set; }
+        public string NullArgument { get; private set; }
 
         /// <summary>
-        /// Gets or sets the index of the null argument in the <see cref="Arguments"/>.
+        /// Gets the index of the null argument in the <see cref="Arguments"/>.
         /// </summary>
-        public int NullIndex { get; set; }
+        public int NullIndex { get; private set; }
 
         /// <summary>
-        /// Gets or sets the executing action if the <see cref="MethodUnderTest"/> is synchronous; otherwise <c>null</c> if asynchronous.
+        /// Gets the executing action if the <see cref="MethodUnderTest"/> is synchronous; otherwise <c>null</c> if asynchronous.
         /// </summary>
-        public Action ExecutingActionSync { get; set; }
+        public Action ExecutingActionSync { get; internal set; }
 
         /// <summary>
-        /// Gets or sets the executing action if the <see cref="MethodUnderTest"/> is asynchronous; otherwise <c>null</c> if synchronous.
+        /// Gets the executing action if the <see cref="MethodUnderTest"/> is asynchronous; otherwise <c>null</c> if synchronous.
         /// </summary>
-        public Func<Task> ExecutingActionAsync { get; set; }
+        public Func<Task> ExecutingActionAsync { get; internal set; }
 
         /// <summary>
         /// Gets the test to display within the debugger.

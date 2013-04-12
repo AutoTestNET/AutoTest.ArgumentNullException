@@ -244,7 +244,7 @@
                     object[] arguments = base.GetData(method, methodParameterTypes).Single();
                     arguments[i] = null;
 
-                    var executingAction = SetupExecutingAction(method, type, arguments);
+                    Tuple<object, Action, Func<Task>> executingAction = GetExecutingAction(method, type, arguments);
                     if (executingAction.Item2 != null)
                     {
                         data.Add(
@@ -294,7 +294,7 @@
         /// <param name="classUnderTest">The type of the call under test.</param>
         /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
         /// <returns>Either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.</returns>
-        private Tuple<object, Action, Func<Task>> SetupExecutingAction(
+        private Tuple<object, Action, Func<Task>> GetExecutingAction(
             MethodInfo methodUnderTest,
             Type classUnderTest,
             object[] arguments)
