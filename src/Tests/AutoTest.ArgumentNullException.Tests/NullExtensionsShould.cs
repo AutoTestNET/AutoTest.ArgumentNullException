@@ -40,11 +40,6 @@
             get { return GetTestNullDefaultParams(); }
         }
 
-        public static IEnumerable<object[]> CompilerGeneratedTypes
-        {
-            get { return GetCompilerGeneratedTypes(); }
-        }
-
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedParameter.Local
         private static void TestNullableParams(
@@ -105,19 +100,6 @@
                 };
         }
 
-        private static IEnumerable<object[]> GetCompilerGeneratedTypes()
-        {
-            return new[]
-                {
-                    new object[] {typeof(OuterCg), true},
-                    new object[] {typeof(OuterCg.InnerCgOuterCg), true},
-                    new object[] {typeof(OuterCg.InnerNoCgOuterCg), true},
-                    new object[] {typeof(OuterNoCg), false},
-                    new object[] {typeof(OuterNoCg.InnerCgOuterNoCg), true},
-                    new object[] {typeof(OuterNoCg.InnerNoCgOuterNoCg), false},
-                };
-        }
-
         [Theory]
         [InlineData(typeof(int), false)]
         [InlineData(typeof(bool), false)]
@@ -169,7 +151,13 @@
             Assert.Equal(expected, actual);
         }
 
-        [Theory, PropertyData("CompilerGeneratedTypes")]
+        [Theory]
+        [InlineData(typeof(OuterCg), true)]
+        [InlineData(typeof(OuterCg.InnerCgOuterCg), true)]
+        [InlineData(typeof(OuterCg.InnerNoCgOuterCg), true)]
+        [InlineData(typeof(OuterNoCg), false)]
+        [InlineData(typeof(OuterNoCg.InnerCgOuterNoCg), true)]
+        [InlineData(typeof(OuterNoCg.InnerNoCgOuterNoCg), false)]
         public void IdentifyCompilerGeneratedTypes(Type type, bool expected)
         {
             // Act
