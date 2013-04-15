@@ -32,6 +32,11 @@
         private readonly IDiscoverableCollection<IMethodFilter> _methodFilters;
 
         /// <summary>
+        /// The auto discovered list of type filters.
+        /// </summary>
+        private readonly IDiscoverableCollection<IParameterFilter> _parameterFilters;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A type in the assembly under test.</param>
@@ -53,16 +58,9 @@
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
             _assemblyUnderTest = assemblyUnderTest;
-            _methodFilters = new ReflectionDiscoverableCollection<IMethodFilter>();
             _typeFilters = new ReflectionDiscoverableCollection<ITypeFilter>();
-        }
-
-        /// <summary>
-        /// Gets the list of type filters.
-        /// </summary>
-        public IEnumerable<ITypeFilter> TypeFilters
-        {
-            get { return _typeFilters; }
+            _methodFilters = new ReflectionDiscoverableCollection<IMethodFilter>();
+            _parameterFilters = new ReflectionDiscoverableCollection<IParameterFilter>();
         }
 
         /// <summary>
@@ -78,6 +76,7 @@
 
             _methodFilters.Discover();
             _typeFilters.Discover();
+            _parameterFilters.Discover();
 
             return
                 from type in GetTypesInAssembly(_assemblyUnderTest, _typeFilters)
@@ -98,7 +97,7 @@
             if (filter == null) throw new ArgumentNullException("filter");
 
             bool includeType = filter.IncludeType(type);
-            if (includeType == false)
+            if (!includeType)
             {
                 System.Diagnostics.Trace.TraceInformation(
                     "The type '{0}' was excluded by the filter '{1}'.",
@@ -139,7 +138,7 @@
             if (filter == null) throw new ArgumentNullException("filter");
 
             bool includeMethod = filter.IncludeMethod(type, method);
-            if (includeMethod == false)
+            if (!includeMethod)
             {
                 System.Diagnostics.Trace.TraceInformation(
                     "The method '{0}.{1}' was excluded by the filter '{2}'.",
@@ -169,6 +168,35 @@
         }
 
         /// <summary>
+        /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was excluded.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="method">The method.</param>
+        /// <param name="parameter">The parameter.</param>
+        /// <param name="filter">The <see cref="Type"/> filter.</param>
+        /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
+        private static bool IncludeParameter(Type type, MethodInfo method, ParameterInfo parameter, IParameterFilter filter)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+            if (method == null) throw new ArgumentNullException("method");
+            if (parameter == null) throw new ArgumentNullException("parameter");
+            if (filter == null) throw new ArgumentNullException("filter");
+
+            bool includeParameter = filter.IncludeParameter(type, method, parameter);
+            if (!includeParameter)
+            {
+                System.Diagnostics.Trace.TraceInformation(
+                    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
+                    type.Name,
+                    method.Name,
+                    parameter.Name,
+                    filter.Name);
+            }
+
+            return includeParameter;
+        }
+
+        /// <summary>
         /// Sets up the parameter data for the <paramref name="method"/> on the <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
@@ -184,17 +212,18 @@
 
             Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
 
-            for (int i = 0; i < parameterInfos.Length; ++i)
+            for (int parameterIndex = 0; parameterIndex < parameterInfos.Length; ++parameterIndex)
             {
-                ParameterInfo parameterInfo = parameterInfos[i];
+                ParameterInfo parameterInfo = parameterInfos[parameterIndex];
 
-                // Do nothing if the parameter is not nullable, or is defaulted to null.
-                if (!parameterInfo.IsNullable() || parameterInfo.HasNullDefault()) continue;
+                // Run the filters against the parameter.
+                if (_parameterFilters.Any(filter => !IncludeParameter(type, method, parameterInfo, filter)))
+                    continue;
 
                 try
                 {
                     object[] parameters = base.GetData(method, methodParameterTypes).Single();
-                    parameters[i] = null;
+                    parameters[parameterIndex] = null;
 
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
@@ -210,7 +239,7 @@
                             methodUnderTest: method,
                             parameters: parameters,
                             nullParameter: parameterInfo.Name,
-                            nullIndex: i,
+                            nullIndex: parameterIndex,
                             executionSetup: new DefaultExecutionSetup()));
                 }
                 catch (Exception ex)
@@ -222,7 +251,7 @@
                             methodUnderTest: method,
                             parameters: new object[] { },
                             nullParameter: parameterInfo.Name,
-                            nullIndex: i,
+                            nullIndex: parameterIndex,
                             executionSetup: new ErroredExecutionSetup(ex)));
                 }
             }
