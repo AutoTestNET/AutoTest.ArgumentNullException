@@ -29,7 +29,7 @@
             }
 
             string actualParamName = Assert.Throws<ArgumentNullException>(() => { if (ex != null) throw ex; }).ParamName;
-            Assert.Equal(method.NullArgument, actualParamName);
+            Assert.Equal(method.NullParameter, actualParamName);
         }
     }
 }

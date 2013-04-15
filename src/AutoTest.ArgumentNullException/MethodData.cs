@@ -45,7 +45,7 @@
             InstanceUnderTest = instanceUnderTest;
             MethodUnderTest = methodUnderTest;
             Parameters = parameters;
-            NullArgument = nullParameter;
+            NullParameter = nullParameter;
             NullIndex = nullIndex;
             _executionSetup = executionSetup;
         }
@@ -73,7 +73,7 @@
         /// <summary>
         /// Gets the name of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
-        public string NullArgument { get; private set; }
+        public string NullParameter { get; private set; }
 
         /// <summary>
         /// Gets the index of the null parameter in the <see cref="Parameters"/>.
@@ -105,7 +105,7 @@
         /// <returns>A human readable representation of the <see cref="MethodData"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2}=null", ClassUnderTest.Name, MethodUnderTest.Name, NullArgument);
+            return string.Format("{0}.{1} {2}=null", ClassUnderTest.Name, MethodUnderTest.Name, NullParameter);
         }
     }
 }

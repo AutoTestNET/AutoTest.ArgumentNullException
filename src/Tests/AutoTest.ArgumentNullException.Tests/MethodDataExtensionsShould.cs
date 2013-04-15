@@ -40,7 +40,7 @@
             // Arrange
             executionSetupMock
                 .Setup(es => es.Setup(method))
-                .Returns(() => ExceptionTask(new ArgumentNullException(method.NullArgument)));
+                .Returns(() => ExceptionTask(new ArgumentNullException(method.NullParameter)));
 
             // Act
             return method.Execute();
