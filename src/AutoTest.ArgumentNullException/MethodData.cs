@@ -12,29 +12,9 @@
     public class MethodData
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MethodData"/> class.
+        /// The setup for the <see cref="ExecuteAction"/>.
         /// </summary>
-        /// <param name="classUnderTest">The type of the class under test.</param>
-        /// <param name="instanceUnderTest">The instance of the class under test if the <paramref name="methodUnderTest"/> is not static.</param>
-        /// <param name="methodUnderTest">The method under test.</param>
-        /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
-        /// <param name="nullArgument">The name of the null argument in the <paramref name="arguments"/>.</param>
-        /// <param name="nullIndex">The index of the null argument in the <paramref name="arguments"/>.</param>
-        /// <param name="executingActionSync">The executing action if the <paramref name="methodUnderTest"/> is synchronous.</param>
-        public MethodData(
-            Type classUnderTest,
-            object instanceUnderTest,
-            MethodInfo methodUnderTest,
-            object[] arguments,
-            string nullArgument,
-            int nullIndex,
-            Action executingActionSync)
-            : this(classUnderTest, instanceUnderTest, methodUnderTest, arguments, nullArgument, nullIndex)
-        {
-            if (executingActionSync == null) throw new ArgumentNullException("executingActionSync");
-
-            ExecutingActionSync = executingActionSync;
-        }
+        private readonly IExecutionSetup _executionSetup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MethodData"/> class.
@@ -45,7 +25,7 @@
         /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
         /// <param name="nullArgument">The name of the null argument in the <paramref name="arguments"/>.</param>
         /// <param name="nullIndex">The index of the null argument in the <paramref name="arguments"/>.</param>
-        /// <param name="executingActionAsync">The executing action if the <paramref name="methodUnderTest"/> is asynchronous.</param>
+        /// <param name="executionSetup">The setup for the <see cref="ExecuteAction"/>.</param>
         public MethodData(
             Type classUnderTest,
             object instanceUnderTest,
@@ -53,35 +33,13 @@
             object[] arguments,
             string nullArgument,
             int nullIndex,
-            Func<Task> executingActionAsync)
-            : this(classUnderTest, instanceUnderTest, methodUnderTest, arguments, nullArgument, nullIndex)
-        {
-            if (executingActionAsync == null) throw new ArgumentNullException("executingActionAsync");
-
-            ExecutingActionAsync = executingActionAsync;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MethodData"/> class.
-        /// </summary>
-        /// <param name="classUnderTest">The type of the class under test.</param>
-        /// <param name="instanceUnderTest">The instance of the class under test if the <paramref name="methodUnderTest"/> is not static.</param>
-        /// <param name="methodUnderTest">The method under test.</param>
-        /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
-        /// <param name="nullArgument">The name of the null argument in the <paramref name="arguments"/>.</param>
-        /// <param name="nullIndex">The index of the null argument in the <paramref name="arguments"/>.</param>
-        private MethodData(
-            Type classUnderTest,
-            object instanceUnderTest,
-            MethodInfo methodUnderTest,
-            object[] arguments,
-            string nullArgument,
-            int nullIndex)
+            IExecutionSetup executionSetup)
         {
             if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
             if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
             if (arguments == null) throw new ArgumentNullException("arguments");
             if (nullArgument == null) throw new ArgumentNullException("nullArgument");
+            if (executionSetup == null) throw new ArgumentNullException("executionSetup");
 
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;
@@ -89,6 +47,7 @@
             Arguments = arguments;
             NullArgument = nullArgument;
             NullIndex = nullIndex;
+            _executionSetup = executionSetup;
         }
 
         /// <summary>
@@ -122,16 +81,6 @@
         public int NullIndex { get; private set; }
 
         /// <summary>
-        /// Gets the executing action if the <see cref="MethodUnderTest"/> is synchronous; otherwise <c>null</c> if asynchronous.
-        /// </summary>
-        public Action ExecutingActionSync { get; internal set; }
-
-        /// <summary>
-        /// Gets the executing action if the <see cref="MethodUnderTest"/> is asynchronous; otherwise <c>null</c> if synchronous.
-        /// </summary>
-        public Func<Task> ExecutingActionAsync { get; internal set; }
-
-        /// <summary>
         /// Gets the test to display within the debugger.
         /// </summary>
 // ReSharper disable UnusedMember.Local
@@ -140,6 +89,15 @@
             get { return "MethodData: " + ToString(); }
         }
 // ReSharper restore UnusedMember.Local
+
+        /// <summary>
+        /// Executes the action for the <see cref="MethodUnderTest"/>.
+        /// </summary>
+        /// <returns>The <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task ExecuteAction()
+        {
+            return _executionSetup.Setup(this)();
+        }
 
         /// <summary>
         /// Returns a human readable representation of the <see cref="MethodData"/>.

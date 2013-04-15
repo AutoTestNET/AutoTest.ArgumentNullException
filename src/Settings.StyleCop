@@ -2,6 +2,7 @@
   <GlobalSettings>
     <CollectionProperty Name="RecognizedWords">
       <Value>behaviour</Value>
+      <Value>errored</Value>
       <Value>nullable</Value>
     </CollectionProperty>
   </GlobalSettings>

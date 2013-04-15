@@ -18,30 +18,18 @@
         {
             if (method == null) throw new ArgumentNullException("method");
 
-            if (method.ExecutingActionSync != null)
+            Exception ex = null;
+            try
             {
-                string actualParamName = Assert.Throws<ArgumentNullException>(() => method.ExecutingActionSync()).ParamName;
-                Assert.Equal(method.NullArgument, actualParamName);
+                await method.ExecuteAction();
             }
-            else if (method.ExecutingActionAsync != null)
+            catch (Exception innerEx)
             {
-                Exception ex = null;
-                try
-                {
-                    await method.ExecutingActionAsync();
-                }
-                catch (Exception innerEx)
-                {
-                    ex = innerEx;
-                }
+                ex = innerEx;
+            }
 
-                string actualParamName = Assert.Throws<ArgumentNullException>(() => { if (ex != null) throw ex; }).ParamName;
-                Assert.Equal(method.NullArgument, actualParamName);
-            }
-            else
-            {
-                throw new ArgumentException("The method data does not have an executing action.", "method");
-            }
+            string actualParamName = Assert.Throws<ArgumentNullException>(() => { if (ex != null) throw ex; }).ParamName;
+            Assert.Equal(method.NullArgument, actualParamName);
         }
     }
 }

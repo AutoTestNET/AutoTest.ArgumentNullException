@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Framework;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
@@ -169,54 +169,6 @@
         }
 
         /// <summary>
-        /// Executes the <paramref name="methodUnderTest"/> synchronously.
-        /// </summary>
-        /// <param name="methodUnderTest">The method information.</param>
-        /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
-        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
-        /// <returns>The <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        private static async Task ExecuteAsynchronously(MethodBase methodUnderTest, object[] parameters, object sut = null)
-        {
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (parameters == null) throw new ArgumentNullException("parameters");
-
-            try
-            {
-                var result = (Task)methodUnderTest.Invoke(sut, parameters);
-                await result;
-            }
-            catch (TargetInvocationException targetInvocationException)
-            {
-                if (targetInvocationException.InnerException == null) throw;
-
-                throw targetInvocationException.InnerException;
-            }
-        }
-
-        /// <summary>
-        /// Executes the <paramref name="methodUnderTest"/> synchronously.
-        /// </summary>
-        /// <param name="methodUnderTest">The method information.</param>
-        /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
-        /// <param name="sut">The system under tests, can be <c>null</c> if the <paramref name="methodUnderTest"/> is static.</param>
-        private static void ExecuteSynchronously(MethodBase methodUnderTest, object[] parameters, object sut = null)
-        {
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (parameters == null) throw new ArgumentNullException("parameters");
-
-            try
-            {
-                methodUnderTest.Invoke(sut, parameters);
-            }
-            catch (TargetInvocationException targetInvocationException)
-            {
-                if (targetInvocationException.InnerException == null) throw;
-
-                throw targetInvocationException.InnerException;
-            }
-        }
-
-        /// <summary>
         /// Sets up the parameter data for the <paramref name="method"/> on the <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
@@ -244,31 +196,22 @@
                     object[] arguments = base.GetData(method, methodParameterTypes).Single();
                     arguments[i] = null;
 
-                    Tuple<object, Action, Func<Task>> executingAction = GetExecutingAction(method, type, arguments);
-                    if (executingAction.Item2 != null)
+                    object instanceUnderTest = null;
+                    if (!method.IsStatic)
                     {
-                        data.Add(
-                            new MethodData(
-                                classUnderTest: type,
-                                instanceUnderTest: executingAction.Item1,
-                                methodUnderTest: method,
-                                arguments: arguments,
-                                nullArgument: parameterInfo.Name,
-                                nullIndex: i,
-                                executingActionSync: executingAction.Item2));
+                        var context = new SpecimenContext(AutoDataAttribute.Fixture);
+                        instanceUnderTest = context.Resolve(new SeededRequest(type, null));
                     }
-                    else
-                    {
-                        data.Add(
-                            new MethodData(
-                                classUnderTest: type,
-                                instanceUnderTest: executingAction.Item1,
-                                methodUnderTest: method,
-                                arguments: arguments,
-                                nullArgument: parameterInfo.Name,
-                                nullIndex: i,
-                                executingActionAsync: executingAction.Item3));
-                    }
+
+                    data.Add(
+                        new MethodData(
+                            classUnderTest: type,
+                            instanceUnderTest: instanceUnderTest,
+                            methodUnderTest: method,
+                            arguments: arguments,
+                            nullArgument: parameterInfo.Name,
+                            nullIndex: i,
+                            executionSetup: new DefaultExecutionSetup()));
                 }
                 catch (Exception ex)
                 {
@@ -279,49 +222,12 @@
                             methodUnderTest: method,
                             arguments: new object[] { },
                             nullArgument: parameterInfo.Name,
-                            nullIndex: 0,
-                            executingActionSync: () => { throw ex; }));
+                            nullIndex: i,
+                            executionSetup: new ErroredExecutionSetup(ex)));
                 }
             }
 
             return data;
-        }
-
-        /// <summary>
-        /// Returns either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.
-        /// </summary>
-        /// <param name="methodUnderTest">The method under test.</param>
-        /// <param name="classUnderTest">The type of the call under test.</param>
-        /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
-        /// <returns>Either the <see cref="MethodData.ExecutingActionSync"/> or the <see cref="MethodData.ExecutingActionAsync"/> for the method invocation.</returns>
-        private Tuple<object, Action, Func<Task>> GetExecutingAction(
-            MethodInfo methodUnderTest,
-            Type classUnderTest,
-            object[] arguments)
-        {
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
-            if (arguments == null) throw new ArgumentNullException("arguments");
-
-            object sut = null;
-            if (!methodUnderTest.IsStatic)
-            {
-                var context = new SpecimenContext(AutoDataAttribute.Fixture);
-                sut = context.Resolve(new SeededRequest(classUnderTest, null));
-            }
-
-            if (typeof(Task).IsAssignableFrom(methodUnderTest.ReturnType))
-            {
-                return Tuple.Create<object, Action, Func<Task>>(
-                    sut,
-                    null,
-                    () => ExecuteAsynchronously(methodUnderTest, arguments, sut));
-            }
-
-            return Tuple.Create<object, Action, Func<Task>>(
-                sut,
-                () => ExecuteSynchronously(methodUnderTest, arguments, sut),
-                null);
         }
     }
 }

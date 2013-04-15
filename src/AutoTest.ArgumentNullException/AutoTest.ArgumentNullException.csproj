@@ -57,12 +57,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Execution\DefaultExecution.cs" />
     <Compile Include="Execution\DefaultExecutionSetup.cs" />
+    <Compile Include="Execution\ErroredExecutionSetup.cs" />
     <Compile Include="FilterBase.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
-    <Compile Include="IExecution.cs" />
     <Compile Include="IExecutionSetup.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="MethodData.cs" />

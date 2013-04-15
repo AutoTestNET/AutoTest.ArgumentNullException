@@ -3,55 +3,44 @@
     using System;
     using System.Threading.Tasks;
     using Moq;
+    using Ploeh.AutoFixture.Xunit;
     using Xunit;
     using Xunit.Extensions;
     using Xunit.Sdk;
 
-    /// <summary>
-    /// Interface to provide a way of mocking the executing actions of <see cref="MethodData"/>.
-    /// </summary>
-    public interface IExecuteMethods
-    {
-        /// <summary>
-        /// The executing action if the <see cref="MethodData.MethodUnderTest"/> is synchronous; otherwise <c>null</c> if asynchronous.
-        /// </summary>
-        void ExecutingActionSync();
-
-        /// <summary>
-        /// The executing action if the <see cref="MethodData.MethodUnderTest"/> is asynchronous; otherwise <c>null</c> if synchronous.
-        /// </summary>
-        /// <returns>A <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        Task ExecutingActionAsync();
-    }
-
     public class MethodDataExtensionsShould
     {
+        /// <summary>
+        /// Returns a completed task.
+        /// </summary>
+        /// <returns>A completed task.</returns>
+        private static Task CompletedTask()
+        {
+            return Task.FromResult(0);
+        }
+
+        /// <summary>
+        /// Returns a completed task.
+        /// </summary>
+        /// <returns>A completed task.</returns>
+        private static Task ExceptionTask(Exception exception)
+        {
+            if (exception == null) throw new ArgumentNullException("exception");
+
+            var tcs = new TaskCompletionSource<int>();
+            tcs.SetException(exception);
+            return tcs.Task;
+        }
+
         [Theory, AutoMock]
-        public void ThrowsWhenExecutingActionAreNull(
+        public Task DoNothingWhenCorrectArgumentNullExceptionThrown(
+            [Frozen] Mock<IExecutionSetup> executionSetupMock,
             MethodData method)
         {
             // Arrange
-            method.ExecutingActionSync = null;
-            method.ExecutingActionAsync = null;
-
-            // Act/Assert
-            Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
-            string actualParamName = Assert.IsType<ArgumentException>(innerException).ParamName;
-            Assert.Equal("method", actualParamName);
-        }
-    }
-
-    public class MethodDataExtensionsSynchronousShould
-    {
-        [Theory, AutoMock]
-        public Task DoNothingWhenCorrectArgumentNullExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
-        {
-            // Arrange
-            executeMock.Setup(e => e.ExecutingActionSync()).Throws(new ArgumentNullException(method.NullArgument));
-            method.ExecutingActionSync = executeMock.Object.ExecutingActionSync;
-            method.ExecutingActionAsync = null;
+            executionSetupMock
+                .Setup(es => es.Setup(method))
+                .Returns(() => ExceptionTask(new ArgumentNullException(method.NullArgument)));
 
             // Act
             return method.Execute();
@@ -59,10 +48,13 @@
 
         [Theory, AutoMock]
         public void ThrowIfNoExceptionThrown(
+            [Frozen] Mock<IExecutionSetup> executionSetupMock,
             MethodData method)
         {
             // Arrange
-            method.ExecutingActionAsync = null;
+            executionSetupMock
+                .Setup(es => es.Setup(method))
+                .Returns(() => CompletedTask());
 
             // Act/Assert
             Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
@@ -71,76 +63,13 @@
 
         [Theory, AutoMock]
         public void ThrowIfWrongExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
-        {
-            // Arrange
-            executeMock.Setup(e => e.ExecutingActionSync()).Throws(new Exception(method.ToString()));
-            method.ExecutingActionSync = executeMock.Object.ExecutingActionSync;
-            method.ExecutingActionAsync = null;
-
-            // Act/Assert
-            Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
-            Assert.IsType<ThrowsException>(innerException);
-        }
-
-        [Theory, AutoMock]
-        public void ThrowIfWrongArgumentNullExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
-        {
-            // Arrange
-            executeMock.Setup(e => e.ExecutingActionSync()).Throws(new ArgumentNullException(Guid.NewGuid().ToString()));
-            method.ExecutingActionSync = executeMock.Object.ExecutingActionSync;
-            method.ExecutingActionAsync = null;
-
-            // Act/Assert
-            Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
-            Assert.IsType<EqualException>(innerException);
-        }
-    }
-
-    public class MethodDataExtensionsAsynchronousShould
-    {
-        [Theory, AutoMock]
-        public Task DoNothingWhenCorrectArgumentNullExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
-        {
-            // Arrange
-            var tcs = new TaskCompletionSource<int>();
-            tcs.SetException(new ArgumentNullException(method.NullArgument));
-            executeMock.Setup(e => e.ExecutingActionAsync()).Returns(tcs.Task);
-            method.ExecutingActionAsync = executeMock.Object.ExecutingActionAsync;
-            method.ExecutingActionSync = null;
-
-            // Act
-            return method.Execute();
-        }
-
-        [Theory, AutoMock]
-        public void ThrowIfNoExceptionThrown(
+            [Frozen] Mock<IExecutionSetup> executionSetupMock,
             MethodData method)
         {
             // Arrange
-            method.ExecutingActionSync = null;
-
-            // Act/Assert
-            Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
-            Assert.IsType<ThrowsException>(innerException);
-        }
-
-        [Theory, AutoMock]
-        public void ThrowIfWrongExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
-        {
-            // Arrange
-            var tcs = new TaskCompletionSource<int>();
-            tcs.SetException(new Exception(method.ToString()));
-            executeMock.Setup(e => e.ExecutingActionAsync()).Returns(tcs.Task);
-            method.ExecutingActionAsync = executeMock.Object.ExecutingActionAsync;
-            method.ExecutingActionSync = null;
+            executionSetupMock
+                .Setup(es => es.Setup(method))
+                .Returns(() => ExceptionTask(new Exception(method.ToString())));
 
             // Act/Assert
             Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
@@ -149,15 +78,13 @@
 
         [Theory, AutoMock]
         public void ThrowIfWrongArgumentNullExceptionThrown(
-            MethodData method,
-            Mock<IExecuteMethods> executeMock)
+            [Frozen] Mock<IExecutionSetup> executionSetupMock,
+            MethodData method)
         {
             // Arrange
-            var tcs = new TaskCompletionSource<int>();
-            tcs.SetException(new ArgumentNullException(Guid.NewGuid().ToString()));
-            executeMock.Setup(e => e.ExecutingActionAsync()).Returns(tcs.Task);
-            method.ExecutingActionAsync = executeMock.Object.ExecutingActionAsync;
-            method.ExecutingActionSync = null;
+            executionSetupMock
+                .Setup(es => es.Setup(method))
+                .Returns(() => ExceptionTask(new ArgumentNullException(Guid.NewGuid().ToString())));
 
             // Act/Assert
             Exception innerException = Assert.Throws<AggregateException>(() => method.Execute().Wait()).InnerException;
