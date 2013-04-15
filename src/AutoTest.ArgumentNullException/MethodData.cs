@@ -22,30 +22,30 @@
         /// <param name="classUnderTest">The type of the class under test.</param>
         /// <param name="instanceUnderTest">The instance of the class under test if the <paramref name="methodUnderTest"/> is not static.</param>
         /// <param name="methodUnderTest">The method under test.</param>
-        /// <param name="arguments">The arguments to the <paramref name="methodUnderTest"/>.</param>
-        /// <param name="nullArgument">The name of the null argument in the <paramref name="arguments"/>.</param>
-        /// <param name="nullIndex">The index of the null argument in the <paramref name="arguments"/>.</param>
+        /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
+        /// <param name="nullParameter">The name of the null parameter in the <paramref name="parameters"/>.</param>
+        /// <param name="nullIndex">The index of the null parameter in the <paramref name="parameters"/>.</param>
         /// <param name="executionSetup">The setup for the <see cref="ExecuteAction"/>.</param>
         public MethodData(
             Type classUnderTest,
             object instanceUnderTest,
             MethodInfo methodUnderTest,
-            object[] arguments,
-            string nullArgument,
+            object[] parameters,
+            string nullParameter,
             int nullIndex,
             IExecutionSetup executionSetup)
         {
             if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
             if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (arguments == null) throw new ArgumentNullException("arguments");
-            if (nullArgument == null) throw new ArgumentNullException("nullArgument");
+            if (parameters == null) throw new ArgumentNullException("parameters");
+            if (nullParameter == null) throw new ArgumentNullException("nullParameter");
             if (executionSetup == null) throw new ArgumentNullException("executionSetup");
 
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;
             MethodUnderTest = methodUnderTest;
-            Arguments = arguments;
-            NullArgument = nullArgument;
+            Parameters = parameters;
+            NullArgument = nullParameter;
             NullIndex = nullIndex;
             _executionSetup = executionSetup;
         }
@@ -66,17 +66,17 @@
         public MethodInfo MethodUnderTest { get; private set; }
 
         /// <summary>
-        /// Gets the arguments to the <see cref="MethodUnderTest"/>.
+        /// Gets the parameters to the <see cref="MethodUnderTest"/>.
         /// </summary>
-        public object[] Arguments { get; private set; }
+        public object[] Parameters { get; private set; }
 
         /// <summary>
-        /// Gets the name of the null argument in the <see cref="Arguments"/>.
+        /// Gets the name of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
         public string NullArgument { get; private set; }
 
         /// <summary>
-        /// Gets the index of the null argument in the <see cref="Arguments"/>.
+        /// Gets the index of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
         public int NullIndex { get; private set; }
 

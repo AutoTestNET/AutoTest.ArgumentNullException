@@ -193,8 +193,8 @@
 
                 try
                 {
-                    object[] arguments = base.GetData(method, methodParameterTypes).Single();
-                    arguments[i] = null;
+                    object[] parameters = base.GetData(method, methodParameterTypes).Single();
+                    parameters[i] = null;
 
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
@@ -208,8 +208,8 @@
                             classUnderTest: type,
                             instanceUnderTest: instanceUnderTest,
                             methodUnderTest: method,
-                            arguments: arguments,
-                            nullArgument: parameterInfo.Name,
+                            parameters: parameters,
+                            nullParameter: parameterInfo.Name,
                             nullIndex: i,
                             executionSetup: new DefaultExecutionSetup()));
                 }
@@ -220,8 +220,8 @@
                             classUnderTest: type,
                             instanceUnderTest: null,
                             methodUnderTest: method,
-                            arguments: new object[] { },
-                            nullArgument: parameterInfo.Name,
+                            parameters: new object[] { },
+                            nullParameter: parameterInfo.Name,
                             nullIndex: i,
                             executionSetup: new ErroredExecutionSetup(ex)));
                 }

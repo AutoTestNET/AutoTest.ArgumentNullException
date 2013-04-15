@@ -63,10 +63,10 @@
         {
             if (methodData == null) throw new ArgumentNullException("methodData");
             if (methodData.MethodUnderTest == null) throw new ArgumentException("The methodData.MethodUnderTest is null.", "methodData");
-            if (methodData.Arguments == null) throw new ArgumentException("The methodData.Arguments is null.", "methodData");
+            if (methodData.Parameters == null) throw new ArgumentException("The methodData.Parameters is null.", "methodData");
 
             _methodUnderTest = methodData.MethodUnderTest;
-            _parameters = methodData.Arguments;
+            _parameters = methodData.Parameters;
             _sut = methodData.InstanceUnderTest;
 
             return Execute;
