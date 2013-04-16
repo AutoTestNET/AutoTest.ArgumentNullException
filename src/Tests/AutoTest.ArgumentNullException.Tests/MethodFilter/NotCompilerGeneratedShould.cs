@@ -20,7 +20,7 @@
         [InlineData(typeof(NullExtensionsShould.OuterNoCg), true)]
         [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), false)]
         [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), true)]
-        public void ExcludeCompilerGeneratedTypes(Type type, bool expected)
+        public void ExcludeCompilerGeneratedMethods(Type type, bool expected)
         {
             // Arrange
             ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
