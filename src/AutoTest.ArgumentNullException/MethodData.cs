@@ -29,7 +29,7 @@
         public MethodData(
             Type classUnderTest,
             object instanceUnderTest,
-            MethodInfo methodUnderTest,
+            MethodBase methodUnderTest,
             object[] parameters,
             string nullParameter,
             int nullIndex,
@@ -63,7 +63,7 @@
         /// <summary>
         /// Gets the method under test.
         /// </summary>
-        public MethodInfo MethodUnderTest { get; private set; }
+        public MethodBase MethodUnderTest { get; private set; }
 
         /// <summary>
         /// Gets the parameters to the <see cref="MethodUnderTest"/>.

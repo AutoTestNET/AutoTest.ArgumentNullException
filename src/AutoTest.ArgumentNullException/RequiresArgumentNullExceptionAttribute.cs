@@ -131,7 +131,7 @@
         /// <param name="method">The method.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
-        private static bool IncludeMethod(Type type, MethodInfo method, IMethodFilter filter)
+        private static bool IncludeMethod(Type type, MethodBase method, IMethodFilter filter)
         {
             if (type == null) throw new ArgumentNullException("type");
             if (method == null) throw new ArgumentNullException("method");
@@ -175,7 +175,7 @@
         /// <param name="parameter">The parameter.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
-        private static bool IncludeParameter(Type type, MethodInfo method, ParameterInfo parameter, IParameterFilter filter)
+        private static bool IncludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
         {
             if (type == null) throw new ArgumentNullException("type");
             if (method == null) throw new ArgumentNullException("method");

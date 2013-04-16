@@ -1,0 +1,37 @@
+﻿namespace AutoTest.ArgNullEx.MethodFilter
+{
+    using System;
+    using System.Reflection;
+    using Xunit;
+    using Xunit.Extensions;
+
+    public class NotCompilerGeneratedShould
+    {
+        [Theory, AutoMock]
+        public void ReturnName(NotCompilerGenerated sut)
+        {
+            Assert.Equal("NotCompilerGenerated", sut.Name);
+        }
+
+//        [Theory]
+        [InlineData(typeof(NullExtensionsShould.OuterCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), true)]
+        public void ExcludeCompilerGeneratedTypes(Type type, bool expected)
+        {
+            // Arrange
+            //MethodInfo[] methodInfos = type.GetMethods(BindingFlags.CreateInstance);
+            IMethodFilter sut = new NotCompilerGenerated();
+
+            // Act
+            bool actual = sut.IncludeMethod(type, null);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+    }
+}

@@ -1,32 +1,33 @@
 ﻿namespace AutoTest.ArgNullEx
 {
-    using System;
     using System.Linq;
     using System.Reflection;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
+    using Ploeh.AutoFixture.Kernel;
 
-    public class AsyncCustomization : ICustomization
+    public class ReflectionCustomization : ICustomization
     {
         void ICustomization.Customize(IFixture fixture)
         {
-            // Re-factoring has left nothing to customize.
+            fixture.Customize<MethodBase>(
+                composer => composer.FromFactory(new TypeRelay(typeof (MethodBase), typeof (MethodInfo))));
         }
     }
 
     public class NullTestsCustomization : ICustomization
     {
-        private static readonly MethodInfo MethodInfo = GetParameterInfo().Item1;
+        private static readonly ParameterInfo ParameterInfo = GetParameterInfo();
 
-        private static readonly ParameterInfo ParameterInfo = GetParameterInfo().Item2;
-
-        private static Tuple<MethodInfo, ParameterInfo> GetParameterInfo(object unused = null)
+// ReSharper disable UnusedParameter.Local
+        private static ParameterInfo GetParameterInfo(object unused = null)
+// ReSharper restore UnusedParameter.Local
         {
             var method =
                 typeof(NullTestsCustomization).GetMethod("GetParameterInfo",
                                                           BindingFlags.NonPublic | BindingFlags.Static);
 
-            return Tuple.Create(method, method.GetParameters().Single());
+            return method.GetParameters().Single();
         }
 
         void ICustomization.Customize(IFixture fixture)
@@ -38,8 +39,6 @@
                 fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             }
 
-            fixture.Inject(MethodInfo);
-            fixture.Inject<MethodBase>(MethodInfo);
             fixture.Inject(ParameterInfo);
         }
     }
@@ -47,7 +46,7 @@
     public class AutoFixtureCustomizations : CompositeCustomization
     {
         public AutoFixtureCustomizations()
-            : base(new AsyncCustomization(), new AutoMoqCustomization())
+            : base(new ReflectionCustomization(), new AutoMoqCustomization())
         {
         }
     }

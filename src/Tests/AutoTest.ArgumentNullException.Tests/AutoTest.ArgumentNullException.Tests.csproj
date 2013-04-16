@@ -63,6 +63,7 @@
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
+    <Compile Include="MethodFilter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />

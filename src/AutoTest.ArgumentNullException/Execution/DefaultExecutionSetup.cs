@@ -18,7 +18,7 @@
         /// <summary>
         /// The method information.
         /// </summary>
-        private MethodInfo _methodUnderTest;
+        private MethodBase _methodUnderTest;
 
         /// <summary>
         /// The parameters to the <see cref="_methodUnderTest"/>.
@@ -33,7 +33,7 @@
         /// <summary>
         /// Gets the method information.
         /// </summary>
-        public MethodInfo MethodUnderTest
+        public MethodBase MethodUnderTest
         {
             get { return _methodUnderTest; }
         }
@@ -55,10 +55,10 @@
         }
 
         /// <summary>
-        /// Sets up a reflected asynchronous <see cref="MethodInfo"/> execution.
+        /// Sets up a reflected asynchronous <see cref="MethodBase"/> execution.
         /// </summary>
         /// <param name="methodData">The method data.</param>
-        /// <returns>A reflected asynchronous <see cref="MethodInfo"/> execution.</returns>
+        /// <returns>A reflected asynchronous <see cref="MethodBase"/> execution.</returns>
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
             if (methodData == null) throw new ArgumentNullException("methodData");
@@ -78,7 +78,8 @@
         /// <returns>A task representing the asynchronous execution of a <see cref="MethodBase"/>.</returns>
         private Task Execute()
         {
-            if (typeof(Task).IsAssignableFrom(_methodUnderTest.ReturnType))
+            var methodInfo = _methodUnderTest as MethodInfo;
+            if (methodInfo != null && typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
             {
                 return ExecuteAsynchronously();
             }
