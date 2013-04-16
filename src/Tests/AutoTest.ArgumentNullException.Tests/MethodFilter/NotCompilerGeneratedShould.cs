@@ -13,7 +13,7 @@
             Assert.Equal("NotCompilerGenerated", sut.Name);
         }
 
-//        [Theory]
+        [Theory]
         [InlineData(typeof(NullExtensionsShould.OuterCg), false)]
         [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), false)]
         [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), false)]
@@ -23,15 +23,14 @@
         public void ExcludeCompilerGeneratedTypes(Type type, bool expected)
         {
             // Arrange
-            //MethodInfo[] methodInfos = type.GetMethods(BindingFlags.CreateInstance);
+            ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
             IMethodFilter sut = new NotCompilerGenerated();
 
             // Act
-            bool actual = sut.IncludeMethod(type, null);
+            bool actual = sut.IncludeMethod(type, constructor);
 
             // Assert
             Assert.Equal(expected, actual);
         }
-
     }
 }
