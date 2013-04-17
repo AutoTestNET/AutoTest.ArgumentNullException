@@ -12,15 +12,8 @@
         /// </summary>
         /// <param name="assemblyUnderTest">A type in the assembly under test.</param>
         public RequiresArgumentNullExceptionAutoMoqAttribute(Type assemblyUnderTest)
-            : base(CreateFixture(), GetAssembly(assemblyUnderTest))
+            : base(CreateFixture(GetAssembly(assemblyUnderTest)))
         {
-        }
-
-        private static IFixture CreateFixture()
-        {
-            return
-                new Fixture().Customize(new AutoFixtureCustomizations())
-                             .Customize(new NullTestsCustomization());
         }
 
         private static Assembly GetAssembly(Type assemblyUnderTest)
@@ -28,6 +21,15 @@
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
             return assemblyUnderTest.Assembly;
+        }
+
+        private static ArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
+        {
+            var fixture =
+                new Fixture().Customize(new AutoFixtureCustomizations())
+                             .Customize(new NullTestsCustomization());
+
+            return new ArgumentNullExceptionFixture(fixture, assemblyUnderTest);
         }
     }
 }
