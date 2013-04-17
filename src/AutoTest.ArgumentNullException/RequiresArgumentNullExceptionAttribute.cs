@@ -6,6 +6,7 @@
     using System.Reflection;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Framework;
+    using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Kernel;
     using Ploeh.AutoFixture.Xunit;
     using Xunit.Extensions;
@@ -14,7 +15,7 @@
     /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/>s.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class RequiresArgumentNullExceptionAttribute : InlineAutoDataAttribute
+    public class RequiresArgumentNullExceptionAttribute : AutoDataAttribute
     {
         /// <summary>
         /// The assembly under test.
@@ -29,21 +30,21 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
-        /// <param name="assemblyUnderTest">A type in the assembly under test.</param>
+        /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
         public RequiresArgumentNullExceptionAttribute(Type assemblyUnderTest)
-            : this(new AutoDataAttribute(), assemblyUnderTest != null ? assemblyUnderTest.Assembly : null)
+            : this(new Fixture(), GetAssembly(assemblyUnderTest))
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
-        /// <param name="autoDataAttribute">An <see cref="AutoDataAttribute"/>.</param>
+        /// <param name="fixture">The fixture.</param>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         protected RequiresArgumentNullExceptionAttribute(
-            AutoDataAttribute autoDataAttribute,
+            IFixture fixture,
             Assembly assemblyUnderTest)
-            : base(autoDataAttribute, new object[] { })
+            : base(fixture)
         {
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
@@ -93,6 +94,18 @@
                 from method in GetMethodsInType(type, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select new object[] { data };
+        }
+
+        /// <summary>
+        /// Get the <see cref="Assembly"/> from the supplied <see cref="Type"/>.
+        /// </summary>
+        /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
+        /// <returns>The <see cref="Assembly"/> from the supplied <see cref="Type"/>.</returns>
+        private static Assembly GetAssembly(Type assemblyUnderTest)
+        {
+            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
+
+            return assemblyUnderTest.Assembly;
         }
 
         /// <summary>
@@ -238,7 +251,7 @@
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
                     {
-                        var context = new SpecimenContext(AutoDataAttribute.Fixture);
+                        var context = new SpecimenContext(Fixture);
                         instanceUnderTest = context.Resolve(new SeededRequest(type, null));
                     }
 

@@ -6,19 +6,13 @@
     public class AutoMockAttribute : AutoDataAttribute
     {
         public AutoMockAttribute()
-            : base(CreateFixture(null))
+            : base(CreateFixture())
         {
         }
 
-        public AutoMockAttribute(ICustomization customization)
-            : base(CreateFixture(customization))
+        private static IFixture CreateFixture()
         {
-        }
-
-        private static IFixture CreateFixture(ICustomization customization)
-        {
-            IFixture fixture = new Fixture().Customize(new AutoFixtureCustomizations());
-            return customization == null ? fixture : fixture.Customize(customization);
+            return new Fixture().Customize(new AutoFixtureCustomizations());
         }
     }
 }

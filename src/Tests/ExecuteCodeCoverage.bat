@@ -13,3 +13,5 @@ C:\git\AutoTest.ArgumentNullException\src\packages\OpenCover.4.5.1403\OpenCover.
 ::Html
 
 C:\git\AutoTest.ArgumentNullException\src\packages\ReportGenerator.1.8.1.0\ReportGenerator.exe "C:\git\AutoTest.ArgumentNullException\src\Tests\CoverageResults.xml" "C:\git\AutoTest.ArgumentNullException\src\Tests\Report" Html
+
+@pause
