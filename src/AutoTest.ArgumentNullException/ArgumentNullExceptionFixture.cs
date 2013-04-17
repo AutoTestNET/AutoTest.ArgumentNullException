@@ -8,15 +8,17 @@
     using AutoTest.ArgNullEx.Framework;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Kernel;
-    using Ploeh.AutoFixture.Xunit;
-    using Xunit.Extensions;
 
     /// <summary>
-    /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/> errors.
+    /// A custom fixture to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class RequiresArgumentNullExceptionAttribute : AutoDataAttribute
+    public class ArgumentNullExceptionFixture
     {
+        /// <summary>
+        /// The <see cref="IFixture"/> used to create specimens.
+        /// </summary>
+        private readonly IFixture _fixture;
+
         /// <summary>
         /// The assembly under test.
         /// </summary>
@@ -28,28 +30,37 @@
         private readonly IDiscoverableCollection<IFilter> _filters;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
-        public RequiresArgumentNullExceptionAttribute(Type assemblyUnderTest)
-            : this(new Fixture(), GetAssembly(assemblyUnderTest))
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest)
+            : this(new Fixture(), assemblyUnderTest)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
+        /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        protected RequiresArgumentNullExceptionAttribute(
+        public ArgumentNullExceptionFixture(
             IFixture fixture,
             Assembly assemblyUnderTest)
-            : base(fixture)
         {
+            if (fixture == null) throw new ArgumentNullException("fixture");
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
+            _fixture = fixture;
             _assemblyUnderTest = assemblyUnderTest;
             _filters = new ReflectionDiscoverableCollection<IFilter>();
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IFixture"/> used to create specimens.
+        /// </summary>
+        public IFixture Fixture
+        {
+            get { return _fixture; }
         }
 
         /// <summary>
@@ -77,35 +88,18 @@
         }
 
         /// <summary>
-        /// Returns the data for the test <see cref="TheoryAttribute"/>.
+        /// Returns the data for the methods to test.
         /// </summary>
-        /// <param name="methodUnderTest">The test method under test.</param>
-        /// <param name="parameterTypes">The types of the parameters.</param>
-        /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        /// <returns>The data for the methods to test.</returns>
+        public IEnumerable<MethodData> GetData()
         {
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (parameterTypes == null) throw new ArgumentNullException("parameterTypes");
-
             _filters.Discover();
 
             return
                 from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
                 from method in GetMethodsInType(type, MethodFilters)
                 from data in SetupParameterData(type, method)
-                select new object[] { data };
-        }
-
-        /// <summary>
-        /// Get the <see cref="Assembly"/> from the supplied <see cref="Type"/>.
-        /// </summary>
-        /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
-        /// <returns>The <see cref="Assembly"/> from the supplied <see cref="Type"/>.</returns>
-        private static Assembly GetAssembly(Type assemblyUnderTest)
-        {
-            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
-
-            return assemblyUnderTest.Assembly;
+                select data;
         }
 
         /// <summary>
@@ -179,7 +173,7 @@
         /// <param name="type">The <see cref="Type"/> from which to retrieve the methods.</param>
         /// <param name="filters">The collection of filters to limit the methods.</param>
         /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
-        private static IEnumerable<MethodInfo> GetMethodsInType(Type type, IEnumerable<IMethodFilter> filters)
+        private static IEnumerable<MethodBase> GetMethodsInType(Type type, IEnumerable<IMethodFilter> filters)
         {
             if (type == null) throw new ArgumentNullException("type");
             if (filters == null) throw new ArgumentNullException("filters");
@@ -225,15 +219,13 @@
         /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
         /// <param name="method">The method.</param>
         /// <returns>The parameter data for the <paramref name="method"/> on the <paramref name="type"/>.</returns>
-        private IEnumerable<MethodData> SetupParameterData(Type type, MethodInfo method)
+        private IEnumerable<MethodData> SetupParameterData(Type type, MethodBase method)
         {
             if (type == null) throw new ArgumentNullException("type");
             if (method == null) throw new ArgumentNullException("method");
 
             ParameterInfo[] parameterInfos = method.GetParameters();
             var data = new List<MethodData>(parameterInfos.Length);
-
-            Type[] methodParameterTypes = parameterInfos.Select(p => p.ParameterType).ToArray();
 
             for (int parameterIndex = 0; parameterIndex < parameterInfos.Length; ++parameterIndex)
             {
@@ -245,8 +237,7 @@
 
                 try
                 {
-                    object[] parameters = base.GetData(method, methodParameterTypes).Single();
-                    parameters[parameterIndex] = null;
+                    object[] parameters = GetParameterSpecimens(parameterInfos, parameterIndex);
 
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
@@ -280,6 +271,57 @@
             }
 
             return data;
+        }
+
+        /// <summary>
+        /// Gets the specimens for the <paramref name="parameters"/>.
+        /// </summary>
+        /// <param name="parameters">The parameters.</param>
+        /// <param name="nullIndex">The index of the null parameter.</param>
+        /// <returns>The specimens for the <paramref name="parameters"/>.</returns>
+        private object[] GetParameterSpecimens(IList<ParameterInfo> parameters, int nullIndex)
+        {
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            if (parameters.Count == 0)
+                throw new ArgumentException("There are no parameters", "parameters");
+            if (nullIndex >= parameters.Count)
+            {
+                string error = string.Format(
+                    "The nullIndex '{0}' is beyond the range of the parameters '{1}'.",
+                    nullIndex,
+                    parameters.Count);
+                throw new ArgumentException(error, "nullIndex");
+            }
+
+            // Simple optimization, if the only parameter is to be null.
+            if (parameters.Count == 1)
+                return new object[] { null };
+
+            var data = new object[parameters.Count];
+            for (int parameterIndex = 0; parameterIndex < parameters.Count; ++parameterIndex)
+            {
+                if (parameterIndex == nullIndex)
+                    continue;
+
+                data[parameterIndex] = Resolve(parameters[parameterIndex]);
+            }
+
+            return data;
+        }
+
+        /// <summary>
+        /// Resolves the <paramref name="parameter"/> specimen.
+        /// </summary>
+        /// <param name="parameter">The parameter.</param>
+        /// <returns>The <paramref name="parameter"/> specimen.</returns>
+        private object Resolve(ParameterInfo parameter)
+        {
+            if (parameter == null)
+                throw new ArgumentNullException("parameter");
+
+            var context = new SpecimenContext(_fixture);
+            return context.Resolve(parameter);
         }
     }
 }

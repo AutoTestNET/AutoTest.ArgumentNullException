@@ -59,6 +59,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="Execution\DefaultExecutionSetup.cs" />
     <Compile Include="Execution\ErroredExecutionSetup.cs" />
     <Compile Include="FilterBase.cs" />
