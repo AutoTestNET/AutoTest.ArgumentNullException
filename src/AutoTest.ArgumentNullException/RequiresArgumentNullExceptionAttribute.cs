@@ -131,7 +131,7 @@
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(type => IncludeType(type, filter)));
+                (current, filter) => current.Where(type => IncludeType(type, filter))).ToArray();
         }
 
         /// <summary>
@@ -174,7 +174,7 @@
             return filters.Aggregate(
                 type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
                     .AsEnumerable(),
-                (current, filter) => current.Where(method => IncludeMethod(type, method, filter)));
+                (current, filter) => current.Where(method => IncludeMethod(type, method, filter))).ToArray();
         }
 
         /// <summary>
