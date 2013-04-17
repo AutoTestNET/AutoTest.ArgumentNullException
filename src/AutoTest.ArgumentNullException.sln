@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ExampleLibrary", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ExampleLibrary.Tests", "Tests\AutoTest.ExampleLibrary.Tests\AutoTest.ExampleLibrary.Tests.csproj", "{A2465CE3-4FAA-4227-A4A4-6C5F660E4344}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ArgumentNullException.Xunit", "AutoTest.ArgumentNullException.Xunit\AutoTest.ArgumentNullException.Xunit.csproj", "{73C0260E-DB5D-465D-A3D9-A37B443B9074}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +42,10 @@ Global
 		{A2465CE3-4FAA-4227-A4A4-6C5F660E4344}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2465CE3-4FAA-4227-A4A4-6C5F660E4344}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2465CE3-4FAA-4227-A4A4-6C5F660E4344}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73C0260E-DB5D-465D-A3D9-A37B443B9074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C0260E-DB5D-465D-A3D9-A37B443B9074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C0260E-DB5D-465D-A3D9-A37B443B9074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C0260E-DB5D-465D-A3D9-A37B443B9074}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
