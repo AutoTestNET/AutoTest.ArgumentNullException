@@ -1,4 +1,4 @@
-﻿::C:\git\AutoTest.ArgumentNullException\src\packages\OpenCover.4.5.1403\OpenCover.Console.exe
+::C:\git\AutoTest.ArgumentNullException\src\packages\OpenCover.4.5.1403\OpenCover.Console.exe
 ::-register:user
 ::"-target:C:\git\AutoTest.ArgumentNullException\src\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.exe"
 ::"-targetargs:C:\git\AutoTest.ArgumentNullException\src\Tests\Tests.xunit"

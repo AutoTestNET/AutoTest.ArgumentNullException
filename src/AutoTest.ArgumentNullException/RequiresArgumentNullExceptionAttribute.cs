@@ -22,19 +22,9 @@
         private readonly Assembly _assemblyUnderTest;
 
         /// <summary>
-        /// The auto discovered list of type filters.
+        /// The auto discovered list of filters.
         /// </summary>
-        private readonly IDiscoverableCollection<ITypeFilter> _typeFilters;
-
-        /// <summary>
-        /// The auto discovered list of type filters.
-        /// </summary>
-        private readonly IDiscoverableCollection<IMethodFilter> _methodFilters;
-
-        /// <summary>
-        /// The auto discovered list of type filters.
-        /// </summary>
-        private readonly IDiscoverableCollection<IParameterFilter> _parameterFilters;
+        private readonly IDiscoverableCollection<IFilter> _filters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
@@ -58,9 +48,31 @@
             if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
 
             _assemblyUnderTest = assemblyUnderTest;
-            _typeFilters = new ReflectionDiscoverableCollection<ITypeFilter>();
-            _methodFilters = new ReflectionDiscoverableCollection<IMethodFilter>();
-            _parameterFilters = new ReflectionDiscoverableCollection<IParameterFilter>();
+            _filters = new ReflectionDiscoverableCollection<IFilter>();
+        }
+
+        /// <summary>
+        /// Gets the list of <see cref="ITypeFilter"/> objects.
+        /// </summary>
+        public IEnumerable<ITypeFilter> TypeFilters
+        {
+            get { return _filters.OfType<ITypeFilter>(); }
+        }
+
+        /// <summary>
+        /// Gets the list of <see cref="IMethodFilter"/> objects.
+        /// </summary>
+        public IEnumerable<IMethodFilter> MethodFilters
+        {
+            get { return _filters.OfType<IMethodFilter>(); }
+        }
+
+        /// <summary>
+        /// Gets the list of <see cref="IParameterFilter"/> objects.
+        /// </summary>
+        public IEnumerable<IParameterFilter> ParameterFilters
+        {
+            get { return _filters.OfType<IParameterFilter>(); }
         }
 
         /// <summary>
@@ -74,13 +86,11 @@
             if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
             if (parameterTypes == null) throw new ArgumentNullException("parameterTypes");
 
-            _methodFilters.Discover();
-            _typeFilters.Discover();
-            _parameterFilters.Discover();
+            _filters.Discover();
 
             return
-                from type in GetTypesInAssembly(_assemblyUnderTest, _typeFilters)
-                from method in GetMethodsInType(type, _methodFilters)
+                from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
+                from method in GetMethodsInType(type, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select new object[] { data };
         }
@@ -217,7 +227,7 @@
                 ParameterInfo parameterInfo = parameterInfos[parameterIndex];
 
                 // Run the filters against the parameter.
-                if (_parameterFilters.Any(filter => !IncludeParameter(type, method, parameterInfo, filter)))
+                if (ParameterFilters.Any(filter => !IncludeParameter(type, method, parameterInfo, filter)))
                     continue;
 
                 try
