@@ -13,7 +13,7 @@
         /// <summary>
         /// A singleton completed task.
         /// </summary>
-        private static readonly Task CompletedTask = Task.FromResult(0);
+        private static readonly Task CompletedTask = GetCompletedTask();
 
         /// <summary>
         /// The method information.
@@ -73,6 +73,17 @@
         }
 
         /// <summary>
+        /// Returns a completed task.
+        /// </summary>
+        /// <returns>A completed task.</returns>
+        private static Task GetCompletedTask()
+        {
+            var tcs = new TaskCompletionSource<int>();
+            tcs.SetResult(0);
+            return tcs.Task;
+        }
+
+        /// <summary>
         /// Executes a reflected <see cref="MethodBase"/>.
         /// </summary>
         /// <returns>A task representing the asynchronous execution of a <see cref="MethodBase"/>.</returns>
@@ -109,12 +120,12 @@
         /// Executes the <see cref="_methodUnderTest"/> synchronously.
         /// </summary>
         /// <returns>The <see cref="Task"/> representing the result of the asynchronous operation.</returns>
-        private async Task ExecuteAsynchronously()
+        private Task ExecuteAsynchronously()
         {
             try
             {
                 var result = (Task)_methodUnderTest.Invoke(_sut, _parameters);
-                await result;
+                return result;
             }
             catch (TargetInvocationException targetInvocationException)
             {
