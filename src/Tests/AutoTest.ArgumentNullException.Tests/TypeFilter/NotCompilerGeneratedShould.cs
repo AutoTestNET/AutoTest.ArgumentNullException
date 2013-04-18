@@ -1,8 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx.TypeFilter
 {
     using System;
-    using Xunit;
-    using Xunit.Extensions;
+    using global::Xunit;
+    using global::Xunit.Extensions;
 
     public class NotCompilerGeneratedShould
     {

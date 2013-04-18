@@ -2,11 +2,12 @@
 {
     using System;
     using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Xunit;
     using Moq;
     using Ploeh.AutoFixture.Xunit;
-    using Xunit;
-    using Xunit.Extensions;
-    using Xunit.Sdk;
+    using global::Xunit;
+    using global::Xunit.Extensions;
+    using global::Xunit.Sdk;
 
     public class MethodDataExtensionsShould
     {

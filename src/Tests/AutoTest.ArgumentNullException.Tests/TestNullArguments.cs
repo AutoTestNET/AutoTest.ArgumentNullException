@@ -1,7 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System.Threading.Tasks;
-    using Xunit.Extensions;
+    using AutoTest.ArgNullEx.Xunit;
+    using global::Xunit.Extensions;
 
     public class TestNullArguments
     {

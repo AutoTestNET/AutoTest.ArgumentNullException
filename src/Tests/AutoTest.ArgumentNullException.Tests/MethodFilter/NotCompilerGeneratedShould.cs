@@ -2,8 +2,8 @@
 {
     using System;
     using System.Reflection;
-    using Xunit;
-    using Xunit.Extensions;
+    using global::Xunit;
+    using global::Xunit.Extensions;
 
     public class NotCompilerGeneratedShould
     {

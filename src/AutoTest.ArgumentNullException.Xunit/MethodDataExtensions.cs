@@ -1,8 +1,8 @@
-﻿namespace AutoTest.ArgNullEx
+﻿namespace AutoTest.ArgNullEx.Xunit
 {
     using System;
     using System.Threading.Tasks;
-    using Xunit;
+    using global::Xunit;
 
     /// <summary>
     /// Extension methods on a <see cref="MethodData"/>.

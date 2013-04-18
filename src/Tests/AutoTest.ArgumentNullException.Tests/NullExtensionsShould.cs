@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Reflection;
     using System.Runtime.CompilerServices;
-    using Xunit;
-    using Xunit.Extensions;
+    using global::Xunit;
+    using global::Xunit.Extensions;
 
     public class NullExtensionsShould
     {

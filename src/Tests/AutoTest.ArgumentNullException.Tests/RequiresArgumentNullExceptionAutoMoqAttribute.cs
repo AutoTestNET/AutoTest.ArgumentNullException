@@ -2,6 +2,7 @@
 {
     using System;
     using System.Reflection;
+    using AutoTest.ArgNullEx.Xunit;
     using Ploeh.AutoFixture;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]

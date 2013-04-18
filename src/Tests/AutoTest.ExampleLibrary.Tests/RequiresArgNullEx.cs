@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx;
+    using AutoTest.ArgNullEx.Xunit;
     using Xunit.Extensions;
 
     public class RequiresArgNullEx

@@ -1,10 +1,10 @@
-﻿namespace AutoTest.ArgNullEx
+﻿namespace AutoTest.ArgNullEx.Xunit
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Xunit.Extensions;
+    using global::Xunit.Extensions;
 
     /// <summary>
     /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/> errors.

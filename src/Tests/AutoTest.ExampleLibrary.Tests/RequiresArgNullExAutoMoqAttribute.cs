@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
     using AutoTest.ArgNullEx;
+    using AutoTest.ArgNullEx.Xunit;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
 
