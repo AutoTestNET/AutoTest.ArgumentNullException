@@ -14,22 +14,22 @@
         /// </summary>
         /// <param name="method">The method data.</param>
         /// <returns>A task representing the asynchronous execution of the <paramref name="method"/>.</returns>
-        public static async Task Execute(this MethodData method)
+        public static Task Execute(this MethodData method)
         {
             if (method == null) throw new ArgumentNullException("method");
 
-            Exception ex = null;
-            try
-            {
-                await method.ExecuteAction();
-            }
-            catch (Exception innerEx)
-            {
-                ex = innerEx;
-            }
-
-            string actualParamName = Assert.Throws<ArgumentNullException>(() => { if (ex != null) throw ex; }).ParamName;
-            Assert.Equal(method.NullParameter, actualParamName);
+            return
+                method.ExecuteAction()
+                      .Then(() =>
+                      {
+                          Assert.Throws<ArgumentNullException>(() => { });
+                      })
+                      .Catch(catchInfo =>
+                      {
+                          string actualParamName = Assert.Throws<ArgumentNullException>(() => { throw catchInfo.Exception; }).ParamName;
+                          Assert.Equal(method.NullParameter, actualParamName);
+                          return catchInfo.Handled();
+                      });
         }
     }
 }

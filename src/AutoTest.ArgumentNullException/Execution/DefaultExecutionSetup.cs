@@ -89,14 +89,24 @@
         /// <returns>A task representing the asynchronous execution of a <see cref="MethodBase"/>.</returns>
         private Task Execute()
         {
-            var methodInfo = _methodUnderTest as MethodInfo;
-            if (methodInfo != null && typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
+            try
             {
-                return ExecuteAsynchronously();
-            }
+                var methodInfo = _methodUnderTest as MethodInfo;
+                if (methodInfo != null && typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
+                {
+                    return ExecuteAsynchronously();
+                }
 
-            ExecuteSynchronously();
-            return CompletedTask;
+                ExecuteSynchronously();
+
+                return CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                var tcs = new TaskCompletionSource<int>();
+                tcs.SetException(ex);
+                return tcs.Task;
+            }
         }
 
         /// <summary>
