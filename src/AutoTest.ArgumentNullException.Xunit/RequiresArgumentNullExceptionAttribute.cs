@@ -44,8 +44,10 @@
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (parameterTypes == null) throw new ArgumentNullException("parameterTypes");
+            if (methodUnderTest == null)
+                throw new ArgumentNullException("methodUnderTest");
+            if (parameterTypes == null)
+                throw new ArgumentNullException("parameterTypes");
 
             return _fixture.GetData().Select(data => new object[] { data });
         }
@@ -57,7 +59,8 @@
         /// <returns>The <see cref="Assembly"/> from the supplied <see cref="Type"/>.</returns>
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
-            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
+            if (assemblyUnderTest == null)
+                throw new ArgumentNullException("assemblyUnderTest");
 
             return assemblyUnderTest.Assembly;
         }

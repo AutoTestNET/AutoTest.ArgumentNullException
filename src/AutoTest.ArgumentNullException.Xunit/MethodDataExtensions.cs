@@ -21,16 +21,18 @@
 
             return
                 method.ExecuteAction()
-                      .Then((Action)NoException)
+                      .Then(() => IsArgumentNullException())
                       .Catch(catchInfo => catchInfo.CheckException(method.NullParameter));
         }
 
         /// <summary>
-        /// Continuation for when the method completes successfully to asserts and throw because a <see cref="ArgumentNullException"/> was not thrown.
+        /// Checks the <paramref name="exception"/> is a <see cref="ArgumentNullException"/>.
         /// </summary>
-        private static void NoException()
+        /// <param name="exception">The exception to check.</param>
+        /// <returns>The name of the null parameter.</returns>
+        private static string IsArgumentNullException(Exception exception = null)
         {
-            Assert.Throws<ArgumentNullException>(() => { });
+            return Assert.Throws<ArgumentNullException>(() => { if (exception != null) throw exception; }).ParamName;
         }
 
         /// <summary>
@@ -46,7 +48,7 @@
             if (string.IsNullOrWhiteSpace(nullParameter))
                 throw new ArgumentNullException("nullParameter");
 
-            string actualParamName = Assert.Throws<ArgumentNullException>(() => { throw catchInfo.Exception; }).ParamName;
+            string actualParamName = IsArgumentNullException(catchInfo.Exception);
             Assert.Equal(nullParameter, actualParamName);
             return catchInfo.Handled();
         }
