@@ -80,6 +80,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\AutoTest.ArgumentNullException.Xunit\AutoTest.ArgumentNullException.Xunit.csproj">
+      <Project>{73c0260e-db5d-465d-a3d9-a37b443b9074}</Project>
+      <Name>AutoTest.ArgumentNullException.Xunit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj">
       <Project>{1efce40c-40d8-421c-b756-01e9a5c6ea1f}</Project>
       <Name>AutoTest.ArgumentNullException</Name>
