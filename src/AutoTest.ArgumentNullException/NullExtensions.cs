@@ -42,7 +42,7 @@
         {
             if (parameter == null) throw new ArgumentNullException("parameter");
 
-            return parameter.HasDefaultValue && parameter.DefaultValue == null;
+            return parameter.RawDefaultValue == null;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
         {
             if (member == null) throw new ArgumentNullException("member");
 
-            if (member.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
+            if (Attribute.GetCustomAttribute(member, typeof(CompilerGeneratedAttribute)) != null)
                 return true;
 
             return member.DeclaringType != null && IsCompilerGenerated(member.DeclaringType);
