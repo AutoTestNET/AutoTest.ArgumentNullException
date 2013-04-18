@@ -258,6 +258,7 @@
                 }
                 catch (Exception ex)
                 {
+                    var compositionEx = new CompositionException(type, method, parameterInfo.Name, ex);
                     data.Add(
                         new MethodData(
                             classUnderTest: type,
@@ -266,7 +267,7 @@
                             parameters: new object[] { },
                             nullParameter: parameterInfo.Name,
                             nullIndex: parameterIndex,
-                            executionSetup: new ErroredExecutionSetup(ex)));
+                            executionSetup: new ErroredExecutionSetup(compositionEx)));
                 }
             }
 

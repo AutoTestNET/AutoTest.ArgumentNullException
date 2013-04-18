@@ -1,7 +1,9 @@
 ﻿namespace AutoTest.ArgNullEx
 {
+    using System;
     using System.Linq;
     using System.Reflection;
+    using System.Threading.Tasks;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
     using Ploeh.AutoFixture.Kernel;
@@ -39,7 +41,11 @@
                 fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             }
 
+            var tcs = new TaskCompletionSource<int>();
+            tcs.SetException(new Exception());
+
             fixture.Inject(ParameterInfo);
+            fixture.Inject(new CatchInfo(tcs.Task));
         }
     }
 

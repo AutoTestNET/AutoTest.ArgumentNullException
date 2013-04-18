@@ -11,5 +11,11 @@
         {
             return methodData.Execute();
         }
+
+        [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(MethodDataExtensions))]
+        public Task TestAllNullArgumentsXunit(MethodData methodData)
+        {
+            return methodData.Execute();
+        }
     }
 }
