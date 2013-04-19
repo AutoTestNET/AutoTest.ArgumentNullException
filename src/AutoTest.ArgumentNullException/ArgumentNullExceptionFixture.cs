@@ -15,6 +15,16 @@
     public class ArgumentNullExceptionFixture
     {
         /// <summary>
+        /// The Default value for the <see cref="BindingFlags"/>.
+        /// </summary>
+        public const BindingFlags DefaultBindingFlags =
+            BindingFlags.Instance
+            | BindingFlags.Static
+            | BindingFlags.Public
+            | BindingFlags.NonPublic
+            | BindingFlags.DeclaredOnly;
+
+        /// <summary>
         /// The <see cref="IFixture"/> used to create specimens.
         /// </summary>
         private readonly IFixture _fixture;
@@ -28,6 +38,11 @@
         /// The auto discovered list of filters.
         /// </summary>
         private readonly IDiscoverableCollection<IFilter> _filters;
+
+        /// <summary>
+        /// Specifies flags that control binding and the way in which the search for members and types is conducted by reflection.
+        /// </summary>
+        private BindingFlags _bindingFlags;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
@@ -47,11 +62,14 @@
             IFixture fixture,
             Assembly assemblyUnderTest)
         {
-            if (fixture == null) throw new ArgumentNullException("fixture");
-            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (assemblyUnderTest == null)
+                throw new ArgumentNullException("assemblyUnderTest");
 
             _fixture = fixture;
             _assemblyUnderTest = assemblyUnderTest;
+            _bindingFlags = DefaultBindingFlags;
             _filters = new ReflectionDiscoverableCollection<IFilter>();
         }
 
@@ -61,6 +79,14 @@
         public IFixture Fixture
         {
             get { return _fixture; }
+        }
+
+        /// <summary>
+        /// Gets the assembly under test.
+        /// </summary>
+        public Assembly AssemblyUnderTest
+        {
+            get { return _assemblyUnderTest; }
         }
 
         /// <summary>
@@ -88,6 +114,14 @@
         }
 
         /// <summary>
+        /// Gets the flags that control binding and the way in which the search for members and types is conducted by reflection.
+        /// </summary>
+        public BindingFlags BindingFlags
+        {
+            get { return _bindingFlags; }
+        }
+
+        /// <summary>
         /// Returns the data for the methods to test.
         /// </summary>
         /// <returns>The data for the methods to test.</returns>
@@ -97,7 +131,7 @@
 
             return
                 from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
-                from method in GetMethodsInType(type, MethodFilters)
+                from method in GetMethodsInType(type, _bindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
         }
@@ -110,8 +144,10 @@
         /// <returns>The result of <see cref="ITypeFilter.IncludeType"/>.</returns>
         private static bool IncludeType(Type type, ITypeFilter filter)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (filter == null) throw new ArgumentNullException("filter");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (filter == null)
+                throw new ArgumentNullException("filter");
 
             bool includeType = filter.IncludeType(type);
             if (!includeType)
@@ -133,8 +169,10 @@
         /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
         private static IEnumerable<Type> GetTypesInAssembly(Assembly assembly, IEnumerable<ITypeFilter> filters)
         {
-            if (assembly == null) throw new ArgumentNullException("assembly");
-            if (filters == null) throw new ArgumentNullException("filters");
+            if (assembly == null)
+                throw new ArgumentNullException("assembly");
+            if (filters == null)
+                throw new ArgumentNullException("filters");
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
@@ -150,9 +188,12 @@
         /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
         private static bool IncludeMethod(Type type, MethodBase method, IMethodFilter filter)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
-            if (filter == null) throw new ArgumentNullException("filter");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (method == null)
+                throw new ArgumentNullException("method");
+            if (filter == null)
+                throw new ArgumentNullException("filter");
 
             bool includeMethod = filter.IncludeMethod(type, method);
             if (!includeMethod)
@@ -171,16 +212,18 @@
         /// Gets all the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> from which to retrieve the methods.</param>
+        /// <param name="bindingAttr">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
         /// <param name="filters">The collection of filters to limit the methods.</param>
         /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
-        private static IEnumerable<MethodBase> GetMethodsInType(Type type, IEnumerable<IMethodFilter> filters)
+        private static IEnumerable<MethodBase> GetMethodsInType(Type type, BindingFlags bindingAttr, IEnumerable<IMethodFilter> filters)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (filters == null) throw new ArgumentNullException("filters");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (filters == null)
+                throw new ArgumentNullException("filters");
 
             return filters.Aggregate(
-                type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly)
-                    .AsEnumerable(),
+                type.GetMethods(bindingAttr).AsEnumerable(),
                 (current, filter) => current.Where(method => IncludeMethod(type, method, filter))).ToArray();
         }
 
@@ -194,10 +237,14 @@
         /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
         private static bool IncludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
-            if (parameter == null) throw new ArgumentNullException("parameter");
-            if (filter == null) throw new ArgumentNullException("filter");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (method == null)
+                throw new ArgumentNullException("method");
+            if (parameter == null)
+                throw new ArgumentNullException("parameter");
+            if (filter == null)
+                throw new ArgumentNullException("filter");
 
             bool includeParameter = filter.IncludeParameter(type, method, parameter);
             if (!includeParameter)
@@ -221,8 +268,10 @@
         /// <returns>The parameter data for the <paramref name="method"/> on the <paramref name="type"/>.</returns>
         private IEnumerable<MethodData> SetupParameterData(Type type, MethodBase method)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (method == null)
+                throw new ArgumentNullException("method");
 
             ParameterInfo[] parameterInfos = method.GetParameters();
             var data = new List<MethodData>(parameterInfos.Length);

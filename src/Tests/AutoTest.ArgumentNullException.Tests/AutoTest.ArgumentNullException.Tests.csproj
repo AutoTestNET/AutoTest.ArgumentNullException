@@ -63,6 +63,7 @@
     <Compile Include="..\..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="ArgumentNullExceptionFixtureShould.cs" />
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
