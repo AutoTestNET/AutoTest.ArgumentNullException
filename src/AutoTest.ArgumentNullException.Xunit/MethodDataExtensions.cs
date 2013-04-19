@@ -21,7 +21,7 @@
 
             return
                 method.ExecuteAction()
-                      .Then(() => IsArgumentNullException())
+                      .Then(() => { IsArgumentNullException(); })
                       .Catch(catchInfo => catchInfo.CheckException(method.NullParameter));
         }
 

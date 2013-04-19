@@ -33,6 +33,9 @@
         protected RequiresArgumentNullExceptionAttribute(
             ArgumentNullExceptionFixture fixture)
         {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
             _fixture = fixture;
         }
 

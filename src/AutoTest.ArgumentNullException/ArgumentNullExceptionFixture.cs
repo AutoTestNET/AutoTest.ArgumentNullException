@@ -215,7 +215,8 @@
                 throw new ArgumentNullException("filters");
 
             return filters.Aggregate(
-                type.GetMethods(bindingAttr).AsEnumerable(),
+                type.GetMethods(bindingAttr).Cast<MethodBase>()
+                .Union(type.GetConstructors(bindingAttr)),
                 (current, filter) => current.Where(method => IncludeMethod(type, method, filter))).ToArray();
         }
 
