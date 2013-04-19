@@ -35,28 +35,42 @@
 
         [Theory, PropertyData("AllBindingFlags")]
         public void SetBindingFlag(
-            BindingFlags bindingFlag)
+            BindingFlags mask)
         {
             // Arrange.
             var sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
 
-            sut.ClearBindingFlags(bindingFlag);
-            Assert.False(sut.BindingFlags.HasFlag(bindingFlag), "The Binding flag should not be set after having been cleared.");
-            sut.SetBindingFlags(bindingFlag);
-            Assert.True(sut.BindingFlags.HasFlag(bindingFlag), "The binding flag has not been set.");
+            // Get the original value which should be preserved.
+            BindingFlags original = sut.BindingFlags;
+
+            Assert.Equal(sut.BindingFlags, sut.ClearBindingFlags(mask));
+            Assert.False(sut.BindingFlags.HasFlag(mask), "The Binding flag should not be set after having been cleared.");
+            Assert.Equal(original & ~mask, sut.BindingFlags);
+
+            Assert.Equal(sut.BindingFlags, sut.SetBindingFlags(mask));
+            Assert.True(sut.BindingFlags.HasFlag(mask), "The binding flag has not been set.");
+            Assert.True(sut.BindingFlags.HasFlag(original), "The original binding flags have not been preserved.");
+            Assert.Equal(original | mask, sut.BindingFlags);
         }
 
         [Theory, PropertyData("AllBindingFlags")]
         public void ClearBindingFlag(
-            BindingFlags bindingFlag)
+            BindingFlags mask)
         {
             // Arrange.
             var sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
 
-            sut.SetBindingFlags(bindingFlag);
-            Assert.True(sut.BindingFlags.HasFlag(bindingFlag), "The binding flag has not been set.");
-            sut.ClearBindingFlags(bindingFlag);
-            Assert.False(sut.BindingFlags.HasFlag(bindingFlag), "The Binding flag should not be set after having been cleared.");
+            // Get the original value which should be preserved with the exception of the cleared values.
+            BindingFlags original = sut.BindingFlags;
+
+            Assert.Equal(sut.BindingFlags, sut.SetBindingFlags(mask));
+            Assert.True(sut.BindingFlags.HasFlag(mask), "The binding flag has not been set.");
+            Assert.True(sut.BindingFlags.HasFlag(original), "The original binding flags have not been preserved.");
+            Assert.Equal(original | mask, sut.BindingFlags);
+
+            Assert.Equal(sut.BindingFlags, sut.ClearBindingFlags(mask));
+            Assert.False(sut.BindingFlags.HasFlag(mask), "The Binding flag should not be set after having been cleared.");
+            Assert.Equal(original & ~mask, sut.BindingFlags);
         }
     }
 }
