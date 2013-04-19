@@ -13,17 +13,15 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
-        /// <returns>The value of the <see cref="ArgumentNullExceptionFixture.BindingFlags"/> before being cleared.</returns>
-        public static BindingFlags ClearBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static ArgumentNullExceptionFixture ClearBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
-            BindingFlags oldValue = fixture.BindingFlags;
+            fixture.BindingFlags = fixture.BindingFlags & ~mask;
 
-            fixture.BindingFlags = oldValue & ~mask;
-
-            return oldValue;
+            return fixture;
         }
 
         /// <summary>
@@ -31,17 +29,15 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
-        /// <returns>The value of the <see cref="ArgumentNullExceptionFixture.BindingFlags"/> before being set.</returns>
-        public static BindingFlags SetBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static ArgumentNullExceptionFixture SetBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
-            BindingFlags oldValue = fixture.BindingFlags;
+            fixture.BindingFlags = fixture.BindingFlags | mask;
 
-            fixture.BindingFlags = oldValue | mask;
-
-            return oldValue;
+            return fixture;
         }
     }
 }
