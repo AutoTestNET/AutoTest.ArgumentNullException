@@ -16,7 +16,8 @@
         /// <returns>The value of the <see cref="ArgumentNullExceptionFixture.BindingFlags"/> before being cleared.</returns>
         public static BindingFlags ClearBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
-            if (fixture == null) throw new ArgumentNullException("fixture");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
 
             BindingFlags oldValue = fixture.BindingFlags;
 
@@ -33,7 +34,8 @@
         /// <returns>The value of the <see cref="ArgumentNullExceptionFixture.BindingFlags"/> before being set.</returns>
         public static BindingFlags SetBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
-            if (fixture == null) throw new ArgumentNullException("fixture");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
 
             BindingFlags oldValue = fixture.BindingFlags;
 
