@@ -41,11 +41,10 @@
                 fixture.Behaviors.Add(new OmitOnRecursionBehavior());
             }
 
-            var tcs = new TaskCompletionSource<int>();
-            tcs.SetException(new Exception());
-
             fixture.Inject(ParameterInfo);
-            fixture.Inject(new CatchInfo(tcs.Task));
+            fixture.Customize<CatchInfo>(
+                composer => composer.FromFactory(
+                    () => new CatchInfo(TaskHelpers.FromError(new Exception()))));
         }
     }
 

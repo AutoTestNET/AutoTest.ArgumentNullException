@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
     using global::Xunit;
+    using global::Xunit.Sdk;
 
     /// <summary>
     /// Extension methods on a <see cref="MethodData"/>.
@@ -19,20 +20,27 @@
             if (method == null)
                 throw new ArgumentNullException("method");
 
+            bool catchExecuted = false;
+
             return
                 method.ExecuteAction()
-                      .Then(() => { IsArgumentNullException(); })
-                      .Catch(catchInfo => catchInfo.CheckException(method.NullParameter));
+                      .Catch(catchInfo =>
+                          {
+                              catchExecuted = true;
+                              return catchInfo.CheckException(method.NullParameter);
+                          })
+                      .Then(() => ThenNoException(catchExecuted));
         }
 
         /// <summary>
-        /// Checks the <paramref name="exception"/> is a <see cref="ArgumentNullException"/>.
+        /// Throws a <see cref="ThrowsException"/> if <paramref name="catchExecuted"/> is <c>false</c>.
         /// </summary>
-        /// <param name="exception">The exception to check.</param>
-        /// <returns>The name of the null parameter.</returns>
-        private static string IsArgumentNullException(Exception exception = null)
+        /// <param name="catchExecuted"><c>true</c> of the catch was executed; otherwise <c>false</c>.</param>
+        private static void ThenNoException(bool catchExecuted)
         {
-            return Assert.Throws<ArgumentNullException>(() => { if (exception != null) throw exception; }).ParamName;
+            // Don't throw if the catch was executed.
+            if (!catchExecuted)
+                throw new ThrowsException(typeof(ArgumentNullException));
         }
 
         /// <summary>
@@ -48,7 +56,8 @@
             if (string.IsNullOrWhiteSpace(nullParameter))
                 throw new ArgumentNullException("nullParameter");
 
-            string actualParamName = IsArgumentNullException(catchInfo.Exception);
+            string actualParamName =
+                Assert.Throws<ArgumentNullException>(() => { throw catchInfo.Exception; }).ParamName;
             Assert.Equal(nullParameter, actualParamName);
             return catchInfo.Handled();
         }
