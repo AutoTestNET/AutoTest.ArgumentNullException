@@ -10,10 +10,12 @@
     {
         [Theory, AutoMock]
         public void InitializeDefaults(
-            [Frozen] Assembly expectedAssembly,
-            ArgumentNullExceptionFixture sut)
+            Assembly expectedAssembly)
         {
-            // AAA
+            // Arrange/Act
+            var sut = new ArgumentNullExceptionFixture(expectedAssembly);
+
+            // Assert
             Assert.NotNull(sut.Fixture);
             Assert.Same(expectedAssembly, sut.AssemblyUnderTest);
             Assert.Equal(ArgumentNullExceptionFixture.DefaultBindingFlags, sut.BindingFlags);

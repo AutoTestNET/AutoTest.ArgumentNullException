@@ -40,11 +40,6 @@
         private readonly IDiscoverableCollection<IFilter> _filters;
 
         /// <summary>
-        /// Specifies flags that control binding and the way in which the search for members and types is conducted by reflection.
-        /// </summary>
-        private BindingFlags _bindingFlags;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
@@ -69,7 +64,7 @@
 
             _fixture = fixture;
             _assemblyUnderTest = assemblyUnderTest;
-            _bindingFlags = DefaultBindingFlags;
+            BindingFlags = DefaultBindingFlags;
             _filters = new ReflectionDiscoverableCollection<IFilter>();
         }
 
@@ -114,12 +109,9 @@
         }
 
         /// <summary>
-        /// Gets the flags that control binding and the way in which the search for members and types is conducted by reflection.
+        /// Gets or sets the flags that control binding and the way in which the search for members and types is conducted by reflection.
         /// </summary>
-        public BindingFlags BindingFlags
-        {
-            get { return _bindingFlags; }
-        }
+        public BindingFlags BindingFlags { get; set; }
 
         /// <summary>
         /// Returns the data for the methods to test.
@@ -131,7 +123,7 @@
 
             return
                 from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
-                from method in GetMethodsInType(type, _bindingFlags, MethodFilters)
+                from method in GetMethodsInType(type, BindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
         }
@@ -212,7 +204,7 @@
         /// Gets all the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> from which to retrieve the methods.</param>
-        /// <param name="bindingAttr">A bitmask comprised of one or more <see cref="BindingFlags"/> that specify how the search is conducted.</param>
+        /// <param name="bindingAttr">A bitmask comprised of one or more <see cref="System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
         /// <param name="filters">The collection of filters to limit the methods.</param>
         /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
         private static IEnumerable<MethodBase> GetMethodsInType(Type type, BindingFlags bindingAttr, IEnumerable<IMethodFilter> filters)
