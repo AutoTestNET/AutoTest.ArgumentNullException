@@ -30,7 +30,7 @@
                 new Fixture().Customize(new AutoFixtureCustomizations())
                              .Customize(new NullTestsCustomization());
 
-            return new ArgumentNullExceptionFixture(fixture, assemblyUnderTest);
+            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
         }
     }
 }

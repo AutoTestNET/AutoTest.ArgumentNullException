@@ -29,7 +29,7 @@
         {
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
-            return new ArgumentNullExceptionFixture(fixture, assemblyUnderTest);
+            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
         }
     }
 }

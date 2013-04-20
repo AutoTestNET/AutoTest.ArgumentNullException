@@ -25,55 +25,58 @@
             | BindingFlags.DeclaredOnly;
 
         /// <summary>
-        /// The <see cref="IFixture"/> used to create specimens.
-        /// </summary>
-        private readonly IFixture _fixture;
-
-        /// <summary>
         /// The assembly under test.
         /// </summary>
         private readonly Assembly _assemblyUnderTest;
 
         /// <summary>
-        /// The auto discovered list of filters.
+        /// The <see cref="IFixture"/> used to create specimens.
         /// </summary>
-        private readonly IDiscoverableCollection<IFilter> _filters;
+        private readonly IFixture _fixture;
+
+        /// <summary>
+        /// The list of filters.
+        /// </summary>
+        private readonly IList<IFilter> _filters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
         public ArgumentNullExceptionFixture(Assembly assemblyUnderTest)
-            : this(new Fixture(), assemblyUnderTest)
+            : this(assemblyUnderTest, new Fixture(), DiscoverFilters())
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
-        /// <param name="fixture">The fixture.</param>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        public ArgumentNullExceptionFixture(
-            IFixture fixture,
-            Assembly assemblyUnderTest)
+        /// <param name="fixture">The fixture.</param>
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture)
+            : this(assemblyUnderTest, fixture, DiscoverFilters())
         {
-            if (fixture == null)
-                throw new ArgumentNullException("fixture");
-            if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
-
-            _fixture = fixture;
-            _assemblyUnderTest = assemblyUnderTest;
-            BindingFlags = DefaultBindingFlags;
-            _filters = new ReflectionDiscoverableCollection<IFilter>();
         }
 
         /// <summary>
-        /// Gets the <see cref="IFixture"/> used to create specimens.
+        /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
-        public IFixture Fixture
+        /// <param name="assemblyUnderTest">The assembly under test.</param>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="filters">The list of filters.</param>
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, IList<IFilter> filters)
         {
-            get { return _fixture; }
+            if (assemblyUnderTest == null)
+                throw new ArgumentNullException("assemblyUnderTest");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (filters == null)
+                throw new ArgumentNullException("filters");
+
+            _assemblyUnderTest = assemblyUnderTest;
+            _fixture = fixture;
+            _filters = filters;
+            BindingFlags = DefaultBindingFlags;
         }
 
         /// <summary>
@@ -82,6 +85,14 @@
         public Assembly AssemblyUnderTest
         {
             get { return _assemblyUnderTest; }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IFixture"/> used to create specimens.
+        /// </summary>
+        public IFixture Fixture
+        {
+            get { return _fixture; }
         }
 
         /// <summary>
@@ -119,13 +130,22 @@
         /// <returns>The data for the methods to test.</returns>
         public IEnumerable<MethodData> GetData()
         {
-            _filters.Discover();
-
             return
                 from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
                 from method in GetMethodsInType(type, BindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
+        }
+
+        /// <summary>
+        /// Discovers the list of filters using reflection.
+        /// </summary>
+        /// <returns>The list of filters.</returns>
+        private static IList<IFilter> DiscoverFilters()
+        {
+            var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
+            discoverableCollection.Discover();
+            return discoverableCollection.Items;
         }
 
         /// <summary>
