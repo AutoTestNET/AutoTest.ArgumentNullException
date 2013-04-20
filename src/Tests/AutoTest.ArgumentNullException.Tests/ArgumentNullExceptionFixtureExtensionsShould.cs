@@ -38,7 +38,7 @@
             BindingFlags mask)
         {
             // Arrange.
-            var sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
+            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
 
             // Get the original value which should be preserved.
             BindingFlags original = sut.BindingFlags;
@@ -58,7 +58,7 @@
             BindingFlags mask)
         {
             // Arrange.
-            var sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
+            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
 
             // Get the original value which should be preserved with the exception of the cleared values.
             BindingFlags original = sut.BindingFlags;

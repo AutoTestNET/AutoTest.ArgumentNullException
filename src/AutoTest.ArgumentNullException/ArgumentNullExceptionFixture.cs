@@ -12,7 +12,7 @@
     /// <summary>
     /// A custom fixture to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
     /// </summary>
-    public class ArgumentNullExceptionFixture
+    public class ArgumentNullExceptionFixture : IArgumentNullExceptionFixture
     {
         /// <summary>
         /// The Default value for the <see cref="BindingFlags"/>.

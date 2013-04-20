@@ -55,6 +55,7 @@
     <Compile Include="FilterBase.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
+    <Compile Include="IArgumentNullExceptionFixture.cs" />
     <Compile Include="IExecutionSetup.cs" />
     <Compile Include="IFilter.cs" />
     <Compile Include="IParameterFilter.cs" />

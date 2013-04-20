@@ -15,7 +15,7 @@
         /// <summary>
         /// The fixture.
         /// </summary>
-        private readonly ArgumentNullExceptionFixture _fixture;
+        private readonly IArgumentNullExceptionFixture _fixture;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
@@ -31,7 +31,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         protected RequiresArgumentNullExceptionAttribute(
-            ArgumentNullExceptionFixture fixture)
+            IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");

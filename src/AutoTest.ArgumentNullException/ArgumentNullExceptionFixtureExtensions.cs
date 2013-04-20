@@ -14,7 +14,7 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static ArgumentNullExceptionFixture ClearBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
+        public static IArgumentNullExceptionFixture ClearBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -30,7 +30,7 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static ArgumentNullExceptionFixture SetBindingFlags(this ArgumentNullExceptionFixture fixture, BindingFlags mask)
+        public static IArgumentNullExceptionFixture SetBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");

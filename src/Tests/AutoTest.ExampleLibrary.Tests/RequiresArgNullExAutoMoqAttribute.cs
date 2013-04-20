@@ -25,7 +25,7 @@
             return assemblyUnderTest.Assembly;
         }
 
-        private static ArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
+        private static IArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
         {
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
