@@ -4,6 +4,7 @@
     using System.Diagnostics;
     using System.Reflection;
     using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Execution;
 
     /// <summary>
     /// The data representing a single instance of a <see cref="ArgumentNullException"/> use case test.
