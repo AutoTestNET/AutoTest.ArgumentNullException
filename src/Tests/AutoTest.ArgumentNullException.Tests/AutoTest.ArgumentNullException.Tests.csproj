@@ -68,13 +68,13 @@
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
-    <Compile Include="MethodFilter\NotCompilerGeneratedShould.cs" />
+    <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />
     <Compile Include="TestNullArguments.cs" />
-    <Compile Include="TypeFilter\ExcludeTypes.cs" />
-    <Compile Include="TypeFilter\IsClassOrStructShould.cs" />
+    <Compile Include="Filter\ExcludeTypes.cs" />
+    <Compile Include="Filter\IsClassOrStructShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
