@@ -75,7 +75,6 @@
     <Compile Include="TestNullArguments.cs" />
     <Compile Include="TypeFilter\ExcludeTypes.cs" />
     <Compile Include="TypeFilter\IsClassOrStructShould.cs" />
-    <Compile Include="TypeFilter\NotCompilerGeneratedShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

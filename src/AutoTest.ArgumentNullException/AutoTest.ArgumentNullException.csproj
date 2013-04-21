@@ -70,7 +70,6 @@
     <Compile Include="NullExtensions.cs" />
     <Compile Include="TypeFilter\IsClassOrStruct.cs" />
     <Compile Include="ITypeFilter.cs" />
-    <Compile Include="TypeFilter\NotCompilerGenerated.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

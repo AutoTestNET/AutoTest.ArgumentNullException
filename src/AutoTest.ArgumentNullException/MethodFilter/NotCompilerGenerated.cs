@@ -6,8 +6,20 @@
     /// <summary>
     /// Filters out methods that are compiler generated.
     /// </summary>
-    public class NotCompilerGenerated : FilterBase, IMethodFilter
+    public class NotCompilerGenerated : FilterBase, ITypeFilter, IMethodFilter
     {
+        /// <summary>
+        /// Filters out types that are compiler generated.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns><c>true</c> if the type should be included, otherwise <c>false</c>.</returns>
+        bool ITypeFilter.IncludeType(Type type)
+        {
+            if (type == null) throw new ArgumentNullException("type");
+
+            return !type.IsCompilerGenerated();
+        }
+
         /// <summary>
         /// Filters out methods that are compiler generated.
         /// </summary>
