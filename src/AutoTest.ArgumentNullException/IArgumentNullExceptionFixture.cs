@@ -15,6 +15,11 @@
         BindingFlags BindingFlags { get; set; }
 
         /// <summary>
+        /// Gets the list of filters.
+        /// </summary>
+        List<IFilter> Filters { get; }
+
+        /// <summary>
         /// Returns the data for the methods to test.
         /// </summary>
         /// <returns>The data for the methods to test.</returns>

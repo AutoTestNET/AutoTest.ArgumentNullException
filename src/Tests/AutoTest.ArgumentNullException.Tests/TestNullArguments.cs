@@ -7,15 +7,15 @@
     public class TestNullArguments
     {
         [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(MethodData))]
-        public Task TestAllNullArguments(MethodData methodData)
+        public Task TestAllNullArguments(MethodData method)
         {
-            return methodData.Execute();
+            return method.Execute();
         }
 
         [Theory, RequiresArgumentNullExceptionAutoMoq(typeof(MethodDataExtensions))]
-        public Task TestAllNullArgumentsXunit(MethodData methodData)
+        public Task TestAllNullArgumentsXunit(MethodData method)
         {
-            return methodData.Execute();
+            return method.Execute();
         }
     }
 }

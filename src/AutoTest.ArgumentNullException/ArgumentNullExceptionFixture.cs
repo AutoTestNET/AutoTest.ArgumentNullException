@@ -37,7 +37,7 @@
         /// <summary>
         /// The list of filters.
         /// </summary>
-        private readonly IList<IFilter> _filters;
+        private readonly List<IFilter> _filters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
@@ -64,7 +64,7 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="fixture">The fixture.</param>
         /// <param name="filters">The list of filters.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, IList<IFilter> filters)
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, List<IFilter> filters)
         {
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
@@ -94,6 +94,14 @@
         {
             get { return _fixture; }
         }
+
+        /// <summary>
+        /// Gets the list of filters.
+        /// </summary>
+        public List<IFilter> Filters
+        {
+            get { return _filters; }
+        } 
 
         /// <summary>
         /// Gets the list of <see cref="ITypeFilter"/> objects.
@@ -141,7 +149,7 @@
         /// Discovers the list of filters using reflection.
         /// </summary>
         /// <returns>The list of filters.</returns>
-        private static IList<IFilter> DiscoverFilters()
+        private static List<IFilter> DiscoverFilters()
         {
             var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
             discoverableCollection.Discover();

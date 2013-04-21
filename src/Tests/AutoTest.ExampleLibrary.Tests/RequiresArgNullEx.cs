@@ -8,9 +8,9 @@
     public class RequiresArgNullEx
     {
         [Theory, RequiresArgNullExAutoMoq(typeof(Class1))]
-        public Task TestAllNullArguments(MethodData methodData)
+        public Task TestAllNullArguments(MethodData method)
         {
-            return methodData.Execute();
+            return method.Execute();
         }
     }
 }
