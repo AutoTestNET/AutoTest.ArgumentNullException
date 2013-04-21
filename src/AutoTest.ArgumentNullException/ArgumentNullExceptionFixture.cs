@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using AutoTest.ArgNullEx.Execution;
+    using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Framework;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Kernel;

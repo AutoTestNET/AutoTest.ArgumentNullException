@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgNullEx
+﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
 

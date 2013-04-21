@@ -1,11 +1,10 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using AutoTest.ArgNullEx.TypeFilter;
+    using AutoTest.ArgNullEx.Filter;
     using Moq;
     using global::Xunit;
     using global::Xunit.Extensions;

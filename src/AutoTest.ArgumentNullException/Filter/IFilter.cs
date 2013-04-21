@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgNullEx
+﻿namespace AutoTest.ArgNullEx.Filter
 {
     /// <summary>
     /// The base for all filters.

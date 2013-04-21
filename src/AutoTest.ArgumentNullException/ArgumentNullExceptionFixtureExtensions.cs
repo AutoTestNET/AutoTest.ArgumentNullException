@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoTest.ArgNullEx.Filter;
 
     /// <summary>
     /// Extension methods on <see cref="ArgumentNullExceptionFixture"/>.

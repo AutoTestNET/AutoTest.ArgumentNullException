@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ArgNullEx.TypeFilter
+﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
     using System.Collections.Generic;
@@ -7,7 +7,7 @@
 
     public class ExcludeTypes : FilterBase, ITypeFilter
     {
-        public static ISet<Type> TypesToExclude = new HashSet<Type>
+        private static readonly ISet<Type> TypesToExclude = new HashSet<Type>
             {
                 typeof(ReflectionDiscoverableCollection<>),
                 typeof(TaskHelpers),

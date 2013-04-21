@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using AutoTest.ArgNullEx.Filter;
 
     /// <summary>
     /// A custom fixture to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
