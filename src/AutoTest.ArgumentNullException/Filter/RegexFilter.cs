@@ -17,15 +17,11 @@
         private readonly List<RegexRule> _rules = new List<RegexRule>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegexFilter" /> class.
+        /// Gets the list of rules.
         /// </summary>
-        /// <param name="rules">The initial rules.</param>
-        public RegexFilter(IEnumerable<RegexRule> rules)
+        public List<RegexRule> Rules
         {
-            if (rules == null)
-                throw new ArgumentNullException("rules");
-
-            _rules = rules.ToList();
+            get { return _rules; }
         }
 
         /// <summary>

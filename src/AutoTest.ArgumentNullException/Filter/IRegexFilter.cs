@@ -1,5 +1,6 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
+    using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -7,5 +8,9 @@
     /// </summary>
     public interface IRegexFilter
     {
+        /// <summary>
+        /// Gets the list of rules.
+        /// </summary>
+        List<RegexRule> Rules { get; }
     }
 }

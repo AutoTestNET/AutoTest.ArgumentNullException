@@ -75,7 +75,8 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
-            var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
+            var sut = new RegexFilter();
+            sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
             List<RegexRule> actualRules = sut.TypeRules.ToList();
 
@@ -89,7 +90,8 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
-            var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
+            var sut = new RegexFilter();
+            sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
             List<RegexRule> actualRules = sut.MethodRules.ToList();
 
@@ -103,7 +105,8 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
-            var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
+            var sut = new RegexFilter();
+            sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
             List<RegexRule> actualRules = sut.ParameterRules.ToList();
 
