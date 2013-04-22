@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -12,20 +13,20 @@
     public class RegexFilter : FilterBase, ITypeFilter, IMethodFilter, IParameterFilter, IRegexFilter
     {
         /// <summary>
-        /// The list of filters.
+        /// The list of rules.
         /// </summary>
-        private readonly List<RegexRule> _filters = new List<RegexRule>();
+        private readonly List<RegexRule> _rules = new List<RegexRule>();
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules that are to be applies to all filters.
+        /// Initializes a new instance of the <see cref="RegexFilter" /> class.
         /// </summary>
-        public IEnumerable<RegexRule> GlobalRules
+        /// <param name="rules">The initial rules.</param>
+        public RegexFilter(IEnumerable<RegexRule> rules)
         {
-            get
-            {
-                return _filters.Where(r => (r.Type == null && r.Method == null && r.Parameter == null)
-                                           || (r.Type != null && r.Method != null && r.Parameter != null));
-            }
+            if (rules == null)
+                throw new ArgumentNullException("rules");
+
+            _rules = rules.ToList();
         }
 
         /// <summary>
@@ -35,8 +36,7 @@
         {
             get
             {
-                return _filters.Where(r => r.Type != null && r.Method == null && r.Parameter == null)
-                               .Union(GlobalRules);
+                return _rules.Where(r => r.Type != null && r.Method == null && r.Parameter == null);
             }
         }
 
@@ -47,8 +47,7 @@
         {
             get
             {
-                return _filters.Where(r => r.Type != null && r.Method != null && r.Parameter == null)
-                               .Union(GlobalRules);
+                return _rules.Where(r => r.Method != null && r.Parameter == null);
             }
         }
 
@@ -59,7 +58,7 @@
         {
             get
             {
-                return _filters.Except(TypeRules.Union(MethodRules)).Union(GlobalRules);
+                return _rules.Except(TypeRules.Union(MethodRules));
             }
         }
 
@@ -108,22 +107,33 @@
         /// <summary>
         /// The <see cref="Regex"/>s to match on a filter.
         /// </summary>
+        [DebuggerDisplay("{DebuggerDisplay,nq}")]
         public class RegexRule
         {
             /// <summary>
             /// Initializes a new instance of the <see cref="RegexRule" /> class.
             /// </summary>
+            /// <param name="name">The name of the rule.</param>
             /// <param name="match">The flag indicating whether this is a match or not match rule.</param>
             /// <param name="type">The <see cref="Regex"/> to match on the type.</param>
             /// <param name="method">The <see cref="Regex"/> to match on the method.</param>
             /// <param name="parameter">The <see cref="Regex"/> to match on the parameter.</param>
-            public RegexRule(bool match, Regex type = null, Regex method = null, Regex parameter = null)
+            public RegexRule(string name, bool match, Regex type = null, Regex method = null, Regex parameter = null)
             {
+                if (string.IsNullOrWhiteSpace(name))
+                    throw new ArgumentNullException("name");
+
+                Name = name;
                 Match = match;
                 Type = type;
                 Method = method;
                 Parameter = parameter;
             }
+
+            /// <summary>
+            /// Gets the name of the rule.
+            /// </summary>
+            public string Name { get; private set; }
 
             /// <summary>
             /// Gets a value indicating whether this is a match or not match (miss) rule.
@@ -144,6 +154,16 @@
             /// Gets the <see cref="Regex"/> to match on the parameter.
             /// </summary>
             public Regex Parameter { get; private set; }
+
+            /// <summary>
+            /// Gets the text to display within the debugger.
+            /// </summary>
+// ReSharper disable UnusedMember.Local
+            private string DebuggerDisplay
+            {
+                get { return "RegexRule: " + Name; }
+            }
+// ReSharper restore UnusedMember.Local
         }
     }
 }

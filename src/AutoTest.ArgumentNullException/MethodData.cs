@@ -82,7 +82,7 @@
         public int NullIndex { get; private set; }
 
         /// <summary>
-        /// Gets the test to display within the debugger.
+        /// Gets the text to display within the debugger.
         /// </summary>
 // ReSharper disable UnusedMember.Local
         private string DebuggerDisplay
