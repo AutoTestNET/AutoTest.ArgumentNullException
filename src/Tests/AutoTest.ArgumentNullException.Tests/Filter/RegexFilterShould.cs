@@ -8,45 +8,45 @@
 
     public class RegexFilterShould
     {
-        private static List<RegexFilter.RegexRule> TypeRules
+        private static List<RegexRule> TypeRules
         {
             get
             {
-                return new List<RegexFilter.RegexRule>
+                return new List<RegexRule>
                     {
-                        new RegexFilter.RegexRule("Type rule 1", match: true, type: new Regex(".*")),
-                        new RegexFilter.RegexRule("Type rule 2", match: false, type: new Regex(".*")),
-                        new RegexFilter.RegexRule("Type rule 3", match: true, type: new Regex(".*")),
+                        new RegexRule("Type rule 1", match: true, type: new Regex(".*")),
+                        new RegexRule("Type rule 2", match: false, type: new Regex(".*")),
+                        new RegexRule("Type rule 3", match: true, type: new Regex(".*")),
                     };
             }
         }
 
-        private static List<RegexFilter.RegexRule> MethodRules
+        private static List<RegexRule> MethodRules
         {
             get
             {
-                return new List<RegexFilter.RegexRule>
+                return new List<RegexRule>
                     {
-                        new RegexFilter.RegexRule("Method rule 1", match: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexFilter.RegexRule("Method rule 2", match: false, method: new Regex(".*")),
-                        new RegexFilter.RegexRule("Method rule 3", match: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexFilter.RegexRule("Method rule 4", match: false, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexFilter.RegexRule("Method rule 5", match: true, method: new Regex(".*")),
-                        new RegexFilter.RegexRule("Method rule 6", match: false, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 1", match: true, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 2", match: false, method: new Regex(".*")),
+                        new RegexRule("Method rule 3", match: true, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 4", match: false, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 5", match: true, method: new Regex(".*")),
+                        new RegexRule("Method rule 6", match: false, type: new Regex(".*"), method: new Regex(".*")),
                     };
             }
         }
 
-        private static List<RegexFilter.RegexRule> ParameterRules
+        private static List<RegexRule> ParameterRules
         {
             get
             {
-                return new List<RegexFilter.RegexRule>
+                return new List<RegexRule>
                     {
-                        new RegexFilter.RegexRule("Parameter rule 1", match: true, parameter: new Regex(".*")),
-                        new RegexFilter.RegexRule("Parameter rule 2", match: false, type: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexFilter.RegexRule("Parameter rule 3", match: true, method: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexFilter.RegexRule("Parameter rule 4", match: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 1", match: true, parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 2", match: false, type: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 3", match: true, method: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 4", match: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
                     };
             }
         }
@@ -58,7 +58,7 @@
             {
                 return new[]
                     {
-                        new object[] {TypeRules, MethodRules, ParameterRules},
+                        new object[] {TypeRules, MethodRules, ParameterRules}
                     };
             }
         }
@@ -71,13 +71,13 @@
 
         [Theory, PropertyData("AllRuleTypes")]
         public void ReturnTypeRules(
-            List<RegexFilter.RegexRule> typeRules,
-            List<RegexFilter.RegexRule> methodRules,
-            List<RegexFilter.RegexRule> parameterRules)
+            List<RegexRule> typeRules,
+            List<RegexRule> methodRules,
+            List<RegexRule> parameterRules)
         {
             var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
 
-            List<RegexFilter.RegexRule> actualRules = sut.TypeRules.ToList();
+            List<RegexRule> actualRules = sut.TypeRules.ToList();
 
             Assert.Equal(typeRules.Count, actualRules.Count);
             Assert.False(typeRules.Except(actualRules).Any());
@@ -85,13 +85,13 @@
 
         [Theory, PropertyData("AllRuleTypes")]
         public void ReturnMethodRules(
-            List<RegexFilter.RegexRule> typeRules,
-            List<RegexFilter.RegexRule> methodRules,
-            List<RegexFilter.RegexRule> parameterRules)
+            List<RegexRule> typeRules,
+            List<RegexRule> methodRules,
+            List<RegexRule> parameterRules)
         {
             var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
 
-            List<RegexFilter.RegexRule> actualRules = sut.MethodRules.ToList();
+            List<RegexRule> actualRules = sut.MethodRules.ToList();
 
             Assert.Equal(methodRules.Count, actualRules.Count);
             Assert.False(methodRules.Except(actualRules).Any());
@@ -99,13 +99,13 @@
 
         [Theory, PropertyData("AllRuleTypes")]
         public void ReturnParameterRules(
-            List<RegexFilter.RegexRule> typeRules,
-            List<RegexFilter.RegexRule> methodRules,
-            List<RegexFilter.RegexRule> parameterRules)
+            List<RegexRule> typeRules,
+            List<RegexRule> methodRules,
+            List<RegexRule> parameterRules)
         {
             var sut = new RegexFilter(parameterRules.Concat(methodRules).Concat(typeRules));
 
-            List<RegexFilter.RegexRule> actualRules = sut.ParameterRules.ToList();
+            List<RegexRule> actualRules = sut.ParameterRules.ToList();
 
             Assert.Equal(parameterRules.Count, actualRules.Count);
             Assert.False(parameterRules.Except(actualRules).Any());
