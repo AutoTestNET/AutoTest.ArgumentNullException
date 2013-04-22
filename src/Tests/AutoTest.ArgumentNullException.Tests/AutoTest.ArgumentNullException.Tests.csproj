@@ -67,6 +67,7 @@
     <Compile Include="ArgumentNullExceptionFixtureShould.cs" />
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
+    <Compile Include="Filter\RegexFilterShould.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
