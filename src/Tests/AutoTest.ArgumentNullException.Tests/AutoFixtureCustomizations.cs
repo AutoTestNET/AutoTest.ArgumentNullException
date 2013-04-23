@@ -13,7 +13,7 @@
         void ICustomization.Customize(IFixture fixture)
         {
             fixture.Customize<MethodBase>(
-                composer => composer.FromFactory(new TypeRelay(typeof (MethodBase), typeof (MethodInfo))));
+                composer => composer.FromFactory(new TypeRelay(typeof(MethodBase), typeof(MethodInfo))));
         }
     }
 

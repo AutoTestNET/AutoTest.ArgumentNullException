@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using Moq;
     using global::Xunit;
     using global::Xunit.Extensions;
 
@@ -55,7 +56,52 @@
         #region MatchMethod
 
         [Theory, AutoMock]
-        public void ThrowIfNoTypeRuleForMethodMatch(Type type, MethodInfo method)
+        public void IgnoreTypeRegexIfNull(Type type, Mock<MethodBase> methodMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule(methodMock.Object.Name + " hit rule", method: new Regex(methodMock.Object.Name));
+
+            // Act
+            bool actual = rule.MatchMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ApplyTypeRegexIfProvided(Type type, Mock<MethodBase> methodMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule(
+                methodMock.Object.Name + " hit rule",
+                type: new Regex(Guid.NewGuid().ToString()),
+                method: new Regex(methodMock.Object.Name));
+
+            // Act
+            bool actual = rule.MatchMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void NotMatchAMethod(Type type, Mock<MethodBase> methodMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns(Guid.NewGuid().ToString());
+            var rule = new RegexRule("Miss rule", method: new Regex("Miss"));
+
+            // Act
+            bool actual = rule.MatchMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoTypeRuleForMethodMatch(Type type, MethodBase method)
         {
             // Arrange
             var rule = new RegexRule("Throw rule");
