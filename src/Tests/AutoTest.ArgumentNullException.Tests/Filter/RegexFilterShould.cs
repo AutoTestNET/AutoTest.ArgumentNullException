@@ -14,9 +14,9 @@
             {
                 return new List<RegexRule>
                     {
-                        new RegexRule("Type rule 1", match: true, type: new Regex(".*")),
-                        new RegexRule("Type rule 2", match: false, type: new Regex(".*")),
-                        new RegexRule("Type rule 3", match: true, type: new Regex(".*")),
+                        new RegexRule("Type rule 1", include: true, type: new Regex(".*")),
+                        new RegexRule("Type rule 2", include: false, type: new Regex(".*")),
+                        new RegexRule("Type rule 3", include: true, type: new Regex(".*")),
                     };
             }
         }
@@ -27,12 +27,12 @@
             {
                 return new List<RegexRule>
                     {
-                        new RegexRule("Method rule 1", match: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 2", match: false, method: new Regex(".*")),
-                        new RegexRule("Method rule 3", match: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 4", match: false, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 5", match: true, method: new Regex(".*")),
-                        new RegexRule("Method rule 6", match: false, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 1", include: true, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 2", include: false, method: new Regex(".*")),
+                        new RegexRule("Method rule 3", include: true, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 4", include: false, type: new Regex(".*"), method: new Regex(".*")),
+                        new RegexRule("Method rule 5", include: true, method: new Regex(".*")),
+                        new RegexRule("Method rule 6", include: false, type: new Regex(".*"), method: new Regex(".*")),
                     };
             }
         }
@@ -43,10 +43,10 @@
             {
                 return new List<RegexRule>
                     {
-                        new RegexRule("Parameter rule 1", match: true, parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 2", match: false, type: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 3", match: true, method: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 4", match: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 1", include: true, parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 2", include: false, type: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 3", include: true, method: new Regex(".*"), parameter: new Regex(".*")),
+                        new RegexRule("Parameter rule 4", include: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
                     };
             }
         }

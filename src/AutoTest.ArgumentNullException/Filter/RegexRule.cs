@@ -5,7 +5,7 @@
     using System.Text.RegularExpressions;
 
     /// <summary>
-    /// The <see cref="Regex"/>s to match on a filter.
+    /// The <see cref="Regex"/>s to Include on a filter.
     /// </summary>
     [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class RegexRule
@@ -14,17 +14,17 @@
         /// Initializes a new instance of the <see cref="RegexRule" /> class.
         /// </summary>
         /// <param name="name">The name of the rule.</param>
-        /// <param name="match">A value indicating whether this is a match or not match (miss) rule.</param>
-        /// <param name="type">The <see cref="Regex"/> to match on the type.</param>
-        /// <param name="method">The <see cref="Regex"/> to match on the method.</param>
-        /// <param name="parameter">The <see cref="Regex"/> to match on the parameter.</param>
-        public RegexRule(string name, bool match, Regex type = null, Regex method = null, Regex parameter = null)
+        /// <param name="include">A value indicating whether this is a include or exclude rule.</param>
+        /// <param name="type">The <see cref="Regex"/> to include or exclude the type.</param>
+        /// <param name="method">The <see cref="Regex"/> to include or exclude the method.</param>
+        /// <param name="parameter">The <see cref="Regex"/> to include or exclude the parameter.</param>
+        public RegexRule(string name, bool include = false, Regex type = null, Regex method = null, Regex parameter = null)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException("name");
 
             Name = name;
-            Match = match;
+            Include = include;
             Type = type;
             Method = method;
             Parameter = parameter;
@@ -36,22 +36,22 @@
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether this is a match or not match (miss) rule.
+        /// Gets a value indicating whether this is a include or exclude rule.
         /// </summary>
-        public bool Match { get; private set; }
+        public bool Include { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="Regex"/> to match on the type.
+        /// Gets the <see cref="Regex"/> to include or exclude the type.
         /// </summary>
         public Regex Type { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="Regex"/> to match on the method.
+        /// Gets the <see cref="Regex"/> to include or exclude the method.
         /// </summary>
         public Regex Method { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="Regex"/> to match on the parameter.
+        /// Gets the <see cref="Regex"/> to include or exclude the parameter.
         /// </summary>
         public Regex Parameter { get; private set; }
 

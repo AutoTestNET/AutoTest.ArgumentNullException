@@ -11,8 +11,8 @@
         {
             // Arrange
             var rule = new RegexRule(
-                typeof(RegexRuleExtensionsShould).Name + " match rule",
-                match: false,
+                typeof(RegexRuleExtensionsShould).Name + " hit rule",
+                include: true,
                 type: new Regex(@".+\." + typeof(RegexRuleExtensionsShould).Name));
 
             // Act
@@ -26,7 +26,7 @@
         public void NotMatchAType()
         {
             // Arrange
-            var rule = new RegexRule("Miss rule", match: false, type: new Regex("Miss"));
+            var rule = new RegexRule("Miss rule", type: new Regex("Miss"));
 
             // Act
             bool actual = rule.MatchType(typeof(RegexRuleExtensionsShould));
@@ -39,7 +39,7 @@
         public void ThrowIfNoTypeRuleForTypeMatch()
         {
             // Arrange
-            var rule = new RegexRule("Throw rule", match: false);
+            var rule = new RegexRule("Throw rule");
 
             // Act/Assert
             string paramName = Assert.Throws<ArgumentException>(() => rule.MatchType(typeof (RegexRuleExtensionsShould))).ParamName;
