@@ -66,6 +66,18 @@
         {
             if (type == null) throw new ArgumentNullException("type");
 
+            // If the type matches any of the "match" rules, this it should be included.
+            if (TypeRules.Where(r => r.Match).Any(typeRule => typeRule.MatchType(type)))
+            {
+                return true;
+            }
+
+            // If the type matches any of the exclude rules, then is should be excluded.
+            if (TypeRules.Where(r => !r.Match).Any(typeRule => typeRule.MatchType(type)))
+            {
+                return false;
+            }
+
             return true;
         }
 
