@@ -8,6 +8,8 @@
 
     public class RegexFilterShould
     {
+        #region Rule types
+
         private static List<RegexRule> TypeRules
         {
             get
@@ -113,5 +115,57 @@
             Assert.Equal(parameterRules.Count, actualRules.Count);
             Assert.False(parameterRules.Except(actualRules).Any());
         }
+
+        #endregion Rule types
+
+        #region ITypeFilter
+
+        [Theory, AutoMock]
+        public void ExcudeType(
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeType(GetType());
+
+            // Act
+            bool actual = ((ITypeFilter) sut).IncludeType(GetType());
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void EnsureIncludeTypeTakesPrecedenceOverExcudeType(
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeType(GetType())
+               .IncludeType(GetType());
+
+            // Act
+            bool actual = ((ITypeFilter)sut).IncludeType(GetType());
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Theory, AutoMock]
+        public void IncludeTypeWhenNoTypeRules(RegexFilter sut)
+        {
+            // Arrange
+            Assert.Empty(sut.Rules);
+
+            // Act
+            bool actual = ((ITypeFilter)sut).IncludeType(GetType());
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        #endregion ITypeFilter
     }
 }

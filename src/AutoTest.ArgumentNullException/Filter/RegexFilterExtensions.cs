@@ -44,7 +44,9 @@
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            filter.Rules.Add(new RegexRule("Exclude " + type.Name, include: include, type: new Regex(@"\A" + type.FullName + @"\z")));
+            var name = string.Concat(include ? "Include " : "Exclude ", type.Name);
+
+            filter.Rules.Add(new RegexRule(name, include: include, type: new Regex(@"\A" + type.FullName + @"\z")));
 
             return filter;
         }
