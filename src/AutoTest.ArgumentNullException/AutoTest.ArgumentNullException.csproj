@@ -56,6 +56,7 @@
     <Compile Include="Filter\IRegexFilter.cs" />
     <Compile Include="Filter\RegexFilter.cs" />
     <Compile Include="Filter\RegexRule.cs" />
+    <Compile Include="Filter\RegexRuleExtensions.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
     <Compile Include="IArgumentNullExceptionFixture.cs" />
