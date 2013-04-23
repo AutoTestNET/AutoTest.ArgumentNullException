@@ -64,7 +64,8 @@
         /// <returns><c>true</c> if the type should be included, otherwise <c>false</c>.</returns>
         bool ITypeFilter.IncludeType(Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
+            if (type == null)
+                throw new ArgumentNullException("type");
 
             // If the type matches any of the include rules, this it should be included.
             if (TypeRules.Where(r => r.Include).Any(typeRule => typeRule.MatchType(type)))
@@ -89,8 +90,10 @@
         /// <returns><c>true</c> if the <paramref name="method"/> should be included, otherwise <c>false</c>.</returns>
         bool IMethodFilter.IncludeMethod(Type type, MethodBase method)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (method == null)
+                throw new ArgumentNullException("method");
 
             return true;
         }
@@ -104,9 +107,12 @@
         /// <returns><c>true</c> if the <paramref name="parameter"/> should be included, otherwise <c>false</c>.</returns>
         bool IParameterFilter.IncludeParameter(Type type, MethodBase method, ParameterInfo parameter)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (method == null) throw new ArgumentNullException("method");
-            if (parameter == null) throw new ArgumentNullException("parameter");
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (method == null)
+                throw new ArgumentNullException("method");
+            if (parameter == null)
+                throw new ArgumentNullException("parameter");
 
             return true;
         }

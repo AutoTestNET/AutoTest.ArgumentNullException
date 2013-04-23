@@ -124,12 +124,32 @@
         }
 
         /// <summary>
+        /// Includes the <paramref name="type"/> for checks for <see cref="ArgumentNullException"/>. Overrides any type rules that may exclude the <paramref name="type"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="type">The type to exclude.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, Type type)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (type == null)
+                throw new ArgumentNullException("type");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.IncludeType(type);
+
+            return fixture;
+        }
+
+        /// <summary>
         /// Gets the single <see cref="IRegexFilter"/> from the <see cref="IArgumentNullExceptionFixture.Filters"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The single <see cref="IRegexFilter"/> from the <see cref="IArgumentNullExceptionFixture.Filters"/>.</returns>
         /// <exception cref="InvalidOperationException">There are zero of more than one <see cref="IRegexFilter"/> objects in the <see cref="IArgumentNullExceptionFixture.Filters"/>.</exception>
-        public static IRegexFilter GetRegexFilter(this IArgumentNullExceptionFixture fixture)
+        private static IRegexFilter GetRegexFilter(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
