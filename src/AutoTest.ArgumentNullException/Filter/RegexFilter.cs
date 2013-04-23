@@ -36,6 +36,22 @@
         }
 
         /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for types.
+        /// </summary>
+        public IEnumerable<RegexRule> IncludeTypeRules
+        {
+            get { return TypeRules.Where(r => r.Include); }
+        }
+
+        /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for types.
+        /// </summary>
+        public IEnumerable<RegexRule> ExcludeTypeRules
+        {
+            get { return TypeRules.Where(r => !r.Include); }
+        }
+
+        /// <summary>
         /// Gets all the <see cref="Regex"/> rules for methods.
         /// </summary>
         public IEnumerable<RegexRule> MethodRules
@@ -67,19 +83,10 @@
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            // If the type matches any of the include rules, this it should be included.
-            if (TypeRules.Where(r => r.Include).Any(typeRule => typeRule.MatchType(type)))
-            {
-                return true;
-            }
-
-            // If the type matches any of the exclude rules, then is should be excluded.
-            if (TypeRules.Where(r => !r.Include).Any(typeRule => typeRule.MatchType(type)))
-            {
-                return false;
-            }
-
-            return true;
+            // Include the type if it matches any of the include rules
+            // or if it matches none on the exclude rules.
+            return IncludeTypeRules.Any(r => r.MatchType(type))
+                   || ExcludeTypeRules.All(r => !r.MatchType(type));
         }
 
         /// <summary>
