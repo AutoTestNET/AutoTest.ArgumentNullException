@@ -187,5 +187,62 @@
             Assert.Equal(originalFilters.Length, filters.Count);
             Assert.False(originalFilters.Except(filters).Any());
         }
+
+        [Theory, AutoMock]
+        public void ExcludeAType(
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            RegexRule[] existingRules = regexRules.ToArray();
+
+            // Act
+            IArgumentNullExceptionFixture actual =
+                fixtureMock.Object
+                           .ExcludeType(GetType());
+
+            // Asserts
+            Assert.Same(fixtureMock.Object, actual);
+            Assert.Equal(existingRules.Length + 1, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+            RegexRule addedRule = regexRules.Except(existingRules).Single();
+            Assert.False(addedRule.Include);
+            Assert.NotNull(addedRule.Type);
+            Assert.Null(addedRule.Method);
+            Assert.Null(addedRule.Parameter);
+            Assert.True(addedRule.MatchType(GetType()));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoIRegexFilterWhenExcludingAType(
+            List<IFilter> filters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeType(GetType()));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfMultipleIRegexFiltersWhenExcludingAType(
+            List<IFilter> filters,
+            List<IRegexFilter> regexFilters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            filters.AddRange(regexFilters);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeType(GetType()));
+        }
     }
 }

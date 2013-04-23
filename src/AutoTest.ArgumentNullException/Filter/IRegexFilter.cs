@@ -6,7 +6,7 @@
     /// <summary>
     /// A filter to include or exclude using <see cref="Regex"/> matching.
     /// </summary>
-    public interface IRegexFilter
+    public interface IRegexFilter : IFilter
     {
         /// <summary>
         /// Gets the list of rules.
