@@ -77,13 +77,22 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
+            // Arrange
             var sut = new RegexFilter();
             sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
-            List<RegexRule> actualRules = sut.TypeRules.ToList();
+            // Act
+            List<RegexRule> actualTypeRules = sut.TypeRules.ToList();
+            List<RegexRule> actualIncludeTypeRules = sut.IncludeTypeRules.ToList();
+            List<RegexRule> actualExcludeTypeRules = sut.ExcludeTypeRules.ToList();
 
-            Assert.Equal(typeRules.Count, actualRules.Count);
-            Assert.False(typeRules.Except(actualRules).Any());
+            // Assert
+            Assert.Equal(typeRules.Count, actualTypeRules.Count);
+            Assert.Equal(typeRules.Count(r => r.Include), actualIncludeTypeRules.Count);
+            Assert.Equal(typeRules.Count(r => !r.Include), actualExcludeTypeRules.Count);
+            Assert.False(typeRules.Except(actualTypeRules).Any());
+            Assert.False(typeRules.Where(r => r.Include).Except(actualIncludeTypeRules).Any());
+            Assert.False(typeRules.Where(r => !r.Include).Except(actualExcludeTypeRules).Any());
         }
 
         [Theory, PropertyData("AllRuleTypes")]
@@ -92,11 +101,14 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
+            // Arrange
             var sut = new RegexFilter();
             sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
+            // Act
             List<RegexRule> actualRules = sut.MethodRules.ToList();
 
+            // Assert
             Assert.Equal(methodRules.Count, actualRules.Count);
             Assert.False(methodRules.Except(actualRules).Any());
         }
@@ -107,11 +119,14 @@
             List<RegexRule> methodRules,
             List<RegexRule> parameterRules)
         {
+            // Arrange
             var sut = new RegexFilter();
             sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
+            // Act
             List<RegexRule> actualRules = sut.ParameterRules.ToList();
 
+            // Assert
             Assert.Equal(parameterRules.Count, actualRules.Count);
             Assert.False(parameterRules.Except(actualRules).Any());
         }
