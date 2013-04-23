@@ -1,49 +1,70 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
+    using System.Reflection;
     using System.Text.RegularExpressions;
     using global::Xunit;
+    using global::Xunit.Extensions;
 
     public class RegexRuleExtensionsShould
     {
-        [Fact]
-        public void MatchAType()
+        #region MatchType
+
+        [Theory, AutoMock]
+        public void MatchAType(Type type)
         {
             // Arrange
             var rule = new RegexRule(
-                typeof(RegexRuleExtensionsShould).Name + " hit rule",
+                type.Name + " hit rule",
                 include: true,
-                type: new Regex(@".+\." + typeof(RegexRuleExtensionsShould).Name));
+                type: new Regex(@".+\." + type.Name));
 
             // Act
-            bool actual = rule.MatchType(typeof (RegexRuleExtensionsShould));
+            bool actual = rule.MatchType(type);
 
             // Assert
             Assert.True(actual);
         }
 
-        [Fact]
-        public void NotMatchAType()
+        [Theory, AutoMock]
+        public void NotMatchAType(Type type)
         {
             // Arrange
             var rule = new RegexRule("Miss rule", type: new Regex("Miss"));
 
             // Act
-            bool actual = rule.MatchType(typeof(RegexRuleExtensionsShould));
+            bool actual = rule.MatchType(type);
 
             // Assert
             Assert.False(actual);
         }
 
-        [Fact]
-        public void ThrowIfNoTypeRuleForTypeMatch()
+        [Theory, AutoMock]
+        public void ThrowIfNoTypeRuleForTypeMatch(Type type)
         {
             // Arrange
             var rule = new RegexRule("Throw rule");
 
             // Act/Assert
-            string paramName = Assert.Throws<ArgumentException>(() => rule.MatchType(typeof (RegexRuleExtensionsShould))).ParamName;
+            string paramName = Assert.Throws<ArgumentException>(() => rule.MatchType(type)).ParamName;
             Assert.Equal("rule", paramName);
         }
+
+        #endregion MatchType
+
+        #region MatchMethod
+
+        [Theory, AutoMock]
+        public void ThrowIfNoTypeRuleForMethodMatch(Type type, MethodInfo method)
+        {
+            // Arrange
+            var rule = new RegexRule("Throw rule");
+
+            // Act/Assert
+            string paramName = Assert.Throws<ArgumentException>(() => rule.MatchMethod(type, method)).ParamName;
+            Assert.Equal("rule", paramName);
+        }
+
+        #endregion MatchMethod
     }
 }
