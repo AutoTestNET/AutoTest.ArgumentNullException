@@ -2,6 +2,8 @@
 {
     using System;
     using System.Reflection;
+    using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Xunit;
     using Ploeh.AutoFixture;
 
@@ -30,7 +32,14 @@
                 new Fixture().Customize(new AutoFixtureCustomizations())
                              .Customize(new NullTestsCustomization());
 
-            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
+            return
+                new ArgumentNullExceptionFixture(assemblyUnderTest, fixture)
+                    .ExcludeType(typeof(ReflectionDiscoverableCollection<>))
+                    .ExcludeType(typeof(TaskHelpers))
+                    .ExcludeType(typeof(TaskHelpersExtensions))
+                    .ExcludeType(typeof(CatchInfoBase<>))
+                    .ExcludeType(typeof(CatchInfo))
+                    .ExcludeType(typeof(CatchInfo<>));
         }
     }
 }
