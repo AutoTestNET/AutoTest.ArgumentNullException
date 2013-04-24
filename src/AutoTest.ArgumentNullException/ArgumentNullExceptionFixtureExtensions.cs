@@ -144,6 +144,48 @@
         }
 
         /// <summary>
+        /// Excludes the <paramref name="methodName"/> from checks for <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <param name="type">The type to exclude.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeMethod(this IArgumentNullExceptionFixture fixture, string methodName, Type type = null)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (string.IsNullOrWhiteSpace(methodName))
+                throw new ArgumentNullException("methodName");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.ExcludeMethod(methodName, type);
+
+            return fixture;
+        }
+
+        /// <summary>
+        /// Includes the <paramref name="methodName"/> for checks for <see cref="ArgumentNullException"/>. Overrides any method rules that may exclude the <paramref name="methodName"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <param name="type">The type to exclude.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture IncludeMethod(this IArgumentNullExceptionFixture fixture, string methodName, Type type = null)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (string.IsNullOrWhiteSpace(methodName))
+                throw new ArgumentNullException("methodName");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.IncludeMethod(methodName, type);
+
+            return fixture;
+        }
+
+        /// <summary>
         /// Gets the single <see cref="IRegexFilter"/> from the <see cref="IArgumentNullExceptionFixture.Filters"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
