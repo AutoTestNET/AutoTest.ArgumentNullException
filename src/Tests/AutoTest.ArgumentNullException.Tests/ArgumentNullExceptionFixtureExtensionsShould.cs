@@ -538,7 +538,7 @@
         }
 
         [Theory, AutoMock]
-        public void ExcludeAParameterWithoutType(
+        public void ExcludeAParameterWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock,
             List<IFilter> filters,
             List<RegexRule> regexRules,
@@ -589,7 +589,7 @@
         }
 
         [Theory, AutoMock]
-        public void IncludeAParameterWithoutType(
+        public void IncludeAParameterWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock,
             List<IFilter> filters,
             List<RegexRule> regexRules,
