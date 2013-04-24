@@ -56,7 +56,7 @@
         #region MatchMethod
 
         [Theory, AutoMock]
-        public void IgnoreTypeRegexIfNull(Type type, Mock<MethodBase> methodMock)
+        public void IgnoreTypeRegexIfNullWhenMatchMethod(Type type, Mock<MethodBase> methodMock)
         {
             // Arrange
             methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
@@ -70,7 +70,7 @@
         }
 
         [Theory, AutoMock]
-        public void ApplyTypeRegexIfProvided(Type type, Mock<MethodBase> methodMock)
+        public void ApplyTypeRegexIfProvidedWhenMatchMethod(Type type, Mock<MethodBase> methodMock)
         {
             // Arrange
             methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
@@ -101,7 +101,7 @@
         }
 
         [Theory, AutoMock]
-        public void ThrowIfNoTypeRuleForMethodMatch(Type type, MethodBase method)
+        public void ThrowIfNoMethodRuleForMethodMatch(Type type, MethodBase method)
         {
             // Arrange
             var rule = new RegexRule("Throw rule");
