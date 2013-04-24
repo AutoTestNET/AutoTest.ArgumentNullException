@@ -153,6 +153,27 @@
         }
 
         [Theory, AutoMock]
+        public void ApplyMethodRegexIfProvidedWhenMatchParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+            methodMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule(
+                methodMock.Object.Name + " hit rule",
+                method: new Regex(Guid.NewGuid().ToString()),
+                parameter: new Regex(parameterMock.Object.Name));
+
+            // Act
+            bool actual = rule.MatchParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
         public void NotMatchAParameter(
             Type type,
             Mock<MethodBase> methodMock,
