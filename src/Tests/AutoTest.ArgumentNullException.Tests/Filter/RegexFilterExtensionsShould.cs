@@ -167,7 +167,7 @@
         }
 
         [Theory, AutoMock]
-        public void AddExcludeParameterRuleWithoutType(
+        public void AddExcludeParameterRuleWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
@@ -190,7 +190,7 @@
         }
 
         [Theory, AutoMock]
-        public void AddIncludeParameterRuleWithoutType(
+        public void AddIncludeParameterRuleWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
