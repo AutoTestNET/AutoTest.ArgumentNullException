@@ -466,5 +466,209 @@
         }
 
         #endregion Exclude/Incude Method
+
+        #region Exclude/Incude Parameter
+
+// ReSharper disable UnusedParameter.Local
+        private void AssertParameterRule(
+            Func<string, Type, string, IArgumentNullExceptionFixture> addMethod,
+            ParameterInfo parameter,
+            Type type,
+            MethodBase method,
+            IList<RegexRule> existingRules,
+            IList<RegexRule> regexRules,
+            bool expectedInclude)
+        {
+            IArgumentNullExceptionFixture actual = addMethod(parameter.Name, type, method == null ? null : method.Name);
+
+            Assert.Same(addMethod.Target, actual);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+            RegexRule addedRule = regexRules.Except(existingRules).Single();
+            Assert.Equal(expectedInclude, addedRule.Include);
+            Assert.NotNull(addedRule.Parameter);
+            Assert.True(addedRule.MatchParameter(type ?? GetType(), method ?? new Mock<MethodBase>().Object, parameter));
+
+            if (type == null)
+            {
+                Assert.Null(addedRule.Type);
+            }
+            else
+            {
+                Assert.NotNull(addedRule.Type);
+                Assert.True(addedRule.MatchType(type));
+            }
+
+            if (method == null)
+            {
+                Assert.Null(addedRule.Method);
+            }
+            else
+            {
+                Assert.NotNull(addedRule.Method);
+                Assert.True(addedRule.MatchMethod(type ?? GetType(), method));
+            }
+        }
+// ReSharper restore UnusedParameter.Local
+
+        [Theory, AutoMock]
+        public void ExcludeAParameterWithType(
+            Type type,
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.ExcludeParameter,
+                parameterMock.Object,
+                type,
+                null,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAParameterWithoutType(
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.ExcludeParameter,
+                parameterMock.Object,
+                null,
+                null,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void IncludeAParameterWithType(
+            Type type,
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.IncludeParameter,
+                parameterMock.Object,
+                type,
+                null,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: true);
+        }
+
+        [Theory, AutoMock]
+        public void IncludeAParameterWithoutType(
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.IncludeParameter,
+                parameterMock.Object,
+                null,
+                null,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: true);
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoIRegexFilterWhenExcludingAParameter(
+            string parameterName,
+            List<IFilter> filters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter(parameterName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfMultipleIRegexFiltersWhenExcludingAParameter(
+            string parameterName,
+            List<IFilter> filters,
+            List<IRegexFilter> regexFilters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            filters.AddRange(regexFilters);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter(parameterName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoIRegexFilterWhenIncludingAParameter(
+            string parameterName,
+            List<IFilter> filters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter(parameterName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfMultipleIRegexFiltersWhenIncludingAParameter(
+            string parameterName,
+            List<IFilter> filters,
+            List<IRegexFilter> regexFilters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            filters.AddRange(regexFilters);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter(parameterName));
+        }
+
+        #endregion Exclude/Incude Parameter
     }
 }
