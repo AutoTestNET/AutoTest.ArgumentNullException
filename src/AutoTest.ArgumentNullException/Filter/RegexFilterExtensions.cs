@@ -55,6 +55,32 @@
         }
 
         /// <summary>
+        /// Excludes the <paramref name="parameterName"/> from checks for <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        public static IRegexFilter ExcludeParameter(this IRegexFilter filter, string parameterName, Type type = null, string methodName = null)
+        {
+            return filter.AddParameterRule(parameterName, include: false, type: type, methodName: methodName);
+        }
+
+        /// <summary>
+        /// Includes the <paramref name="parameterName"/> for checks for <see cref="ArgumentNullException"/>. Overrides any parameter rules that may exclude the <paramref name="parameterName"/>.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        public static IRegexFilter IncludeParameter(this IRegexFilter filter, string parameterName, Type type = null, string methodName = null)
+        {
+            return filter.AddParameterRule(parameterName, include: true, type: type, methodName: methodName);
+        }
+
+        /// <summary>
         /// Returns the <see cref="Regex"/> that matches on the <paramref name="type"/> if <paramref name="type"/> is not <c>null</c>; otherwise <c>null</c>.
         /// </summary>
         /// <param name="type">The type.</param>
@@ -65,13 +91,13 @@
         }
 
         /// <summary>
-        /// Returns the <see cref="Regex"/> that matches on the <paramref name="methodName"/> if <paramref name="methodName"/> is not <c>null</c>; otherwise <c>null</c>.
+        /// Returns the <see cref="Regex"/> that matches on the <paramref name="name"/> if <paramref name="name"/> is not <c>null</c>; otherwise <c>null</c>.
         /// </summary>
-        /// <param name="methodName">The method name.</param>
-        /// <returns>The <see cref="Regex"/> that matches on the <paramref name="methodName"/> if <paramref name="methodName"/> is not <c>null</c>; otherwise <c>null</c>.</returns>
-        private static Regex GetMethodRegex(string methodName = null)
+        /// <param name="name">The method name.</param>
+        /// <returns>The <see cref="Regex"/> that matches on the <paramref name="name"/> if <paramref name="name"/> is not <c>null</c>; otherwise <c>null</c>.</returns>
+        private static Regex GetNameRegex(string name = null)
         {
-            return methodName == null ? null : new Regex(@"\A" + methodName + @"\z");
+            return name == null ? null : new Regex(@"\A" + name + @"\z");
         }
 
         /// <summary>
@@ -119,7 +145,35 @@
                                  name,
                                  include: include,
                                  type: GetTypeRegex(type),
-                                 method: GetMethodRegex(methodName)));
+                                 method: GetNameRegex(methodName)));
+
+            return filter;
+        }
+
+        /// <summary>
+        /// Adds the rule to include or exclude the <paramref name="methodName"/>.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <param name="parameterName">The parameter name</param>
+        /// <param name="include">A value indicating whether this is a include or exclude rule.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        private static IRegexFilter AddParameterRule(this IRegexFilter filter, string parameterName, bool include, Type type = null, string methodName = null)
+        {
+            if (filter == null)
+                throw new ArgumentNullException("filter");
+            if (string.IsNullOrWhiteSpace(parameterName))
+                throw new ArgumentNullException("parameterName");
+
+            var name = string.Concat(include ? "Include " : "Exclude ", parameterName);
+
+            filter.Rules.Add(new RegexRule(
+                                 name,
+                                 include: include,
+                                 type: GetTypeRegex(type),
+                                 method: GetNameRegex(methodName),
+                                 parameter: GetNameRegex(parameterName)));
 
             return filter;
         }

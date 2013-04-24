@@ -117,5 +117,89 @@
         }
 
         #endregion Exclude/Include Method
+
+        #region Exclude/Include Parameter
+
+// ReSharper disable UnusedParameter.Local
+        private void AssertParameterRule(Func<string, Type, string, IRegexFilter> addMethod, ParameterInfo parameter, Type type, MethodBase method, bool expectedInclude)
+        {
+            IRegexFilter actualFilter = addMethod(parameter.Name, type, method == null ? null : method.Name);
+
+            Assert.Same(addMethod.Target, actualFilter);
+            Assert.Equal(1, actualFilter.Rules.Count);
+            RegexRule addedRule = actualFilter.Rules.Single();
+            Assert.Equal(expectedInclude, addedRule.Include);
+            Assert.NotNull(addedRule.Parameter);
+            Assert.True(addedRule.MatchParameter(type ?? GetType(), method ?? new Mock<MethodBase>().Object, parameter));
+
+            if (type == null)
+            {
+                Assert.Null(addedRule.Type);
+            }
+            else
+            {
+                Assert.NotNull(addedRule.Type);
+                Assert.True(addedRule.MatchType(type));
+            }
+
+            if (method == null)
+            {
+                Assert.Null(addedRule.Method);
+            }
+            else
+            {
+                Assert.NotNull(addedRule.Method);
+                Assert.True(addedRule.MatchMethod(type ?? GetType(), method));
+            }
+        }
+// ReSharper restore UnusedParameter.Local
+
+        [Theory, AutoMock]
+        public void AddExcludeParameterRuleWithType(
+            Type type,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(new RegexFilter().ExcludeParameter, parameterMock.Object, type, method: null, expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void AddExcludeParameterRuleWithoutType(
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(new RegexFilter().ExcludeParameter, parameterMock.Object, type: null, method: null, expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void AddIncludeParameterRuleWithType(
+            Type type,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(new RegexFilter().IncludeParameter, parameterMock.Object, type, method: null, expectedInclude: true);
+        }
+
+        [Theory, AutoMock]
+        public void AddIncludeParameterRuleWithoutType(
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(new RegexFilter().IncludeParameter, parameterMock.Object, type: null, method: null, expectedInclude: true);
+        }
+
+        #endregion Exclude/Include Parameter
     }
 }
