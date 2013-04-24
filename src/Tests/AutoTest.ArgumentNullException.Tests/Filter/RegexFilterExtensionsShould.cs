@@ -227,6 +227,43 @@
         }
 
         [Theory, AutoMock]
+        public void AddIncludeParameterRuleWithMethod(
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(
+                new RegexFilter().IncludeParameter,
+                parameterMock.Object,
+                type: null,
+                method: methodMock.Object,
+                expectedInclude: true);
+        }
+
+        [Theory, AutoMock]
+        public void AddIncludeParameterRuleWithTypeAndMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(
+                new RegexFilter().IncludeParameter,
+                parameterMock.Object,
+                type: type,
+                method: methodMock.Object,
+                expectedInclude: true);
+        }
+
+        [Theory, AutoMock]
         public void AddIncludeParameterRuleWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock)
         {
