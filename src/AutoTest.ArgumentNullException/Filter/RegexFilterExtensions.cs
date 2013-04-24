@@ -51,7 +51,7 @@
         /// <returns>The <paramref name="filter"/>.</returns>
         public static IRegexFilter IncludeMethod(this IRegexFilter filter, string methodName, Type type = null)
         {
-            return filter.AddMethodRule(methodName, include: false, type: type);
+            return filter.AddMethodRule(methodName, include: true, type: type);
         }
 
         /// <summary>

@@ -102,7 +102,7 @@
             methodMock.SetupGet(m => m.Name).Returns("name" + Guid.NewGuid());
 
             // Act/Assert
-            AssertMethodRule(new RegexFilter().IncludeMethod, methodMock.Object, type, expectedInclude: false);
+            AssertMethodRule(new RegexFilter().IncludeMethod, methodMock.Object, type, expectedInclude: true);
         }
 
         [Theory, AutoMock]
@@ -113,7 +113,7 @@
             methodMock.SetupGet(m => m.Name).Returns("name" + Guid.NewGuid());
 
             // Act/Assert
-            AssertMethodRule(new RegexFilter().IncludeMethod, methodMock.Object, type: null, expectedInclude: false);
+            AssertMethodRule(new RegexFilter().IncludeMethod, methodMock.Object, type: null, expectedInclude: true);
         }
 
         #endregion Exclude/Include Method
