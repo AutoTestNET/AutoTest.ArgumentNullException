@@ -1,8 +1,11 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Text.RegularExpressions;
+    using Moq;
     using global::Xunit;
     using global::Xunit.Extensions;
 
@@ -176,6 +179,86 @@
 
             // Act
             bool actual = ((ITypeFilter)sut).IncludeType(GetType());
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        #endregion ITypeFilter
+
+        #region ITypeFilter
+
+        [Theory, AutoMock]
+        public void ExcudeMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            string methodName,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns(methodName);
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeMethod(methodName, type);
+
+            // Act
+            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ExcudeMethodWithNoType(
+            Type type,
+            Mock<MethodBase> methodMock,
+            string methodName,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns(methodName);
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeMethod(methodName);
+
+            // Act
+            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void EnsureIncludeMethodTakesPrecedenceOverExcudeMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            string methodName,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeMethod(methodName, type)
+               .IncludeMethod(methodName);
+
+            // Act
+            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Theory, AutoMock]
+        public void IncludeMethodWhenNoMethodRules(
+            Type type,
+            Mock<MethodBase> methodMock,
+            RegexFilter sut)
+        {
+            // Arrange
+            Assert.Empty(sut.Rules);
+
+            // Act
+            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
 
             // Assert
             Assert.True(actual);
