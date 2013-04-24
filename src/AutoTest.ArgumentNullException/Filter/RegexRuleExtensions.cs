@@ -73,12 +73,16 @@
                 throw new ArgumentException("The rule has a null Parameter regular expression.", "rule");
 
             // If there is a method regular expression it must match the method.
-            if (rule.Method != null && !rule.MatchMethod(type, method))
-                return false;
-
-            // If there is a type regular expression but no method it must match the type.
+            if (rule.Method != null)
+            {
+                if (!rule.MatchMethod(type, method))
+                    return false;
+            }
             else if (rule.Type != null && !rule.MatchType(type))
+            {
+                // If there is a type regular expression but no method it must match the type.
                 return false;
+            }
 
             return rule.Parameter.IsMatch(parameter.Name);
         }
