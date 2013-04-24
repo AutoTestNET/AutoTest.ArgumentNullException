@@ -538,6 +538,61 @@
         }
 
         [Theory, AutoMock]
+        public void ExcludeAParameterWithMethod(
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.ExcludeParameter,
+                parameterMock.Object,
+                null,
+                methodMock.Object,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAParameterWithTypeAndMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            AssertParameterRule(
+                fixtureMock.Object.ExcludeParameter,
+                parameterMock.Object,
+                type,
+                methodMock.Object,
+                regexRules.ToArray(),
+                regexRules,
+                expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
         public void ExcludeAParameterWithoutTypeOrMethod(
             Mock<ParameterInfo> parameterMock,
             List<IFilter> filters,
