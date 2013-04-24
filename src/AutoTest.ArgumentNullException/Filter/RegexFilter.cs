@@ -90,6 +90,22 @@
         }
 
         /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for Parameters.
+        /// </summary>
+        public IEnumerable<RegexRule> IncludeParameterRules
+        {
+            get { return ParameterRules.Where(r => r.Include); }
+        }
+
+        /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for Parameters.
+        /// </summary>
+        public IEnumerable<RegexRule> ExcludeParameterRules
+        {
+            get { return ParameterRules.Where(r => !r.Include); }
+        }
+
+        /// <summary>
         /// Filters out types based on the <see cref="Regex"/> rules.
         /// </summary>
         /// <param name="type">The type.</param>

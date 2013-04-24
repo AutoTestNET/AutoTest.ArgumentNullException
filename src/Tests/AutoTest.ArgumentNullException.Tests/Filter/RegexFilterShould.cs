@@ -133,11 +133,17 @@
             sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
             // Act
-            List<RegexRule> actualRules = sut.ParameterRules.ToList();
+            List<RegexRule> actualParameterRules = sut.ParameterRules.ToList();
+            List<RegexRule> actualIncludeParameterRules = sut.IncludeParameterRules.ToList();
+            List<RegexRule> actualExcludeParameterRules = sut.ExcludeParameterRules.ToList();
 
             // Assert
-            Assert.Equal(parameterRules.Count, actualRules.Count);
-            Assert.False(parameterRules.Except(actualRules).Any());
+            Assert.Equal(parameterRules.Count, actualParameterRules.Count);
+            Assert.Equal(parameterRules.Count(r => r.Include), actualIncludeParameterRules.Count);
+            Assert.Equal(parameterRules.Count(r => !r.Include), actualExcludeParameterRules.Count);
+            Assert.False(parameterRules.Except(actualParameterRules).Any());
+            Assert.False(parameterRules.Where(r => r.Include).Except(actualIncludeParameterRules).Any());
+            Assert.False(parameterRules.Where(r => !r.Include).Except(actualExcludeParameterRules).Any());
         }
 
         #endregion Rule types
