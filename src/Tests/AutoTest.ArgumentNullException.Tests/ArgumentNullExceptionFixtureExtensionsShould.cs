@@ -300,5 +300,65 @@
         }
 
         #endregion Exclude/Incude Type
+
+        #region Exclude/Incude Method
+
+        [Theory, AutoMock]
+        public void ThrowIfNoIRegexFilterWhenExcludingAMethod(
+            string methodName,
+            List<IFilter> filters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod(methodName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfMultipleIRegexFiltersWhenExcludingAMethod(
+            string methodName,
+            List<IFilter> filters,
+            List<IRegexFilter> regexFilters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            filters.AddRange(regexFilters);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod(methodName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoIRegexFilterWhenIncludingAMethod(
+            string methodName,
+            List<IFilter> filters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod(methodName));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfMultipleIRegexFiltersWhenIncludingAMethod(
+            string methodName,
+            List<IFilter> filters,
+            List<IRegexFilter> regexFilters,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            filters.AddRange(regexFilters);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+
+            // Act/Assert
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod(methodName));
+        }
+
+        #endregion Exclude/Incude Method
     }
 }
