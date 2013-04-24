@@ -278,5 +278,89 @@
         }
 
         #endregion IMethodFilter
+
+        #region IParameterFilter
+
+        [Theory, AutoMock]
+        public void ExcudeParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeParameter(parameterMock.Object.Name, type, methodMock.Object.Name);
+
+            // Act
+            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ExcudeParameterWithNoTypeNoMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeParameter(parameterMock.Object.Name);
+
+            // Act
+            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void EnsureIncludeParameterTakesPrecedenceOverExcudeParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            IEnumerable<RegexRule> otherRules,
+            RegexFilter sut)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            sut.Rules.AddRange(otherRules);
+            sut.ExcludeParameter(parameterMock.Object.Name, type, methodMock.Object.Name)
+               .IncludeParameter(parameterMock.Object.Name);
+
+            // Act
+            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Theory, AutoMock]
+        public void IncludeParameterWhenNoParameterRules(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock,
+            RegexFilter sut)
+        {
+            // Arrange
+            Assert.Empty(sut.Rules);
+
+            // Act
+            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        #endregion IParameterFilter
     }
 }

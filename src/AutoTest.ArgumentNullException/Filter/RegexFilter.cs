@@ -156,7 +156,10 @@
             if (parameter == null)
                 throw new ArgumentNullException("parameter");
 
-            return true;
+            // Include the parameter if it matches any of the include rules
+            // or if it matches none on the exclude rules.
+            return IncludeParameterRules.Any(r => r.MatchParameter(type, method, parameter))
+                   || ExcludeParameterRules.All(r => !r.MatchParameter(type, method, parameter));
         }
     }
 }
