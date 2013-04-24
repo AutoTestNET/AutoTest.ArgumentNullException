@@ -109,11 +109,17 @@
             sut.Rules.AddRange(parameterRules.Concat(methodRules).Concat(typeRules));
 
             // Act
-            List<RegexRule> actualRules = sut.MethodRules.ToList();
+            List<RegexRule> actualMethodRules = sut.MethodRules.ToList();
+            List<RegexRule> actualIncludeMethodRules = sut.IncludeMethodRules.ToList();
+            List<RegexRule> actualExcludeMethodRules = sut.ExcludeMethodRules.ToList();
 
             // Assert
-            Assert.Equal(methodRules.Count, actualRules.Count);
-            Assert.False(methodRules.Except(actualRules).Any());
+            Assert.Equal(methodRules.Count, actualMethodRules.Count);
+            Assert.Equal(methodRules.Count(r => r.Include), actualIncludeMethodRules.Count);
+            Assert.Equal(methodRules.Count(r => !r.Include), actualExcludeMethodRules.Count);
+            Assert.False(methodRules.Except(actualMethodRules).Any());
+            Assert.False(methodRules.Where(r => r.Include).Except(actualIncludeMethodRules).Any());
+            Assert.False(methodRules.Where(r => !r.Include).Except(actualExcludeMethodRules).Any());
         }
 
         [Theory, PropertyData("AllRuleTypes")]
@@ -186,7 +192,7 @@
 
         #endregion ITypeFilter
 
-        #region ITypeFilter
+        #region IMethodFilter
 
         [Theory, AutoMock]
         public void ExcudeMethod(
@@ -237,6 +243,7 @@
             RegexFilter sut)
         {
             // Arrange
+            methodMock.SetupGet(m => m.Name).Returns(methodName);
             sut.Rules.AddRange(otherRules);
             sut.ExcludeMethod(methodName, type)
                .IncludeMethod(methodName);
@@ -264,6 +271,6 @@
             Assert.True(actual);
         }
 
-        #endregion ITypeFilter
+        #endregion IMethodFilter
     }
 }

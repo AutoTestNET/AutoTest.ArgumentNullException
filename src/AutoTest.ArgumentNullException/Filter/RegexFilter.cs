@@ -63,13 +63,29 @@
         }
 
         /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for Methods.
+        /// </summary>
+        public IEnumerable<RegexRule> IncludeMethodRules
+        {
+            get { return MethodRules.Where(r => r.Include); }
+        }
+
+        /// <summary>
+        /// Gets all the <see cref="Regex"/> rules for Methods.
+        /// </summary>
+        public IEnumerable<RegexRule> ExcludeMethodRules
+        {
+            get { return MethodRules.Where(r => !r.Include); }
+        }
+
+        /// <summary>
         /// Gets all the <see cref="Regex"/> rules for parameter.
         /// </summary>
         public IEnumerable<RegexRule> ParameterRules
         {
             get
             {
-                return _rules.Except(TypeRules.Union(MethodRules));
+                return _rules.Except(TypeRules.Concat(MethodRules));
             }
         }
 
@@ -102,7 +118,10 @@
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            return true;
+            // Include the method if it matches any of the include rules
+            // or if it matches none on the exclude rules.
+            return IncludeMethodRules.Any(r => r.MatchMethod(type, method))
+                   || ExcludeMethodRules.All(r => !r.MatchMethod(type, method));
         }
 
         /// <summary>
