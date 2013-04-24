@@ -39,7 +39,8 @@
                     .ExcludeType(typeof(TaskHelpersExtensions))
                     .ExcludeType(typeof(CatchInfoBase<>))
                     .ExcludeType(typeof(CatchInfo))
-                    .ExcludeType(typeof(CatchInfo<>));
+                    .ExcludeType(typeof(CatchInfo<>))
+                    .ExcludeParameter("instanceUnderTest", typeof(MethodData), ".ctor");
         }
     }
 }
