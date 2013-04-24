@@ -160,10 +160,47 @@
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
-            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
 
             // Act/Assert
             AssertParameterRule(new RegexFilter().ExcludeParameter, parameterMock.Object, type, method: null, expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void AddExcludeParameterRuleWithMethod(
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(
+                new RegexFilter().ExcludeParameter,
+                parameterMock.Object,
+                type: null,
+                method: methodMock.Object,
+                expectedInclude: false);
+        }
+
+        [Theory, AutoMock]
+        public void AddExcludeParameterRuleWithTypeAndMethod(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+
+            // Act/Assert
+            AssertParameterRule(
+                new RegexFilter().ExcludeParameter,
+                parameterMock.Object,
+                type: type,
+                method: methodMock.Object,
+                expectedInclude: false);
         }
 
         [Theory, AutoMock]
@@ -171,7 +208,7 @@
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
-            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
 
             // Act/Assert
             AssertParameterRule(new RegexFilter().ExcludeParameter, parameterMock.Object, type: null, method: null, expectedInclude: false);
@@ -183,7 +220,7 @@
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
-            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
 
             // Act/Assert
             AssertParameterRule(new RegexFilter().IncludeParameter, parameterMock.Object, type, method: null, expectedInclude: true);
@@ -194,7 +231,7 @@
             Mock<ParameterInfo> parameterMock)
         {
             // Arrange
-            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
 
             // Act/Assert
             AssertParameterRule(new RegexFilter().IncludeParameter, parameterMock.Object, type: null, method: null, expectedInclude: true);
