@@ -90,7 +90,7 @@
         public void NotMatchAMethod(Type type, Mock<MethodBase> methodMock)
         {
             // Arrange
-            methodMock.SetupGet(m => m.Name).Returns(Guid.NewGuid().ToString());
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
             var rule = new RegexRule("Miss rule", method: new Regex("Miss"));
 
             // Act
@@ -101,7 +101,7 @@
         }
 
         [Theory, AutoMock]
-        public void ThrowIfNoMethodRuleForMethodMatch(Type type, MethodBase method)
+        public void ThrowIfNoMethodRuleForMatchMethod(Type type, MethodBase method)
         {
             // Arrange
             var rule = new RegexRule("Throw rule");
@@ -112,5 +112,77 @@
         }
 
         #endregion MatchMethod
+
+        #region MatchParameter
+
+        [Theory, AutoMock]
+        public void IgnoreTypeAndMethodRegexIfNullWhenMatchParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule(parameterMock.Object.Name + " hit rule", parameter: new Regex(parameterMock.Object.Name));
+
+            // Act
+            bool actual = rule.MatchParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.True(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ApplyTypeRegexIfProvidedWhenMatchParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(p => p.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule(
+                methodMock.Object.Name + " hit rule",
+                type: new Regex(Guid.NewGuid().ToString()),
+                parameter: new Regex(parameterMock.Object.Name));
+
+            // Act
+            bool actual = rule.MatchParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void NotMatchAParameter(
+            Type type,
+            Mock<MethodBase> methodMock,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            parameterMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
+            var rule = new RegexRule("Miss rule", parameter: new Regex("Miss"));
+
+            // Act
+            bool actual = rule.MatchParameter(type, methodMock.Object, parameterMock.Object);
+
+            // Assert
+            Assert.False(actual);
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNoParameterRuleForMatchParameter(
+            Type type,
+            MethodBase method,
+            Mock<ParameterInfo> parameterMock)
+        {
+            // Arrange
+            var rule = new RegexRule("Throw rule");
+
+            // Act/Assert
+            string paramName = Assert.Throws<ArgumentException>(() => rule.MatchParameter(type, method, parameterMock.Object)).ParamName;
+            Assert.Equal("rule", paramName);
+        }
+
+        #endregion MatchParameter
     }
 }
