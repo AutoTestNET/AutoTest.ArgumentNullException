@@ -67,7 +67,6 @@
     <Compile Include="MethodData.cs" />
     <Compile Include="Filter\IMethodFilter.cs" />
     <Compile Include="Filter\NotCompilerGenerated.cs" />
-    <Compile Include="Filter\HasNullableParameters.cs" />
     <Compile Include="Filter\NotNullableParametersDefaultedToNull.cs" />
     <Compile Include="Filter\IsNullable.cs" />
     <Compile Include="Filter\NotNullDefault.cs" />
