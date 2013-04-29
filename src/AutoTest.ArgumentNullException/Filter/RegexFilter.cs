@@ -146,8 +146,8 @@
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
         /// <param name="parameter">The parameter.</param>
-        /// <returns><c>true</c> if the <paramref name="parameter"/> should be included, otherwise <c>false</c>.</returns>
-        bool IParameterFilter.IncludeParameter(Type type, MethodBase method, ParameterInfo parameter)
+        /// <returns><c>true</c> if the <paramref name="parameter"/> should be excluded, otherwise <c>false</c>.</returns>
+        bool IParameterFilter.ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -158,8 +158,8 @@
 
             // Include the parameter if it matches any of the include rules
             // or if it matches none on the exclude rules.
-            return IncludeParameterRules.Any(r => r.MatchParameter(type, method, parameter))
-                   || ExcludeParameterRules.All(r => !r.MatchParameter(type, method, parameter));
+            return !IncludeParameterRules.Any(r => r.MatchParameter(type, method, parameter))
+                   && ExcludeParameterRules.Any(r => r.MatchParameter(type, method, parameter));
         }
     }
 }

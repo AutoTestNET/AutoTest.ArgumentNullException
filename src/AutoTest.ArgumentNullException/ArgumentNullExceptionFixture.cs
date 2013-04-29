@@ -257,7 +257,7 @@
         /// <param name="parameter">The parameter.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
-        private static bool IncludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
+        private static bool ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -268,8 +268,8 @@
             if (filter == null)
                 throw new ArgumentNullException("filter");
 
-            bool includeParameter = filter.IncludeParameter(type, method, parameter);
-            if (!includeParameter)
+            bool excludeParameter = filter.ExcludeParameter(type, method, parameter);
+            if (excludeParameter)
             {
                 System.Diagnostics.Trace.TraceInformation(
                     "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
@@ -279,7 +279,7 @@
                     filter.Name);
             }
 
-            return includeParameter;
+            return excludeParameter;
         }
 
         /// <summary>
@@ -303,7 +303,7 @@
                 ParameterInfo parameterInfo = parameterInfos[parameterIndex];
 
                 // Run the filters against the parameter.
-                if (ParameterFilters.Any(filter => !IncludeParameter(type, method, parameterInfo, filter)))
+                if (ParameterFilters.Any(filter => ExcludeParameter(type, method, parameterInfo, filter)))
                     continue;
 
                 try

@@ -296,10 +296,10 @@
             sut.ExcludeParameter(parameterMock.Object.Name, type, methodMock.Object.Name);
 
             // Act
-            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+            bool actual = ((IParameterFilter)sut).ExcludeParameter(type, methodMock.Object, parameterMock.Object);
 
             // Assert
-            Assert.False(actual);
+            Assert.True(actual);
         }
 
         [Theory, AutoMock]
@@ -316,10 +316,10 @@
             sut.ExcludeParameter(parameterMock.Object.Name);
 
             // Act
-            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+            bool actual = ((IParameterFilter)sut).ExcludeParameter(type, methodMock.Object, parameterMock.Object);
 
             // Assert
-            Assert.False(actual);
+            Assert.True(actual);
         }
 
         [Theory, AutoMock]
@@ -338,10 +338,10 @@
                .IncludeParameter(parameterMock.Object.Name);
 
             // Act
-            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+            bool actual = ((IParameterFilter)sut).ExcludeParameter(type, methodMock.Object, parameterMock.Object);
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         [Theory, AutoMock]
@@ -355,10 +355,10 @@
             Assert.Empty(sut.Rules);
 
             // Act
-            bool actual = ((IParameterFilter)sut).IncludeParameter(type, methodMock.Object, parameterMock.Object);
+            bool actual = ((IParameterFilter)sut).ExcludeParameter(type, methodMock.Object, parameterMock.Object);
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         #endregion IParameterFilter
