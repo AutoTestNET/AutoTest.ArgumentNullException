@@ -162,16 +162,16 @@
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
-        /// <returns>The result of <see cref="ITypeFilter.IncludeType"/>.</returns>
-        private static bool IncludeType(Type type, ITypeFilter filter)
+        /// <returns>The result of <see cref="ITypeFilter.ExcludeType"/>.</returns>
+        private static bool ExcludeType(Type type, ITypeFilter filter)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
             if (filter == null)
                 throw new ArgumentNullException("filter");
 
-            bool includeType = filter.IncludeType(type);
-            if (!includeType)
+            bool excludeType = filter.ExcludeType(type);
+            if (excludeType)
             {
                 System.Diagnostics.Trace.TraceInformation(
                     "The type '{0}' was excluded by the filter '{1}'.",
@@ -179,7 +179,7 @@
                     filter.Name);
             }
 
-            return includeType;
+            return excludeType;
         }
 
         /// <summary>
@@ -197,7 +197,7 @@
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(type => IncludeType(type, filter))).ToArray();
+                (current, filter) => current.Where(type => !ExcludeType(type, filter))).ToArray();
         }
 
         /// <summary>

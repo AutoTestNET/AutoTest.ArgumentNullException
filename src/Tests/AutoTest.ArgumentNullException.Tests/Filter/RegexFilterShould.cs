@@ -160,14 +160,14 @@
             sut.ExcludeType(GetType());
 
             // Act
-            bool actual = ((ITypeFilter) sut).IncludeType(GetType());
+            bool actual = ((ITypeFilter) sut).ExcludeType(GetType());
 
             // Assert
-            Assert.False(actual);
+            Assert.True(actual);
         }
 
         [Theory, AutoMock]
-        public void EnsureIncludeTypeTakesPrecedenceOverExcudeType(
+        public void EnsureIncludeTypeRuleTakesPrecedenceOverExcudeTypeRule(
             IEnumerable<RegexRule> otherRules,
             RegexFilter sut)
         {
@@ -177,10 +177,10 @@
                .IncludeType(GetType());
 
             // Act
-            bool actual = ((ITypeFilter)sut).IncludeType(GetType());
+            bool actual = ((ITypeFilter)sut).ExcludeType(GetType());
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         [Theory, AutoMock]
@@ -190,10 +190,10 @@
             Assert.Empty(sut.Rules);
 
             // Act
-            bool actual = ((ITypeFilter)sut).IncludeType(GetType());
+            bool actual = ((ITypeFilter)sut).ExcludeType(GetType());
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         #endregion ITypeFilter

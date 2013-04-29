@@ -109,16 +109,16 @@
         /// Filters out types based on the <see cref="Regex"/> rules.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns><c>true</c> if the type should be included, otherwise <c>false</c>.</returns>
-        bool ITypeFilter.IncludeType(Type type)
+        /// <returns><c>true</c> if the <paramref name="type"/> should be excluded, otherwise <c>false</c>.</returns>
+        bool ITypeFilter.ExcludeType(Type type)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
 
             // Include the type if it matches any of the include rules
             // or if it matches none on the exclude rules.
-            return IncludeTypeRules.Any(r => r.MatchType(type))
-                   || ExcludeTypeRules.All(r => !r.MatchType(type));
+            return !IncludeTypeRules.Any(r => r.MatchType(type))
+                   && ExcludeTypeRules.Any(r => r.MatchType(type));
         }
 
         /// <summary>

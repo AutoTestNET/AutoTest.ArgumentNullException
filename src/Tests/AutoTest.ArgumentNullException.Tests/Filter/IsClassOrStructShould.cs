@@ -13,20 +13,20 @@
         }
 
         [Theory]
-        [InlineData(typeof(int), true)]
-        [InlineData(typeof(DateTime), true)]
-        [InlineData(typeof(int?), true)]
-        [InlineData(typeof(DateTime?), true)]
-        [InlineData(typeof(string), true)]
-        [InlineData(typeof(object), true)]
-        [InlineData(typeof(UriFormat), false)]
-        [InlineData(typeof(UriComponents), false)]
+        [InlineData(typeof(int), false)]
+        [InlineData(typeof(DateTime), false)]
+        [InlineData(typeof(int?), false)]
+        [InlineData(typeof(DateTime?), false)]
+        [InlineData(typeof(string), false)]
+        [InlineData(typeof(object), false)]
+        [InlineData(typeof(UriFormat), true)]
+        [InlineData(typeof(UriComponents), true)]
         public void IncludeOnlyClassesAndStructs(Type type, bool expected)
         {
             ITypeFilter sut = new IsClassOrStruct();
 
             // Act
-            bool actual = sut.IncludeType(type);
+            bool actual = sut.ExcludeType(type);
 
             // Assert
             Assert.Equal(expected, actual);

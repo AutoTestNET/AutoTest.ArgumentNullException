@@ -14,18 +14,18 @@
         }
 
         [Theory]
-        [InlineData(typeof(NullExtensionsShould.OuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg), true)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), false)]
         public void ExcludeCompilerGeneratedTypes(Type type, bool expected)
         {
             ITypeFilter sut = new NotCompilerGenerated();
 
             // Act
-            bool actual = sut.IncludeType(type);
+            bool actual = sut.ExcludeType(type);
 
             // Assert
             Assert.Equal(expected, actual);

@@ -12,12 +12,12 @@
         /// Filters out types that are compiler generated.
         /// </summary>
         /// <param name="type">The type.</param>
-        /// <returns><c>true</c> if the type should be included, otherwise <c>false</c>.</returns>
-        bool ITypeFilter.IncludeType(Type type)
+        /// <returns><c>true</c> if the <paramref name="type"/> should be excluded, otherwise <c>false</c>.</returns>
+        bool ITypeFilter.ExcludeType(Type type)
         {
             if (type == null) throw new ArgumentNullException("type");
 
-            return !type.IsCompilerGenerated();
+            return type.IsCompilerGenerated();
         }
 
         /// <summary>
