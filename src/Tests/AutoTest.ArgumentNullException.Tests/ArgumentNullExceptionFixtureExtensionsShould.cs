@@ -411,7 +411,6 @@
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenExcludingAMethod(
-            string methodName,
             List<IFilter> filters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
@@ -419,12 +418,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod(methodName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod("methodName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfMultipleIRegexFiltersWhenExcludingAMethod(
-            string methodName,
             List<IFilter> filters,
             List<IRegexFilter> regexFilters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
@@ -434,12 +432,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod(methodName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeMethod("methodName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenIncludingAMethod(
-            string methodName,
             List<IFilter> filters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
@@ -447,12 +444,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod(methodName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod("methodName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfMultipleIRegexFiltersWhenIncludingAMethod(
-            string methodName,
             List<IFilter> filters,
             List<IRegexFilter> regexFilters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
@@ -462,7 +458,7 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod(methodName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod("methodName" + Guid.NewGuid()));
         }
 
         #endregion Exclude/Incude Method
@@ -725,7 +721,6 @@
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenExcludingAParameter(
-            string parameterName,
             List<IFilter> filters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
@@ -733,12 +728,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter(parameterName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter("parameterName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfMultipleIRegexFiltersWhenExcludingAParameter(
-            string parameterName,
             List<IFilter> filters,
             List<IRegexFilter> regexFilters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
@@ -748,12 +742,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter(parameterName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.ExcludeParameter("parameterName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenIncludingAParameter(
-            string parameterName,
             List<IFilter> filters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
@@ -761,12 +754,11 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter(parameterName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter("parameterName" + Guid.NewGuid()));
         }
 
         [Theory, AutoMock]
         public void ThrowIfMultipleIRegexFiltersWhenIncludingAParameter(
-            string parameterName,
             List<IFilter> filters,
             List<IRegexFilter> regexFilters,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
@@ -776,7 +768,7 @@
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
 
             // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter(parameterName));
+            Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter("parameterName" + Guid.NewGuid()));
         }
 
         #endregion Exclude/Incude Parameter
