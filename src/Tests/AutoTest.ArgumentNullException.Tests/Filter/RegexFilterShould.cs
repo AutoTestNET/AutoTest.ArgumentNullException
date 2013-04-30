@@ -204,61 +204,58 @@
         public void ExcudeMethod(
             Type type,
             Mock<MethodBase> methodMock,
-            string methodName,
             IEnumerable<RegexRule> otherRules,
             RegexFilter sut)
         {
             // Arrange
-            methodMock.SetupGet(m => m.Name).Returns(methodName);
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
             sut.Rules.AddRange(otherRules);
-            sut.ExcludeMethod(methodName, type);
+            sut.ExcludeMethod(methodMock.Object.Name, type);
 
             // Act
-            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+            bool actual = ((IMethodFilter)sut).ExcludeMethod(type, methodMock.Object);
 
             // Assert
-            Assert.False(actual);
+            Assert.True(actual);
         }
 
         [Theory, AutoMock]
         public void ExcudeMethodWithNoType(
             Type type,
             Mock<MethodBase> methodMock,
-            string methodName,
             IEnumerable<RegexRule> otherRules,
             RegexFilter sut)
         {
             // Arrange
-            methodMock.SetupGet(m => m.Name).Returns(methodName);
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
             sut.Rules.AddRange(otherRules);
-            sut.ExcludeMethod(methodName);
+            sut.ExcludeMethod(methodMock.Object.Name);
 
             // Act
-            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+            bool actual = ((IMethodFilter)sut).ExcludeMethod(type, methodMock.Object);
 
             // Assert
-            Assert.False(actual);
+            Assert.True(actual);
         }
 
         [Theory, AutoMock]
         public void EnsureIncludeMethodTakesPrecedenceOverExcudeMethod(
             Type type,
             Mock<MethodBase> methodMock,
-            string methodName,
             IEnumerable<RegexRule> otherRules,
             RegexFilter sut)
         {
             // Arrange
-            methodMock.SetupGet(m => m.Name).Returns(methodName);
+            methodMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
             sut.Rules.AddRange(otherRules);
-            sut.ExcludeMethod(methodName, type)
-               .IncludeMethod(methodName);
+            sut.ExcludeMethod(methodMock.Object.Name, type)
+               .IncludeMethod(methodMock.Object.Name);
 
             // Act
-            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+            bool actual = ((IMethodFilter)sut).ExcludeMethod(type, methodMock.Object);
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         [Theory, AutoMock]
@@ -271,10 +268,10 @@
             Assert.Empty(sut.Rules);
 
             // Act
-            bool actual = ((IMethodFilter)sut).IncludeMethod(type, methodMock.Object);
+            bool actual = ((IMethodFilter)sut).ExcludeMethod(type, methodMock.Object);
 
             // Assert
-            Assert.True(actual);
+            Assert.False(actual);
         }
 
         #endregion IMethodFilter

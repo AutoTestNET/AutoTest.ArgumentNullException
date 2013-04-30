@@ -206,8 +206,8 @@
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
-        /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
-        private static bool IncludeMethod(Type type, MethodBase method, IMethodFilter filter)
+        /// <returns>The result of <see cref="IMethodFilter.ExcludeMethod"/>.</returns>
+        private static bool ExcludeMethod(Type type, MethodBase method, IMethodFilter filter)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -216,8 +216,8 @@
             if (filter == null)
                 throw new ArgumentNullException("filter");
 
-            bool includeMethod = filter.IncludeMethod(type, method);
-            if (!includeMethod)
+            bool excludeMethod = filter.ExcludeMethod(type, method);
+            if (excludeMethod)
             {
                 System.Diagnostics.Trace.TraceInformation(
                     "The method '{0}.{1}' was excluded by the filter '{2}'.",
@@ -226,7 +226,7 @@
                     filter.Name);
             }
 
-            return includeMethod;
+            return excludeMethod;
         }
 
         /// <summary>
@@ -246,7 +246,7 @@
             return filters.Aggregate(
                 type.GetMethods(bindingAttr).Cast<MethodBase>()
                 .Union(type.GetConstructors(bindingAttr)),
-                (current, filter) => current.Where(method => IncludeMethod(type, method, filter))).ToArray();
+                (current, filter) => current.Where(method => !ExcludeMethod(type, method, filter))).ToArray();
         }
 
         /// <summary>
@@ -256,7 +256,7 @@
         /// <param name="method">The method.</param>
         /// <param name="parameter">The parameter.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
-        /// <returns>The result of <see cref="IMethodFilter.IncludeMethod"/>.</returns>
+        /// <returns>The result of <see cref="IMethodFilter.ExcludeMethod"/>.</returns>
         private static bool ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
         {
             if (type == null)

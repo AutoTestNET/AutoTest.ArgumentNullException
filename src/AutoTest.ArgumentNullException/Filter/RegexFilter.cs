@@ -126,8 +126,8 @@
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
-        /// <returns><c>true</c> if the <paramref name="method"/> should be included, otherwise <c>false</c>.</returns>
-        bool IMethodFilter.IncludeMethod(Type type, MethodBase method)
+        /// <returns><c>true</c> if the <paramref name="method"/> should be excluded, otherwise <c>false</c>.</returns>
+        bool IMethodFilter.ExcludeMethod(Type type, MethodBase method)
         {
             if (type == null)
                 throw new ArgumentNullException("type");
@@ -136,8 +136,8 @@
 
             // Include the method if it matches any of the include rules
             // or if it matches none on the exclude rules.
-            return IncludeMethodRules.Any(r => r.MatchMethod(type, method))
-                   || ExcludeMethodRules.All(r => !r.MatchMethod(type, method));
+            return !IncludeMethodRules.Any(r => r.MatchMethod(type, method))
+                   && ExcludeMethodRules.Any(r => r.MatchMethod(type, method));
         }
 
         /// <summary>

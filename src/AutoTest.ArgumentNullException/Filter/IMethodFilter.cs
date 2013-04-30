@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
-        /// <returns><c>true</c> if the <paramref name="method"/> should be included, otherwise <c>false</c>.</returns>
-        bool IncludeMethod(Type type, MethodBase method);
+        /// <returns><c>true</c> if the <paramref name="method"/> should be excluded, otherwise <c>false</c>.</returns>
+        bool ExcludeMethod(Type type, MethodBase method);
     }
 }

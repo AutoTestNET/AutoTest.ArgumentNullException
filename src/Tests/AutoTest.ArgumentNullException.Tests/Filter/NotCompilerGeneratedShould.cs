@@ -32,12 +32,12 @@
         }
 
         [Theory]
-        [InlineData(typeof(NullExtensionsShould.OuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg), true)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), false)]
-        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerCgOuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterCg.InnerNoCgOuterCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg), false)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerCgOuterNoCg), true)]
+        [InlineData(typeof(NullExtensionsShould.OuterNoCg.InnerNoCgOuterNoCg), false)]
         public void ExcludeCompilerGeneratedMethods(Type type, bool expected)
         {
             // Arrange
@@ -45,7 +45,7 @@
             IMethodFilter sut = new NotCompilerGenerated();
 
             // Act
-            bool actual = sut.IncludeMethod(type, constructor);
+            bool actual = sut.ExcludeMethod(type, constructor);
 
             // Assert
             Assert.Equal(expected, actual);

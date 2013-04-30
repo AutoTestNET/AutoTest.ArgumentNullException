@@ -38,11 +38,11 @@
 // ReSharper restore UnusedMember.Local
 
         [Theory]
-        [InlineData("NoParameters", false)]
-        [InlineData("NoNullableParameters", false)]
-        [InlineData("NullDefaultParameters", false)]
-        [InlineData("SomeNullableParameters", true)]
-        [InlineData("NonNullDefaultParameters", true)]
+        [InlineData("NoParameters", true)]
+        [InlineData("NoNullableParameters", true)]
+        [InlineData("NullDefaultParameters", true)]
+        [InlineData("SomeNullableParameters", false)]
+        [InlineData("NonNullDefaultParameters", false)]
         public void CorrectlyExcludeMethods(string methodName, bool include)
         {
             // Arrange
@@ -51,7 +51,7 @@
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
 
             // Act
-            bool actual = sut.IncludeMethod(type, method);
+            bool actual = sut.ExcludeMethod(type, method);
 
             // Assert
             Assert.Equal(include, actual);
