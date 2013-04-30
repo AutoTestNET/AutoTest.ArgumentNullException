@@ -115,8 +115,8 @@
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            // Include the type if it matches any of the include rules
-            // or if it matches none on the exclude rules.
+            // Only exclude the type if it doesn't match any of the include
+            // rules and if it does match one of the exclude rules.
             return !IncludeTypeRules.Any(r => r.MatchType(type))
                    && ExcludeTypeRules.Any(r => r.MatchType(type));
         }
@@ -134,8 +134,8 @@
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            // Include the method if it matches any of the include rules
-            // or if it matches none on the exclude rules.
+            // Only exclude the method if it doesn't match any of the include
+            // rules and if it does match one of the exclude rules.
             return !IncludeMethodRules.Any(r => r.MatchMethod(type, method))
                    && ExcludeMethodRules.Any(r => r.MatchMethod(type, method));
         }
@@ -156,8 +156,8 @@
             if (parameter == null)
                 throw new ArgumentNullException("parameter");
 
-            // Include the parameter if it matches any of the include rules
-            // or if it matches none on the exclude rules.
+            // Only exclude the parameter if it doesn't match any of the include
+            // rules and if it does match one of the exclude rules.
             return !IncludeParameterRules.Any(r => r.MatchParameter(type, method, parameter))
                    && ExcludeParameterRules.Any(r => r.MatchParameter(type, method, parameter));
         }
