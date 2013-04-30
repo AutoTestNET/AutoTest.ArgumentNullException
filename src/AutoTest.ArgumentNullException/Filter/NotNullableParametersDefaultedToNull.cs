@@ -7,7 +7,7 @@
     /// <summary>
     /// Filters out the methods that have nullable parameters, but have null defaults.
     /// </summary>
-    public class NotNullableParametersDefaultedToNull : FilterBase, IMethodFilter
+    public class HasNullableParametersWithoutNullDefaults : FilterBase, IMethodFilter
     {
         /// <summary>
         /// Filters out the methods that have nullable parameters, but have null defaults.
