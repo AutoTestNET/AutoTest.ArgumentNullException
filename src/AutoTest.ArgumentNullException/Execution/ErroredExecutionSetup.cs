@@ -14,7 +14,8 @@
         /// <param name="exception">The <see cref="Exception"/> to throw when executed.</param>
         public ErroredExecutionSetup(Exception exception)
         {
-            if (exception == null) throw new ArgumentNullException("exception");
+            if (exception == null)
+                throw new ArgumentNullException("exception");
 
             Exception = exception;
         }
@@ -31,7 +32,8 @@
         /// <returns>A <see cref="Func{T}"/> returning an errored <see cref="Task"/> setup with the <see cref="Exception"/>.</returns>
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
-            if (methodData == null) throw new ArgumentNullException("methodData");
+            if (methodData == null)
+                throw new ArgumentNullException("methodData");
 
             return Execute;
         }

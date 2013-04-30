@@ -68,6 +68,7 @@
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="CompositionExceptionShould.cs" />
+    <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
     <Compile Include="Filter\HasNullableParametersWithoutNullDefaultsShould.cs" />
     <Compile Include="Filter\RegexFilterExtensionsShould.cs" />
     <Compile Include="Filter\RegexFilterShould.cs" />
