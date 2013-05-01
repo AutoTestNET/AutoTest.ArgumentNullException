@@ -70,6 +70,7 @@
     <Compile Include="CompositionExceptionShould.cs" />
     <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
     <Compile Include="Filter\HasNullableParametersWithoutNullDefaultsShould.cs" />
+    <Compile Include="Filter\NotNullDefaultShould.cs" />
     <Compile Include="Filter\RegexFilterExtensionsShould.cs" />
     <Compile Include="Filter\RegexFilterShould.cs" />
     <Compile Include="Filter\RegexRuleExtensionsShould.cs" />
