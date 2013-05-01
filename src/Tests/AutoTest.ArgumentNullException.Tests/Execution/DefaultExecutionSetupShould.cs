@@ -9,14 +9,11 @@
 
     public class DefaultExecutionSetupShould
     {
-        private static MethodData GetStaticMethodData(string methodName, IExecutionSetup sut)
+        private static MethodData GetMethodData(MethodBase methodUnderTest, IExecutionSetup sut, object instanceUnderTest = null)
         {
-            Type type = typeof(DefaultExecutionSetupShould);
-            MethodInfo methodUnderTest = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Static);
-
             return new MethodData(
-                type,
-                null,
+                typeof(DefaultExecutionSetupShould),
+                instanceUnderTest,
                 methodUnderTest,
                 new object[] {},
                 Guid.NewGuid().ToString(),
@@ -28,6 +25,7 @@
             where T : Exception
         {
             // Act
+            // This should never throw but always return a task, either completed or faulted.
             Task executeAction = methodData.ExecuteAction();
 
             // Assert
@@ -44,7 +42,7 @@
         }
 
         [Theory, AutoMock]
-        public void ShouldInitializeWhenSetup(
+        public void InitializeWhenSetup(
             MethodData methodData,
             DefaultExecutionSetup sut)
         {
@@ -58,66 +56,74 @@
             Assert.Same(methodData.InstanceUnderTest, sut.Sut);
         }
 
-        private static MethodData GetContructorMethodData(IExecutionSetup sut)
-        {
-            Type type = typeof(DefaultExecutionSetupShould);
-            ConstructorInfo methodUnderTest = type.GetConstructor(Type.EmptyTypes);
-
-            return new MethodData(
-                type,
-                new DefaultExecutionSetupShould(),
-                methodUnderTest,
-                new object[] { },
-                Guid.NewGuid().ToString(),
-                0,
-                sut);
-        }
-
         [Theory, AutoMock]
-        public async Task ShouldExecuteContructor(DefaultExecutionSetup sut)
+        public async Task ExecuteContructor(DefaultExecutionSetup sut)
         {
             // Arrange
-            MethodData methodData = GetContructorMethodData(sut);
+            MethodData methodData =
+                GetMethodData(
+                    typeof (DefaultExecutionSetupShould).GetConstructor(Type.EmptyTypes),
+                    sut,
+                    new DefaultExecutionSetupShould());
 
             // Act
             await methodData.ExecuteAction();
         }
 
-        private static void ThrowingSynchronousMethod()
+        [Theory, AutoMock]
+        public async Task ExecuteSynchronousMethod(DefaultExecutionSetup sut)
         {
-            throw new FileLoadException("Some random message " + Guid.NewGuid());
+            // Arrange
+            Action action = () => { };
+            MethodData methodData = GetMethodData(action.Method, sut);
+
+            // Act
+            await methodData.ExecuteAction();
         }
 
         [Theory, AutoMock]
-        public async Task ShouldExecuteThrowingSynchronousMethod(DefaultExecutionSetup sut)
+        public async Task ExecuteThrowingSynchronousMethod(DefaultExecutionSetup sut)
         {
-            // AAA
-            await AssertExecutionThrows<FileLoadException>(GetStaticMethodData("ThrowingSynchronousMethod", sut));
+            // Arrange
+            Action action = () => { throw new FileLoadException("Some random message " + Guid.NewGuid()); };
+
+            // Act/Assert
+            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.Method, sut));
         }
 
-        private static async Task ThrowingAsynchronousMethod()
+        [Theory, AutoMock]
+        public async Task ExecuteAsynchronousMethod(DefaultExecutionSetup sut)
         {
-            await Task.Yield();
-            throw new FileNotFoundException("Some random message " + Guid.NewGuid());
+            // Arrange
+            Func<Task> action = async () => { await Task.Yield(); };
+            MethodData methodData = GetMethodData(action.Method, sut);
+
+            // Act
+            await methodData.ExecuteAction();
         }
 
         [Theory, AutoMock]
         public async Task ExecuteAsynchronousThrowingMethod(DefaultExecutionSetup sut)
         {
-            // AAA
-            await AssertExecutionThrows<FileNotFoundException>(GetStaticMethodData("ThrowingAsynchronousMethod", sut));
-        }
+            // Arrange
+            Func<Task> action = async () =>
+                {
+                    await Task.Yield();
+                    throw new FileNotFoundException("Some random message " + Guid.NewGuid());
+                };
 
-        private static Task ThrowingAsynchronousMethodThrowingSynchronously()
-        {
-            throw new FieldAccessException("Some random message " + Guid.NewGuid());
+            // AAA
+            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.Method, sut));
         }
 
         [Theory, AutoMock]
-        public async Task ShouldExecuteAsynchronousMethodThatThrowsSynchronously(DefaultExecutionSetup sut)
+        public async Task ExecuteAsynchronousMethodThatThrowsSynchronously(DefaultExecutionSetup sut)
         {
-            // AAA
-            await AssertExecutionThrows<FieldAccessException>(GetStaticMethodData("ThrowingAsynchronousMethodThrowingSynchronously", sut));
+            // Arrange
+            Func<Task> action = () => { throw new FieldAccessException("Some random message " + Guid.NewGuid()); };
+
+            // Act/Assert
+            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.Method, sut));
         }
     }
 }
