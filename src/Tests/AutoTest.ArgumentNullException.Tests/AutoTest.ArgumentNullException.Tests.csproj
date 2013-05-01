@@ -77,6 +77,7 @@
     <Compile Include="Filter\RegexFilterExtensionsShould.cs" />
     <Compile Include="Filter\RegexFilterShould.cs" />
     <Compile Include="Filter\RegexRuleExtensionsShould.cs" />
+    <Compile Include="Filter\TypeMethodFilteringShould.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
