@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
+    <Compile Include="AssemblyTypeFiltering.cs" />
     <Compile Include="CompositionException.cs" />
     <Compile Include="Execution\DefaultExecutionSetup.cs" />
     <Compile Include="Execution\ErroredExecutionSetup.cs" />

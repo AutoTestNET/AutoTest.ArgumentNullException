@@ -1,0 +1,58 @@
+﻿namespace AutoTest.ArgNullEx
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+    using AutoTest.ArgNullEx.Filter;
+
+    /// <summary>
+    /// Helper class for applying filters.
+    /// </summary>
+    internal static class AssemblyTypeFiltering
+    {
+        /// <summary>
+        /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
+        /// </summary>
+        /// <param name="assembly">The <see cref="Assembly"/> from which to retrieve the types.</param>
+        /// <param name="filters">The collection of filters to limit the types.</param>
+        /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
+        public static IEnumerable<Type> GetTypes(this Assembly assembly, IEnumerable<ITypeFilter> filters)
+        {
+            if (assembly == null)
+                throw new ArgumentNullException("assembly");
+            if (filters == null)
+                throw new ArgumentNullException("filters");
+
+            return filters.Aggregate(
+                assembly.GetTypes().AsEnumerable(),
+                (current, filter) => current.Where(type => !ExcludeType(type, filter))).ToArray();
+        }
+
+        /// <summary>
+        /// Executes the <paramref name="filter"/> on the <paramref name="type"/>, logging information if it was excluded.
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <param name="filter">The <see cref="Type"/> filter.</param>
+        /// <returns>The result of <see cref="ITypeFilter.ExcludeType"/>.</returns>
+        private static bool ExcludeType(Type type, ITypeFilter filter)
+        {
+            if (type == null)
+                throw new ArgumentNullException("type");
+            if (filter == null)
+                throw new ArgumentNullException("filter");
+
+            bool excludeType = filter.ExcludeType(type);
+            if (excludeType)
+            {
+                Trace.TraceInformation(
+                    "The type '{0}' was excluded by the filter '{1}'.",
+                    type,
+                    filter.Name);
+            }
+
+            return excludeType;
+        }
+    }
+}

@@ -140,7 +140,7 @@
         public IEnumerable<MethodData> GetData()
         {
             return
-                from type in GetTypesInAssembly(_assemblyUnderTest, TypeFilters)
+                from type in _assemblyUnderTest.GetTypes(TypeFilters)
                 from method in GetMethodsInType(type, BindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
@@ -155,49 +155,6 @@
             var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
             discoverableCollection.Discover();
             return discoverableCollection.Items;
-        }
-
-        /// <summary>
-        /// Executes the <paramref name="filter"/> on the <paramref name="type"/>, logging information if it was excluded.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="filter">The <see cref="Type"/> filter.</param>
-        /// <returns>The result of <see cref="ITypeFilter.ExcludeType"/>.</returns>
-        private static bool ExcludeType(Type type, ITypeFilter filter)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            if (filter == null)
-                throw new ArgumentNullException("filter");
-
-            bool excludeType = filter.ExcludeType(type);
-            if (excludeType)
-            {
-                System.Diagnostics.Trace.TraceInformation(
-                    "The type '{0}' was excluded by the filter '{1}'.",
-                    type,
-                    filter.Name);
-            }
-
-            return excludeType;
-        }
-
-        /// <summary>
-        /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
-        /// </summary>
-        /// <param name="assembly">The <see cref="Assembly"/> from which to retrieve the types.</param>
-        /// <param name="filters">The collection of filters to limit the types.</param>
-        /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
-        private static IEnumerable<Type> GetTypesInAssembly(Assembly assembly, IEnumerable<ITypeFilter> filters)
-        {
-            if (assembly == null)
-                throw new ArgumentNullException("assembly");
-            if (filters == null)
-                throw new ArgumentNullException("filters");
-
-            return filters.Aggregate(
-                assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(type => !ExcludeType(type, filter))).ToArray();
         }
 
         /// <summary>
