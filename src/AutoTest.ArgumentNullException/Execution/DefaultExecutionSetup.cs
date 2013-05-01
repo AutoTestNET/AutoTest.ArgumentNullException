@@ -61,9 +61,12 @@
         /// <returns>A reflected asynchronous <see cref="MethodBase"/> execution.</returns>
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
-            if (methodData == null) throw new ArgumentNullException("methodData");
-            if (methodData.MethodUnderTest == null) throw new ArgumentException("The methodData.MethodUnderTest is null.", "methodData");
-            if (methodData.Parameters == null) throw new ArgumentException("The methodData.Parameters is null.", "methodData");
+            if (methodData == null)
+                throw new ArgumentNullException("methodData");
+            if (methodData.MethodUnderTest == null)
+                throw new ArgumentException("The methodData.MethodUnderTest is null.", "methodData");
+            if (methodData.Parameters == null)
+                throw new ArgumentException("The methodData.Parameters is null.", "methodData");
 
             _methodUnderTest = methodData.MethodUnderTest;
             _parameters = methodData.Parameters;
@@ -120,7 +123,8 @@
             }
             catch (TargetInvocationException targetInvocationException)
             {
-                if (targetInvocationException.InnerException == null) throw;
+                if (targetInvocationException.InnerException == null)
+                    throw;
 
                 throw targetInvocationException.InnerException;
             }
@@ -139,7 +143,8 @@
             }
             catch (TargetInvocationException targetInvocationException)
             {
-                if (targetInvocationException.InnerException == null) throw;
+                if (targetInvocationException.InnerException == null)
+                    throw;
 
                 throw targetInvocationException.InnerException;
             }
