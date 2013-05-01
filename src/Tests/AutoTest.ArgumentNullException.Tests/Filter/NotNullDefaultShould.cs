@@ -1,6 +1,5 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Moq;
@@ -21,7 +20,7 @@
         }
 
         [Theory, PropertyData("NullDefaultParams")]
-        public void IdentifyNullDefault(ParameterInfo param, bool expected)
+        public void ExcludeNullDefault(ParameterInfo param, bool exclude)
         {
             // Arrange
             IParameterFilter sut = new NotNullDefault();
@@ -31,7 +30,7 @@
             bool actual = sut.ExcludeParameter(GetType(), methodBaseMock.Object, param);
 
             // Assert
-            Assert.Equal(expected, actual);
+            Assert.Equal(exclude, actual);
         }
     }
 }
