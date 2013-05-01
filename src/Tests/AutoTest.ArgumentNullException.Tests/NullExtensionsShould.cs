@@ -43,16 +43,16 @@
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedParameter.Local
         private static void TestNullableParams(
-            int unusedInt,
-            Guid? unusedNullableGuid,
-            ArraySegment<bool> unusedArraySegment,
-            IDisposable unusedDisposable)
+            int nonNullableInt,
+            Guid? nullableGuid,
+            ArraySegment<bool> nonNullableArraySegment,
+            IDisposable nullableDisposable)
         {
         }
 // ReSharper restore UnusedParameter.Local
 // ReSharper restore UnusedMember.Local
 
-        private static IEnumerable<object[]> GetTestNullableParams()
+        internal static IEnumerable<object[]> GetTestNullableParams()
         {
             ParameterInfo[] testParams =
                 typeof(NullExtensionsShould).GetMethod("TestNullableParams",
