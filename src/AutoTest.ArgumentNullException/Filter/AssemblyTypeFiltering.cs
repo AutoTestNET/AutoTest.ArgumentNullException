@@ -1,11 +1,10 @@
-﻿namespace AutoTest.ArgNullEx
+﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
-    using AutoTest.ArgNullEx.Filter;
 
     /// <summary>
     /// Helper class for applying filters.
