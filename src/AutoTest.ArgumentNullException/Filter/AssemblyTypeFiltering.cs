@@ -7,7 +7,7 @@
     using System.Reflection;
 
     /// <summary>
-    /// Helper class for applying filters.
+    /// Helper class for applying filters on types in assemblies.
     /// </summary>
     internal static class AssemblyTypeFiltering
     {
