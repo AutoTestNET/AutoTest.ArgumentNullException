@@ -8,7 +8,7 @@
     using global::Xunit;
     using global::Xunit.Extensions;
 
-    public class AssemblyTypeFilteringShould
+    public class TypeFilteringShould
     {
         [Theory, AutoMock]
         public void ApplyFiltersToAllTypes(

@@ -55,6 +55,7 @@
     <Compile Include="Execution\ErroredExecutionSetup.cs" />
     <Compile Include="Filter\FilterBase.cs" />
     <Compile Include="Filter\IRegexFilter.cs" />
+    <Compile Include="Filter\ParameterFiltering.cs" />
     <Compile Include="Filter\RegexFilter.cs" />
     <Compile Include="Filter\RegexFilterExtensions.cs" />
     <Compile Include="Filter\RegexRule.cs" />

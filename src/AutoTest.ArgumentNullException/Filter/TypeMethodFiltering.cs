@@ -9,7 +9,7 @@
     /// <summary>
     /// Helper class for applying filters on methods in types.
     /// </summary>
-    internal static class TypeMethodFiltering
+    internal static class MethodFiltering
     {
         /// <summary>
         /// Gets all the methods (including constructors) in the <paramref name="type"/> limited by the <paramref name="filters"/>.
@@ -28,22 +28,22 @@
             return filters.Aggregate(
                 type.GetMethods(bindingAttr).Cast<MethodBase>()
                     .Union(type.GetConstructors(bindingAttr)),
-                (current, filter) => current.Where(method => !ExcludeMethod(type, method, filter))).ToArray();
+                (current, filter) => current.Where(method => !method.ApplyFilter(type, filter))).ToArray();
         }
 
         /// <summary>
         /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was excluded.
         /// </summary>
-        /// <param name="type">The type.</param>
         /// <param name="method">The method.</param>
+        /// <param name="type">The type.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="IMethodFilter.ExcludeMethod"/>.</returns>
-        private static bool ExcludeMethod(Type type, MethodBase method, IMethodFilter filter)
+        private static bool ApplyFilter(this MethodBase method, Type type, IMethodFilter filter)
         {
-            if (type == null)
-                throw new ArgumentNullException("type");
             if (method == null)
                 throw new ArgumentNullException("method");
+            if (type == null)
+                throw new ArgumentNullException("type");
             if (filter == null)
                 throw new ArgumentNullException("filter");
 

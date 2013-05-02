@@ -158,39 +158,6 @@
         }
 
         /// <summary>
-        /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was excluded.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="method">The method.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <param name="filter">The <see cref="Type"/> filter.</param>
-        /// <returns>The result of <see cref="IMethodFilter.ExcludeMethod"/>.</returns>
-        private static bool ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter, IParameterFilter filter)
-        {
-            if (type == null)
-                throw new ArgumentNullException("type");
-            if (method == null)
-                throw new ArgumentNullException("method");
-            if (parameter == null)
-                throw new ArgumentNullException("parameter");
-            if (filter == null)
-                throw new ArgumentNullException("filter");
-
-            bool excludeParameter = filter.ExcludeParameter(type, method, parameter);
-            if (excludeParameter)
-            {
-                System.Diagnostics.Trace.TraceInformation(
-                    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
-                    type.Name,
-                    method.Name,
-                    parameter.Name,
-                    filter.Name);
-            }
-
-            return excludeParameter;
-        }
-
-        /// <summary>
         /// Sets up the parameter data for the <paramref name="method"/> on the <paramref name="type"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
@@ -210,8 +177,8 @@
             {
                 ParameterInfo parameterInfo = parameterInfos[parameterIndex];
 
-                // Run the filters against the parameter.
-                if (ParameterFilters.Any(filter => ExcludeParameter(type, method, parameterInfo, filter)))
+                // Apply the filters against the parameter.
+                if (ParameterFilters.Any(filter => filter.ApplyFilter(type, method, parameterInfo)))
                     continue;
 
                 try

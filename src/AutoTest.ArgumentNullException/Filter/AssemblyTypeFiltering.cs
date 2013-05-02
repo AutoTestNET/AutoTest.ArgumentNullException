@@ -9,7 +9,7 @@
     /// <summary>
     /// Helper class for applying filters on types in assemblies.
     /// </summary>
-    internal static class AssemblyTypeFiltering
+    internal static class TypeFiltering
     {
         /// <summary>
         /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
@@ -26,7 +26,7 @@
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(type => !ExcludeType(type, filter))).ToArray();
+                (current, filter) => current.Where(type => !type.ApplyFilter(filter))).ToArray();
         }
 
         /// <summary>
@@ -35,7 +35,7 @@
         /// <param name="type">The type.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="ITypeFilter.ExcludeType"/>.</returns>
-        private static bool ExcludeType(Type type, ITypeFilter filter)
+        private static bool ApplyFilter(this Type type, ITypeFilter filter)
         {
             if (type == null)
                 throw new ArgumentNullException("type");

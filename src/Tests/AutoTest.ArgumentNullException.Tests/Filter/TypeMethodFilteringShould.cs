@@ -8,7 +8,7 @@
     using global::Xunit;
     using global::Xunit.Extensions;
 
-    public class TypeMethodFilteringShould
+    public class MethodFilteringShould
     {
         [Theory, AutoMock]
         public void ApplyFiltersToAllMethods(
