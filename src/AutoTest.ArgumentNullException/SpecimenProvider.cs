@@ -58,7 +58,7 @@
 
             // Simple optimization, if the only parameter is to be null.
             if (parameters.Count == 1)
-                return new object[] { null };
+                return new object[1];
 
             var data = new object[parameters.Count];
             for (int parameterIndex = 0; parameterIndex < parameters.Count; ++parameterIndex)

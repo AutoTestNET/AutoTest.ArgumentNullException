@@ -84,6 +84,7 @@
     <Compile Include="NullExtensionsShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />
+    <Compile Include="SpecimenProviderShould.cs" />
     <Compile Include="TestNullArguments.cs" />
     <Compile Include="Filter\IsClassOrStructShould.cs" />
   </ItemGroup>
