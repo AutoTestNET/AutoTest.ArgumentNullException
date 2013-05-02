@@ -82,23 +82,20 @@
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return
-                new SpecimenContext(_builder)
-                    .Resolve(new SeededRequest(type, null));
+            return Resolve(type);
         }
 
         /// <summary>
-        /// Resolves the <paramref name="parameter"/> specimen.
+        /// Resolves the <paramref name="request"/> specimen.
         /// </summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The <paramref name="parameter"/> specimen.</returns>
-        private object Resolve(ParameterInfo parameter)
+        /// <param name="request">The request that describes what to create.</param>
+        /// <returns>The <paramref name="request"/> specimen.</returns>
+        private object Resolve(object request)
         {
-            if (parameter == null)
-                throw new ArgumentNullException("parameter");
+            if (request == null)
+                throw new ArgumentNullException("request");
 
-            var context = new SpecimenContext(_builder);
-            return context.Resolve(parameter);
+            return new SpecimenContext(_builder).Resolve(request);
         }
     }
 }

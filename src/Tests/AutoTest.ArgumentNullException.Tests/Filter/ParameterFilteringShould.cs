@@ -58,7 +58,6 @@
             bool actual = filterMock.Object.ApplyFilter(type, method, parameterMock.Object);
 
             // Assert
-
             filterMock.Verify();
             Assert.False(actual);
         }
