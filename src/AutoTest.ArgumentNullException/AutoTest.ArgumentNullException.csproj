@@ -49,7 +49,7 @@
     </Compile>
     <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
-    <Compile Include="Filter\AssemblyTypeFiltering.cs" />
+    <Compile Include="Filter\TypeFiltering.cs" />
     <Compile Include="CompositionException.cs" />
     <Compile Include="Execution\DefaultExecutionSetup.cs" />
     <Compile Include="Execution\ErroredExecutionSetup.cs" />
@@ -60,7 +60,7 @@
     <Compile Include="Filter\RegexFilterExtensions.cs" />
     <Compile Include="Filter\RegexRule.cs" />
     <Compile Include="Filter\RegexRuleExtensions.cs" />
-    <Compile Include="Filter\TypeMethodFiltering.cs" />
+    <Compile Include="Filter\MethodFiltering.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
     <Compile Include="IArgumentNullExceptionFixture.cs" />

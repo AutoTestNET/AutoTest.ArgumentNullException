@@ -70,14 +70,14 @@
     <Compile Include="CompositionExceptionShould.cs" />
     <Compile Include="Execution\DefaultExecutionSetupShould.cs" />
     <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
-    <Compile Include="Filter\AssemblyTypeFilteringShould.cs" />
+    <Compile Include="Filter\TypeFilteringShould.cs" />
     <Compile Include="Filter\HasNullableParametersWithoutNullDefaultsShould.cs" />
     <Compile Include="Filter\IsNullableShould.cs" />
     <Compile Include="Filter\NotNullDefaultShould.cs" />
     <Compile Include="Filter\RegexFilterExtensionsShould.cs" />
     <Compile Include="Filter\RegexFilterShould.cs" />
     <Compile Include="Filter\RegexRuleExtensionsShould.cs" />
-    <Compile Include="Filter\TypeMethodFilteringShould.cs" />
+    <Compile Include="Filter\MethodFilteringShould.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
