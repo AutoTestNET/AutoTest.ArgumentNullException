@@ -16,7 +16,7 @@
             [Modest] ArgumentNullExceptionFixture sut)
         {
             // AAA
-            Assert.NotNull(sut.Fixture);
+            Assert.NotNull(sut.SpecimenProvider);
             Assert.Same(expectedAssembly, sut.AssemblyUnderTest);
             Assert.Equal(ArgumentNullExceptionFixture.DefaultBindingFlags, sut.BindingFlags);
             Assert.NotNull(sut.Filters);
@@ -34,7 +34,7 @@
             var sut = new ArgumentNullExceptionFixture(expectedAssembly, expectedFixture);
 
             // Assert
-            Assert.Same(expectedFixture, sut.Fixture);
+            Assert.Same(expectedFixture, ((SpecimenProvider)sut.SpecimenProvider).Builder);
             Assert.Same(expectedAssembly, sut.AssemblyUnderTest);
             Assert.Equal(ArgumentNullExceptionFixture.DefaultBindingFlags, sut.BindingFlags);
             Assert.NotNull(sut.Filters);
@@ -51,7 +51,7 @@
             [Greedy] ArgumentNullExceptionFixture sut)
         {
             // AAA
-            Assert.Same(expectedFixture, sut.Fixture);
+            Assert.Same(expectedFixture, ((SpecimenProvider)sut.SpecimenProvider).Builder);
             Assert.Same(expectedAssembly, sut.AssemblyUnderTest);
             Assert.Same(filters, sut.Filters);
             Assert.Equal(ArgumentNullExceptionFixture.DefaultBindingFlags, sut.BindingFlags);

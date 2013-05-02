@@ -67,6 +67,7 @@
     <Compile Include="Execution\IExecutionSetup.cs" />
     <Compile Include="Filter\IFilter.cs" />
     <Compile Include="Filter\IParameterFilter.cs" />
+    <Compile Include="ISpecimenProvider.cs" />
     <Compile Include="MethodData.cs" />
     <Compile Include="Filter\IMethodFilter.cs" />
     <Compile Include="Filter\NotCompilerGenerated.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="NullExtensions.cs" />
     <Compile Include="Filter\IsClassOrStruct.cs" />
     <Compile Include="Filter\ITypeFilter.cs" />
+    <Compile Include="SpecimenProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

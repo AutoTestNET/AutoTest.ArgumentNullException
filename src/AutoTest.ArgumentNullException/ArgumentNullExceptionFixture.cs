@@ -11,7 +11,7 @@
     using Ploeh.AutoFixture.Kernel;
 
     /// <summary>
-    /// A custom fixture to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
+    /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
     /// </summary>
     public class ArgumentNullExceptionFixture : IArgumentNullExceptionFixture
     {
@@ -31,9 +31,9 @@
         private readonly Assembly _assemblyUnderTest;
 
         /// <summary>
-        /// The <see cref="IFixture"/> used to create specimens.
+        /// The parameter specimen provider.
         /// </summary>
-        private readonly IFixture _fixture;
+        private readonly ISpecimenProvider _specimenProvider;
 
         /// <summary>
         /// The list of filters.
@@ -53,9 +53,9 @@
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        /// <param name="fixture">The fixture.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture)
-            : this(assemblyUnderTest, fixture, DiscoverFilters())
+        /// <param name="builder">The specimen builder.</param>
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenBuilder builder)
+            : this(assemblyUnderTest, builder, DiscoverFilters())
         {
         }
 
@@ -63,19 +63,30 @@
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        /// <param name="fixture">The fixture.</param>
+        /// <param name="builder">The specimen builder.</param>
         /// <param name="filters">The list of filters.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, List<IFilter> filters)
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenBuilder builder, List<IFilter> filters)
+            : this(assemblyUnderTest, new SpecimenProvider(builder), filters)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
+        /// </summary>
+        /// <param name="assemblyUnderTest">The assembly under test.</param>
+        /// <param name="specimenProvider">The builder.</param>
+        /// <param name="filters">The list of filters.</param>
+        internal ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
         {
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
-            if (fixture == null)
-                throw new ArgumentNullException("fixture");
+            if (specimenProvider == null)
+                throw new ArgumentNullException("specimenProvider");
             if (filters == null)
                 throw new ArgumentNullException("filters");
 
             _assemblyUnderTest = assemblyUnderTest;
-            _fixture = fixture;
+            _specimenProvider = specimenProvider;
             _filters = filters;
             BindingFlags = DefaultBindingFlags;
         }
@@ -89,11 +100,11 @@
         }
 
         /// <summary>
-        /// Gets the <see cref="IFixture"/> used to create specimens.
+        /// Gets the <see cref="ISpecimenProvider"/> used to create parameter specimens.
         /// </summary>
-        public IFixture Fixture
+        public ISpecimenProvider SpecimenProvider
         {
-            get { return _fixture; }
+            get { return _specimenProvider; }
         }
 
         /// <summary>
@@ -183,13 +194,12 @@
 
                 try
                 {
-                    object[] parameters = GetParameterSpecimens(parameterInfos, parameterIndex);
+                    object[] parameters = _specimenProvider.GetParameterSpecimens(parameterInfos, parameterIndex);
 
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
                     {
-                        var context = new SpecimenContext(Fixture);
-                        instanceUnderTest = context.Resolve(new SeededRequest(type, null));
+                        instanceUnderTest = _specimenProvider.CreateInstance(type);
                     }
 
                     data.Add(
@@ -218,57 +228,6 @@
             }
 
             return data;
-        }
-
-        /// <summary>
-        /// Gets the specimens for the <paramref name="parameters"/>.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="nullIndex">The index of the null parameter.</param>
-        /// <returns>The specimens for the <paramref name="parameters"/>.</returns>
-        private object[] GetParameterSpecimens(IList<ParameterInfo> parameters, int nullIndex)
-        {
-            if (parameters == null)
-                throw new ArgumentNullException("parameters");
-            if (parameters.Count == 0)
-                throw new ArgumentException("There are no parameters", "parameters");
-            if (nullIndex >= parameters.Count)
-            {
-                string error = string.Format(
-                    "The nullIndex '{0}' is beyond the range of the parameters '{1}'.",
-                    nullIndex,
-                    parameters.Count);
-                throw new ArgumentException(error, "nullIndex");
-            }
-
-            // Simple optimization, if the only parameter is to be null.
-            if (parameters.Count == 1)
-                return new object[] { null };
-
-            var data = new object[parameters.Count];
-            for (int parameterIndex = 0; parameterIndex < parameters.Count; ++parameterIndex)
-            {
-                if (parameterIndex == nullIndex)
-                    continue;
-
-                data[parameterIndex] = Resolve(parameters[parameterIndex]);
-            }
-
-            return data;
-        }
-
-        /// <summary>
-        /// Resolves the <paramref name="parameter"/> specimen.
-        /// </summary>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns>The <paramref name="parameter"/> specimen.</returns>
-        private object Resolve(ParameterInfo parameter)
-        {
-            if (parameter == null)
-                throw new ArgumentNullException("parameter");
-
-            var context = new SpecimenContext(_fixture);
-            return context.Resolve(parameter);
         }
     }
 }
