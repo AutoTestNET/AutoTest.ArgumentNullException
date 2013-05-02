@@ -13,11 +13,6 @@
     public class MethodData
     {
         /// <summary>
-        /// The setup for the <see cref="ExecuteAction"/>.
-        /// </summary>
-        private readonly IExecutionSetup _executionSetup;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MethodData"/> class.
         /// </summary>
         /// <param name="classUnderTest">The type of the class under test.</param>
@@ -48,7 +43,7 @@
             Parameters = parameters;
             NullParameter = nullParameter;
             NullIndex = nullIndex;
-            _executionSetup = executionSetup;
+            ExecutionSetup = executionSetup;
         }
 
         /// <summary>
@@ -82,6 +77,11 @@
         public int NullIndex { get; private set; }
 
         /// <summary>
+        /// Gets the setup for <see cref="ExecuteAction"/>.
+        /// </summary>
+        public IExecutionSetup ExecutionSetup { get; private set; }
+
+        /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
 // ReSharper disable UnusedMember.Local
@@ -97,7 +97,7 @@
         /// <returns>The <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task ExecuteAction()
         {
-            return _executionSetup.Setup(this)();
+            return ExecutionSetup.Setup(this)();
         }
 
         /// <summary>
