@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
@@ -66,7 +67,7 @@
         }
 
         [Theory, AutoMock]
-        internal void CreateMethodInvocationData(
+        internal void CreateStaticMethodInvocationData(
             SpecimenProvider specimenProvider,
             RegexFilter filter)
         {
@@ -88,13 +89,36 @@
         }
 
         [Theory, AutoMock]
+        internal void CreateInstanceMethodInvocationData(
+            SpecimenProvider specimenProvider,
+            RegexFilter filter)
+        {
+            // Arrange
+            filter.IncludeMethod("GetComponents", typeof(Uri))
+                  .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
+
+            IArgumentNullExceptionFixture sut =
+                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                                                 specimenProvider,
+                                                 new List<IFilter> { filter });
+
+            // Act
+            List<MethodData> methodDatas = sut.GetData().ToList();
+
+            // Assert
+            Assert.Equal(2, methodDatas.Count);
+            Assert.Equal(2, methodDatas.Select(m => m.ExecutionSetup).OfType<DefaultExecutionSetup>().Count());
+        }
+
+        [Theory, AutoMock]
         public void CreateErroredMethodInvocationData(
             Mock<ISpecimenProvider> specimenProviderMock,
+            FileNotFoundException exception,
             RegexFilter filter)
         {
             // Arrange
             specimenProviderMock.Setup(sp => sp.GetParameterSpecimens(It.IsAny<IList<ParameterInfo>>(), It.IsAny<int>()))
-                                .Throws(new Exception());
+                                .Throws(exception);
             filter.IncludeMethod("Compare", typeof(Uri))
                   .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
 
@@ -108,7 +132,37 @@
 
             // Assert
             Assert.Equal(5, methodDatas.Count);
-            Assert.Equal(5, methodDatas.Select(m => m.ExecutionSetup).OfType<ErroredExecutionSetup>().Count());
+            List<ErroredExecutionSetup> executionSetups = methodDatas.Select(m => m.ExecutionSetup).OfType<ErroredExecutionSetup>().ToList();
+            Assert.Equal(5, executionSetups.Count);
+            foreach (ErroredExecutionSetup executionSetup in executionSetups)
+            {
+                var compositionException = Assert.IsType<CompositionException>(executionSetup.Exception);
+                Assert.Same(exception, compositionException.InnerException);
+            }
+        }
+
+        [Theory, AutoMock]
+        internal void ApplyParameterFilters(
+            SpecimenProvider specimenProvider,
+            RegexFilter filter)
+        {
+            // Arrange
+            filter.IncludeMethod("Compare", typeof (Uri))
+                  .ExcludeParameter("uri1", typeof (Uri))
+                  .ExcludeParameter("uri2", typeof(Uri), "Compare")
+                  .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
+
+            IArgumentNullExceptionFixture sut =
+                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                                                 specimenProvider,
+                                                 new List<IFilter> { filter });
+
+            // Act
+            List<MethodData> methodDatas = sut.GetData().ToList();
+
+            // Assert
+            Assert.Equal(3, methodDatas.Count);
+            Assert.Equal(3, methodDatas.Select(m => m.ExecutionSetup).OfType<DefaultExecutionSetup>().Count());
         }
     }
 }
