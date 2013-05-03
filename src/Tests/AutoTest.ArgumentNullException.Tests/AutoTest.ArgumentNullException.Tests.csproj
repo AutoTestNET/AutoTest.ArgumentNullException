@@ -82,6 +82,7 @@
     <Compile Include="Filter\MethodFilteringShould.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
+    <Compile Include="MethodDataShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAttributeShould.cs" />

@@ -31,11 +31,16 @@
             int nullIndex,
             IExecutionSetup executionSetup)
         {
-            if (classUnderTest == null) throw new ArgumentNullException("classUnderTest");
-            if (methodUnderTest == null) throw new ArgumentNullException("methodUnderTest");
-            if (parameters == null) throw new ArgumentNullException("parameters");
-            if (nullParameter == null) throw new ArgumentNullException("nullParameter");
-            if (executionSetup == null) throw new ArgumentNullException("executionSetup");
+            if (classUnderTest == null)
+                throw new ArgumentNullException("classUnderTest");
+            if (methodUnderTest == null)
+                throw new ArgumentNullException("methodUnderTest");
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+            if (nullParameter == null)
+                throw new ArgumentNullException("nullParameter");
+            if (executionSetup == null)
+                throw new ArgumentNullException("executionSetup");
 
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;
