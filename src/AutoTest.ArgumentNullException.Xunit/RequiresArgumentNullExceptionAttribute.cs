@@ -40,6 +40,14 @@
         }
 
         /// <summary>
+        /// Gets the <see cref="IArgumentNullExceptionFixture"/>.
+        /// </summary>
+        public IArgumentNullExceptionFixture Fixture
+        {
+            get { return _fixture; }
+        }
+
+        /// <summary>
         /// Returns the data for the test <see cref="TheoryAttribute"/>.
         /// </summary>
         /// <param name="methodUnderTest">The test method under test.</param>

@@ -83,6 +83,7 @@
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="NullExtensionsShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequiresArgumentNullExceptionAttributeShould.cs" />
     <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />
     <Compile Include="SpecimenProviderShould.cs" />
     <Compile Include="TestNullArguments.cs" />
