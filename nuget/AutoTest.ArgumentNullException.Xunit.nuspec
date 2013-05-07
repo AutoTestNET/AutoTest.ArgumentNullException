@@ -15,13 +15,14 @@ using this tokenized nuspec file.
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>AutoTest.ArgumentNullException.Xunit</id>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <authors>James Skimming</authors>
     <owners>James Skimming</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Auto test ArgumentNullException using Xunit</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException Xunit</tags>
     <dependencies>
+      <dependency id="AutoTest.ArgumentNullException" version="0.2.0" />
       <dependency id="xunit.extensions" version="1.9.1" />
     </dependencies>
   </metadata>
