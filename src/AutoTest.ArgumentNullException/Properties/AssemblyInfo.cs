@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AutoTest.ArgumentNullException")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("AutoTest.ArgumentNullException")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoTest.ArgumentNullException")]

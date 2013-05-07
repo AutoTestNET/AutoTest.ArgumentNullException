@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DocumentationFile>bin\Release\AutoTest.ArgumentNullException.xml</DocumentationFile>
+    <BuildPackage>true</BuildPackage>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ploeh.AutoFixture, Version=3.0.8.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
@@ -81,6 +82,7 @@
     <Compile Include="SpecimenProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AutoTest.ArgumentNullException.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

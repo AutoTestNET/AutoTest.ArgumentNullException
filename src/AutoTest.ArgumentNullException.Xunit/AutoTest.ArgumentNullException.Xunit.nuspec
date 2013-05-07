@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+This tokenized .nuspec manifest file is targeting the latest NuGet namespace,
+which ensures you can benefit from the latest packaging features.
+
+If desired, you can change the XML-namespace and target the original XSD.
+To do so, replace the current package declaration by the following:
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+
+Run "nuget.exe pack <project>" to build a nuget package for this project
+using this tokenized nuspec file.
+
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>James Skimming</authors>
+    <owners>James Skimming</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+  </metadata>
+</package>

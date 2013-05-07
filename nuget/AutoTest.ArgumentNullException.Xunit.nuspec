@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!--
+This tokenized .nuspec manifest file is targeting the latest NuGet namespace,
+which ensures you can benefit from the latest packaging features.
+
+If desired, you can change the XML-namespace and target the original XSD.
+To do so, replace the current package declaration by the following:
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+
+Run "nuget.exe pack <project>" to build a nuget package for this project
+using this tokenized nuspec file.
+
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>AutoTest.ArgumentNullException.Xunit</id>
+    <version>0.1.0</version>
+    <authors>James Skimming</authors>
+    <owners>James Skimming</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Auto test ArgumentNullException using Xunit</description>
+    <tags>Unit Test TDD AutoFixture Exception ArgumentNullException Xunit</tags>
+    <dependencies>
+      <dependency id="xunit.extensions" version="1.9.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\src\AutoTest.ArgumentNullException.Xunit\bin\Release\AutoTest.ArgumentNullException.Xunit.dll" target="lib\net40" />
+    <file src="..\src\AutoTest.ArgumentNullException.Xunit\bin\Release\AutoTest.ArgumentNullException.Xunit.xml" target="lib\net40" />
+  </files>
+</package>
