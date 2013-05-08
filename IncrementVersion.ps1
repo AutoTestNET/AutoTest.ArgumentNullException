@@ -6,9 +6,14 @@
 
 function IncrementVersion-InFile($file, $rank)
 {
+    switch ($rank)
+    {
+        'major' { $exp = ([regex]'(^\s*\[assembly:\s*Assembly.*Version\s*\(\s*)"(\d+\.\d+\.\d+\.\d+)"(\s*\)\s*]\s*$)') }
+        default { $exp = ([regex]'(^\s*\[assembly:\s*AssemblyFileVersion\s*\(\s*)"(\d+\.\d+\.\d+\.\d+)"(\s*\)\s*]\s*$)') }
+    }
+
     (Get-Content $file) |
     % {
-        $exp = ([regex]'(^\s*\[assembly:\s*Assembly.*Version\s*\(\s*)"(\d+\.\d+\.\d+\.\d+)"(\s*\)\s*]\s*$)')
         $match = $exp.match($_)
         if ($match.success)
         {
