@@ -48,6 +48,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="ArgNullExCompositeCustomization.cs" />
     <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
     <Compile Include="Filter\TypeFiltering.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Filter\MethodFiltering.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
+    <Compile Include="IArgNullExCustomization.cs" />
     <Compile Include="IArgumentNullExceptionFixture.cs" />
     <Compile Include="Execution\IExecutionSetup.cs" />
     <Compile Include="Filter\IFilter.cs" />

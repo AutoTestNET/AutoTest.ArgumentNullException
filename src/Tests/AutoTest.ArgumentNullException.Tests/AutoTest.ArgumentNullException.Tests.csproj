@@ -63,11 +63,13 @@
     <Compile Include="..\..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="ArgNullExCompositeCustomizationShould.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensionsShould.cs" />
     <Compile Include="ArgumentNullExceptionFixtureShould.cs" />
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="CompositionExceptionShould.cs" />
+    <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="Execution\DefaultExecutionSetupShould.cs" />
     <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
     <Compile Include="Filter\ParameterFilteringShould.cs" />
