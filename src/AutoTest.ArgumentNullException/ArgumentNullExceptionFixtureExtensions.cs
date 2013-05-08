@@ -230,6 +230,23 @@
         }
 
         /// <summary>
+        /// Applies the <paramref name="customization"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="customization">The customization to apply.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture Customize(this IArgumentNullExceptionFixture fixture, IArgNullExCustomization customization)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (customization == null)
+                throw new ArgumentNullException("customization");
+
+            customization.Customize(fixture);
+            return fixture;
+        }
+
+        /// <summary>
         /// Gets the single <see cref="IRegexFilter"/> from the <see cref="IArgumentNullExceptionFixture.Filters"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>

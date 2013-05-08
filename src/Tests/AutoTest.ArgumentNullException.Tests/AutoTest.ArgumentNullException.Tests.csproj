@@ -69,7 +69,6 @@
     <Compile Include="AutoFixtureCustomizations.cs" />
     <Compile Include="AutoMockAttribute.cs" />
     <Compile Include="CompositionExceptionShould.cs" />
-    <Compile Include="DelegatingCustomization.cs" />
     <Compile Include="Execution\DefaultExecutionSetupShould.cs" />
     <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
     <Compile Include="Filter\ParameterFilteringShould.cs" />

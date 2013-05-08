@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Moq;
     using global::Xunit;
     using global::Xunit.Extensions;
 
@@ -45,20 +46,19 @@
         [Theory, AutoMock]
         internal void ApplyAllCustomizations(
             IArgumentNullExceptionFixture fixture,
-            List<DelegatingCustomization> customizations)
+            List<Mock<IArgNullExCustomization>> customizations)
         {
             // Arrange
-            var verifications = new List<bool>();
-            customizations.ForEach(c => c.OnCustomize = f => verifications.Add(Equals(fixture, f)));
-            var sut = new ArgNullExCompositeCustomization(customizations);
+            customizations.ForEach(mock => mock.Setup(c => c.Customize(fixture)).Verifiable());
+            var sut = new ArgNullExCompositeCustomization(customizations.Select(mock => mock.Object));
 
             // Act
             ((IArgNullExCustomization)sut).Customize(fixture);
 
-            // Verify outcome
-            Assert.NotEmpty(verifications);
-            Assert.Equal(customizations.Count, verifications.Count);
-            Assert.True(verifications.All(b => b));
+            // Assert
+            Assert.NotEmpty(sut.Customizations);
+            Assert.Equal(customizations.Count, sut.Customizations.Count());
+            customizations.ForEach(mock => mock.Verify());
         }
     }
 }

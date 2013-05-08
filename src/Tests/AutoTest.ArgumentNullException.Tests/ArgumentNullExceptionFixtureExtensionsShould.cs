@@ -772,5 +772,25 @@
         }
 
         #endregion Exclude/Incude Parameter
+
+        #region Customizations
+
+        [Theory, AutoMock]
+        public void ApplyACustomization(
+            IArgumentNullExceptionFixture fixture,
+            Mock<IArgNullExCustomization> customizationMock)
+        {
+            // Arrange
+            customizationMock.Setup(c => c.Customize(fixture)).Verifiable();
+
+            // Act
+            IArgumentNullExceptionFixture actual = fixture.Customize(customizationMock.Object);
+
+            // Assert
+            Assert.Same(fixture, actual);
+            customizationMock.Verify();
+        }
+
+        #endregion Customizations
     }
 }
