@@ -49,7 +49,8 @@ function IncrementVersion-NuSpec($file, $rank)
         {
             $_
         }
-    }
+    } |
+    Set-Content $file -encoding ASCII
 }
 
 function Increment-Version($version, $rank)
