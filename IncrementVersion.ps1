@@ -2,6 +2,8 @@
 {
     dir -Include AssemblyInfoCommon.cs -Recurse |
     % { IncrementVersion-InFile $_ $rank }
+    dir -Include *.nuspec -Recurse |
+    % { IncrementVersion-NuSpec $_ $rank }
 }
 
 function IncrementVersion-InFile($file, $rank)
@@ -28,6 +30,26 @@ function IncrementVersion-InFile($file, $rank)
         }
     } |
     Set-Content $file -encoding UTF8
+}
+
+function IncrementVersion-NuSpec($file, $rank)
+{
+    (Get-Content $file) |
+    % {
+        $exp = ([regex]'(^\s*<version>)(\d+\.\d+\.\d+\.\d+)(</version>\s*$)')
+        $match = $exp.match($_)
+        if ($match.success)
+        {
+            $ov = New-Object Version($match.groups[2].value)
+            $nv = Increment-Version $ov $rank
+            $replaced = $exp.replace($_, $match.groups[1].value + $nv + $match.groups[3].value)
+            $replaced
+        }
+        else
+        {
+            $_
+        }
+    }
 }
 
 function Increment-Version($version, $rank)
