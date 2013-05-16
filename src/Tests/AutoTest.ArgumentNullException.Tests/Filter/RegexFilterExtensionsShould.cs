@@ -50,9 +50,12 @@
         {
             IRegexFilter actualFilter = addMethod(method.Name, type);
 
+            int expectedRules = 1;
+            if (expectedInclude && type != null) expectedRules++;
+
             Assert.Same(addMethod.Target, actualFilter);
-            Assert.Equal(1, actualFilter.Rules.Count);
-            RegexRule addedRule = actualFilter.Rules.Single();
+            Assert.Equal(expectedRules, actualFilter.Rules.Count);
+            RegexRule addedRule = actualFilter.MethodRules.Single();
             Assert.Equal(expectedInclude, addedRule.Include);
             Assert.NotNull(addedRule.Method);
             Assert.True(addedRule.MatchMethod(type ?? GetType(), method));
@@ -125,9 +128,13 @@
         {
             IRegexFilter actualFilter = addMethod(parameter.Name, type, method == null ? null : method.Name);
 
+            int expectedRules = 1;
+            if (expectedInclude && method != null) expectedRules++;
+            if (expectedInclude && type != null) expectedRules++;
+
             Assert.Same(addMethod.Target, actualFilter);
-            Assert.Equal(1, actualFilter.Rules.Count);
-            RegexRule addedRule = actualFilter.Rules.Single();
+            Assert.Equal(expectedRules, actualFilter.Rules.Count);
+            RegexRule addedRule = actualFilter.ParameterRules.Single();
             Assert.Equal(expectedInclude, addedRule.Include);
             Assert.NotNull(addedRule.Parameter);
             Assert.True(addedRule.MatchParameter(type ?? GetType(), method ?? new Mock<MethodBase>().Object, parameter));

@@ -36,7 +36,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for types.
+        /// Gets all the <see cref="Regex"/> rules for including types.
         /// </summary>
         public IEnumerable<RegexRule> IncludeTypeRules
         {
@@ -44,7 +44,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for types.
+        /// Gets all the <see cref="Regex"/> rules for excluding types.
         /// </summary>
         public IEnumerable<RegexRule> ExcludeTypeRules
         {
@@ -63,7 +63,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for Methods.
+        /// Gets all the <see cref="Regex"/> rules for including methods.
         /// </summary>
         public IEnumerable<RegexRule> IncludeMethodRules
         {
@@ -71,7 +71,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for Methods.
+        /// Gets all the <see cref="Regex"/> rules for excluding methods.
         /// </summary>
         public IEnumerable<RegexRule> ExcludeMethodRules
         {
@@ -79,7 +79,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for parameter.
+        /// Gets all the <see cref="Regex"/> rules for parameters.
         /// </summary>
         public IEnumerable<RegexRule> ParameterRules
         {
@@ -90,7 +90,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for Parameters.
+        /// Gets all the <see cref="Regex"/> rules for including parameters.
         /// </summary>
         public IEnumerable<RegexRule> IncludeParameterRules
         {
@@ -98,7 +98,7 @@
         }
 
         /// <summary>
-        /// Gets all the <see cref="Regex"/> rules for Parameters.
+        /// Gets all the <see cref="Regex"/> rules for excluding parameters.
         /// </summary>
         public IEnumerable<RegexRule> ExcludeParameterRules
         {

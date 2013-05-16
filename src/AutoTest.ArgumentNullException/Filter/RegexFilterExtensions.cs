@@ -51,6 +51,11 @@
         /// <returns>The <paramref name="filter"/>.</returns>
         public static IRegexFilter IncludeMethod(this IRegexFilter filter, string methodName, Type type = null)
         {
+            // If the type is specified ensure it is included otherwise the
+            // method may never be included.
+            if (type != null)
+                filter.IncludeType(type);
+
             return filter.AddMethodRule(methodName, include: true, type: type);
         }
 
@@ -77,6 +82,13 @@
         /// <returns>The <paramref name="filter"/>.</returns>
         public static IRegexFilter IncludeParameter(this IRegexFilter filter, string parameterName, Type type = null, string methodName = null)
         {
+            // If the method or type type is specified ensure they are included
+            // otherwise the parameter may never be included.
+            if (!string.IsNullOrWhiteSpace(methodName))
+                filter.IncludeMethod(methodName, type);
+            else if (type != null)
+                filter.IncludeType(type);
+
             return filter.AddParameterRule(parameterName, include: true, type: type, methodName: methodName);
         }
 

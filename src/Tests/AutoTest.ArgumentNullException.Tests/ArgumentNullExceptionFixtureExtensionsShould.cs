@@ -314,10 +314,13 @@
         {
             IArgumentNullExceptionFixture actual = addMethod(method.Name, type);
 
+            int expectedRules = existingRules.Count + 1;
+            if (expectedInclude && type != null) expectedRules++;
+
             Assert.Same(addMethod.Target, actual);
-            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.Equal(expectedRules, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
-            RegexRule addedRule = regexRules.Except(existingRules).Single();
+            RegexRule addedRule = regexRules.Except(existingRules).Single(r => r.Method != null);
             Assert.Equal(expectedInclude, addedRule.Include);
             Assert.NotNull(addedRule.Method);
             Assert.True(addedRule.MatchMethod(type ?? GetType(), method));
@@ -477,10 +480,14 @@
         {
             IArgumentNullExceptionFixture actual = addMethod(parameter.Name, type, method == null ? null : method.Name);
 
+            int expectedRules = existingRules.Count + 1;
+            if (expectedInclude && method != null) expectedRules++;
+            if (expectedInclude && type != null) expectedRules++;
+
             Assert.Same(addMethod.Target, actual);
-            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.Equal(expectedRules, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
-            RegexRule addedRule = regexRules.Except(existingRules).Single();
+            RegexRule addedRule = regexRules.Except(existingRules).Single(r => r.Parameter != null);
             Assert.Equal(expectedInclude, addedRule.Include);
             Assert.NotNull(addedRule.Parameter);
             Assert.True(addedRule.MatchParameter(type ?? GetType(), method ?? new Mock<MethodBase>().Object, parameter));
