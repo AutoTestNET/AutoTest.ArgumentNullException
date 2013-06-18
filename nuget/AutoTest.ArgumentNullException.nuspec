@@ -22,7 +22,7 @@ using this tokenized nuspec file.
     <description>Auto test ArgumentNullException</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException</tags>
     <dependencies>
-      <dependency id="AutoFixture" version="3.0.8" />
+      <dependency id="AutoFixture" version="3.0.1" />
     </dependencies>
   </metadata>
   <files>

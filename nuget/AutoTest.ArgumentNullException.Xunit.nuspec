@@ -22,7 +22,7 @@ using this tokenized nuspec file.
     <description>Auto test ArgumentNullException using Xunit</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException Xunit</tags>
     <dependencies>
-      <dependency id="AutoTest.ArgumentNullException" version="0.2.0" />
+      <dependency id="AutoTest.ArgumentNullException" version="0.5.0" />
       <dependency id="xunit.extensions" version="1.9.1" />
     </dependencies>
   </metadata>
