@@ -71,6 +71,7 @@
     <Compile Include="CompositionExceptionShould.cs" />
     <Compile Include="Execution\DefaultExecutionSetupShould.cs" />
     <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
+    <Compile Include="Filter\NotAbstractMethodShould.cs" />
     <Compile Include="Filter\ParameterFilteringShould.cs" />
     <Compile Include="Filter\RegexRuleShould.cs" />
     <Compile Include="Filter\TypeFilteringShould.cs" />

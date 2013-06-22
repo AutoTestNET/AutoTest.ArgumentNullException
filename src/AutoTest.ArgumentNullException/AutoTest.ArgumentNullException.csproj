@@ -51,6 +51,7 @@
     <Compile Include="ArgNullExCompositeCustomization.cs" />
     <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
+    <Compile Include="Filter\NotAbstractMethod.cs" />
     <Compile Include="Filter\TypeFiltering.cs" />
     <Compile Include="CompositionException.cs" />
     <Compile Include="Execution\DefaultExecutionSetup.cs" />
