@@ -780,6 +780,32 @@
 
         #endregion Exclude/Incude Parameter
 
+        #region ExcludeAll
+
+        [Theory, AutoMock]
+        void ExcludeAll(
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+            List<RegexRule> existingRules = regexRules.ToList();
+
+            // Act
+            IArgumentNullExceptionFixture actual = fixtureMock.Object.ExcludeAll();
+
+            // Assert
+            Assert.Same(fixtureMock.Object, actual);
+            Assert.Equal(existingRules.Count + 3, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+        }
+
+        #endregion ExcludeAll
+
         #region Customizations
 
         [Theory, AutoMock]

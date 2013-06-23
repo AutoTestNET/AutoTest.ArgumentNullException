@@ -230,6 +230,23 @@
         }
 
         /// <summary>
+        /// Excludes all types, methods and parameters.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeAll(this IArgumentNullExceptionFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.ExcludeAll();
+
+            return fixture;
+        }
+
+        /// <summary>
         /// Applies the <paramref name="customization"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>

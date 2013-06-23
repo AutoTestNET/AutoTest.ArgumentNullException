@@ -282,5 +282,29 @@
         }
 
         #endregion Exclude/Include Parameter
+
+        #region ExcludeAll
+
+        [Fact]
+        public void ExcludeAll()
+        {
+            // Assert
+            var sut = new RegexFilter();
+
+            // Act
+            IRegexFilter result = sut.ExcludeAll();
+
+            // Assert
+            Assert.Same(sut, result);
+            Assert.Equal(3, sut.Rules.Count);
+            RegexRule typeRule = sut.TypeRules.Single();
+            Assert.True(typeRule.Type.IsMatch(Guid.NewGuid().ToString()));
+            RegexRule methodRule = sut.MethodRules.Single();
+            Assert.True(methodRule.Method.IsMatch(Guid.NewGuid().ToString()));
+            RegexRule parameterRule = sut.ParameterRules.Single();
+            Assert.True(parameterRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        #endregion ExcludeAll
     }
 }
