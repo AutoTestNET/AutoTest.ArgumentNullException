@@ -1,6 +1,7 @@
 ﻿namespace AutoTest.ExampleLibrary.Tests
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
@@ -28,6 +29,16 @@
         private static IArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
         {
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
+
+            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            if (throwingRecursionBehavior != null)
+            {
+                fixture.Behaviors.Remove(throwingRecursionBehavior);
+                fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            }
+
+            // Don't need to create complex graphs, just need objects.
+            fixture.OmitAutoProperties = true;
 
             return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
         }

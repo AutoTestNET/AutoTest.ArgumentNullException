@@ -63,10 +63,14 @@
             var data = new object[parameters.Count];
             for (int parameterIndex = 0; parameterIndex < parameters.Count; ++parameterIndex)
             {
-                if (parameterIndex == nullIndex)
+                ParameterInfo parameter = parameters[parameterIndex];
+
+                // The parameter under test needs to be null.
+                // As well as nullable output parameters.
+                if (parameterIndex == nullIndex || (parameter.IsNullable() && parameter.IsOut))
                     continue;
 
-                data[parameterIndex] = Resolve(parameters[parameterIndex]);
+                data[parameterIndex] = Resolve(parameter);
             }
 
             return data;
