@@ -9,6 +9,11 @@
     public static class RegexFilterExtensions
     {
         /// <summary>
+        /// The match all <see cref="Regex"/>.
+        /// </summary>
+        private static readonly Regex MatchAll = new Regex(".*");
+
+        /// <summary>
         /// Excludes the <paramref name="type"/> from checks for <see cref="ArgumentNullException"/>.
         /// </summary>
         /// <param name="filter">The <see cref="Regex"/> filter.</param>
@@ -93,6 +98,60 @@
         }
 
         /// <summary>
+        /// Excludes all types.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        public static IRegexFilter ExcludeAllTypes(this IRegexFilter filter)
+        {
+            if (filter == null)
+                throw new ArgumentNullException("filter");
+
+            filter.Rules.Add(new RegexRule(
+                                 "Exclude all types",
+                                 include: false,
+                                 type: MatchAll));
+
+            return filter;
+        }
+
+        /// <summary>
+        /// Excludes all methods.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        public static IRegexFilter ExcludeAllMethods(this IRegexFilter filter)
+        {
+            if (filter == null)
+                throw new ArgumentNullException("filter");
+
+            filter.Rules.Add(new RegexRule(
+                                 "Exclude all methods",
+                                 include: false,
+                                 method: MatchAll));
+
+            return filter;
+        }
+
+        /// <summary>
+        /// Excludes all types, methods and parameters.
+        /// </summary>
+        /// <param name="filter">The <see cref="Regex"/> filter.</param>
+        /// <returns>The <paramref name="filter"/>.</returns>
+        public static IRegexFilter ExcludeAllParameters(this IRegexFilter filter)
+        {
+            if (filter == null)
+                throw new ArgumentNullException("filter");
+
+            filter.Rules.Add(new RegexRule(
+                                 "Exclude all parameters",
+                                 include: false,
+                                 parameter: MatchAll));
+
+            return filter;
+        }
+
+        /// <summary>
         /// Excludes all types, methods and parameters.
         /// </summary>
         /// <param name="filter">The <see cref="Regex"/> filter.</param>
@@ -102,24 +161,10 @@
             if (filter == null)
                 throw new ArgumentNullException("filter");
 
-            var matchAll = new Regex(".*");
-
-            filter.Rules.Add(new RegexRule(
-                                 "Exclude all types",
-                                 include: false,
-                                 type: matchAll));
-
-            filter.Rules.Add(new RegexRule(
-                                 "Exclude all methods",
-                                 include: false,
-                                 method: matchAll));
-
-            filter.Rules.Add(new RegexRule(
-                                 "Exclude all parameters",
-                                 include: false,
-                                 parameter: matchAll));
-
-            return filter;
+            return
+                filter.ExcludeAllTypes()
+                      .ExcludeAllMethods()
+                      .ExcludeAllParameters();
         }
 
         /// <summary>
