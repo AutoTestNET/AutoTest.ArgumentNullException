@@ -230,6 +230,57 @@
         }
 
         /// <summary>
+        /// Excludes all types.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeAllTypes(this IArgumentNullExceptionFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.ExcludeAllTypes();
+
+            return fixture;
+        }
+
+        /// <summary>
+        /// Excludes all methods.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeAllMethods(this IArgumentNullExceptionFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.ExcludeAllMethods();
+
+            return fixture;
+        }
+
+        /// <summary>
+        /// Excludes all parameters.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeAllParameters(this IArgumentNullExceptionFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            IRegexFilter regexFilter = fixture.GetRegexFilter();
+
+            regexFilter.ExcludeAllParameters();
+
+            return fixture;
+        }
+
+        /// <summary>
         /// Excludes all types, methods and parameters.
         /// </summary>
         /// <param name="fixture">The fixture.</param>

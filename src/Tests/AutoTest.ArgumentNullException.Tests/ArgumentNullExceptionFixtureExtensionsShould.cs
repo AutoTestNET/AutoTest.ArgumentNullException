@@ -783,6 +783,72 @@
         #region ExcludeAll
 
         [Theory, AutoMock]
+        void ExcludeAllTypes(
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+            List<RegexRule> existingRules = regexRules.ToList();
+
+            // Act
+            IArgumentNullExceptionFixture actual = fixtureMock.Object.ExcludeAllTypes();
+
+            // Assert
+            Assert.Same(fixtureMock.Object, actual);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+        }
+
+        [Theory, AutoMock]
+        void ExcludeAllMethods(
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+            List<RegexRule> existingRules = regexRules.ToList();
+
+            // Act
+            IArgumentNullExceptionFixture actual = fixtureMock.Object.ExcludeAllMethods();
+
+            // Assert
+            Assert.Same(fixtureMock.Object, actual);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+        }
+
+        [Theory, AutoMock]
+        void ExcludeAllParameters(
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // Arrange
+            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
+            filters.Add(regexFilterMock.Object);
+            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
+            List<RegexRule> existingRules = regexRules.ToList();
+
+            // Act
+            IArgumentNullExceptionFixture actual = fixtureMock.Object.ExcludeAllParameters();
+
+            // Assert
+            Assert.Same(fixtureMock.Object, actual);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
+            Assert.False(existingRules.Except(regexRules).Any());
+        }
+
+        [Theory, AutoMock]
         void ExcludeAll(
             List<IFilter> filters,
             List<RegexRule> regexRules,

@@ -286,9 +286,57 @@
         #region ExcludeAll
 
         [Fact]
+        public void ExcludeAllTypes()
+        {
+            // Arrange
+            var sut = new RegexFilter();
+
+            // Act
+            IRegexFilter result = sut.ExcludeAllTypes();
+
+            // Assert
+            Assert.Same(sut, result);
+            Assert.Equal(1, sut.Rules.Count);
+            RegexRule typeRule = sut.TypeRules.Single();
+            Assert.True(typeRule.Type.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        [Fact]
+        public void ExcludeAllMethods()
+        {
+            // Arrange
+            var sut = new RegexFilter();
+
+            // Act
+            IRegexFilter result = sut.ExcludeAllMethods();
+
+            // Assert
+            Assert.Same(sut, result);
+            Assert.Equal(1, sut.Rules.Count);
+            RegexRule methodRule = sut.MethodRules.Single();
+            Assert.True(methodRule.Method.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        [Fact]
+        public void ExcludeAllParameters()
+        {
+            // Arrange
+            var sut = new RegexFilter();
+
+            // Act
+            IRegexFilter result = sut.ExcludeAllParameters();
+
+            // Assert
+            Assert.Same(sut, result);
+            Assert.Equal(1, sut.Rules.Count);
+            RegexRule parameterRule = sut.ParameterRules.Single();
+            Assert.True(parameterRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        [Fact]
         public void ExcludeAll()
         {
-            // Assert
+            // Arrange
             var sut = new RegexFilter();
 
             // Act
