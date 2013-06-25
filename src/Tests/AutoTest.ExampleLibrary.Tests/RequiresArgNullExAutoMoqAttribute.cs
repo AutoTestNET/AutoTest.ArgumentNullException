@@ -1,4 +1,4 @@
-﻿namespace AutoTest.ExampleLibrary.Tests
+﻿namespace AutoTest.ExampleLibrary
 {
     using System;
     using System.Linq;

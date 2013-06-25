@@ -7,7 +7,7 @@
     <ProjectGuid>{A2465CE3-4FAA-4227-A4A4-6C5F660E4344}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoTest.ExampleLibrary.Tests</RootNamespace>
+    <RootNamespace>AutoTest.ExampleLibrary</RootNamespace>
     <AssemblyName>AutoTest.ExampleLibrary.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
