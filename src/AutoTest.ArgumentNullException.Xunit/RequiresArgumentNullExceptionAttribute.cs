@@ -60,6 +60,8 @@
             if (parameterTypes == null)
                 throw new ArgumentNullException("parameterTypes");
 
+            CustomizeFixture(methodUnderTest, _fixture);
+
             return _fixture.GetData().Select(data => new object[] { data });
         }
 
@@ -74,6 +76,28 @@
                 throw new ArgumentNullException("assemblyUnderTest");
 
             return assemblyUnderTest.Assembly;
+        }
+
+        /// <summary>
+        /// Customizes the <see cref="Fixture"/> with any <see cref="CustomizeAttribute"/>.
+        /// </summary>
+        /// <param name="method">The method that may have been customized.</param>
+        /// <param name="fixture">The fixture.</param>
+        private static void CustomizeFixture(MethodInfo method, IArgumentNullExceptionFixture fixture)
+        {
+            if (method == null)
+                throw new ArgumentNullException("method");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            IEnumerable<CustomizeAttribute> customizeAttributes =
+                method.GetCustomAttributes(typeof(CustomizeAttribute), inherit: false)
+                      .Cast<CustomizeAttribute>();
+
+            foreach (CustomizeAttribute customizeAttribute in customizeAttributes)
+            {
+                fixture.Customize(customizeAttribute.GetCustomization(method));
+            }
         }
     }
 }
