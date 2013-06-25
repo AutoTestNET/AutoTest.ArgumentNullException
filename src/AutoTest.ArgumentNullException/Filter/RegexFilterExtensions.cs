@@ -174,7 +174,7 @@
         /// <returns>The <see cref="Regex"/> that matches on the <paramref name="type"/> if <paramref name="type"/> is not <c>null</c>; otherwise <c>null</c>.</returns>
         private static Regex GetTypeRegex(Type type = null)
         {
-            return type == null ? null : new Regex(@"\A" + type.FullName + @"\z");
+            return type == null ? null : new Regex(@"\A" + Regex.Escape(type.FullName) + @"\z");
         }
 
         /// <summary>
@@ -184,7 +184,7 @@
         /// <returns>The <see cref="Regex"/> that matches on the <paramref name="name"/> if <paramref name="name"/> is not <c>null</c>; otherwise <c>null</c>.</returns>
         private static Regex GetNameRegex(string name = null)
         {
-            return name == null ? null : new Regex(@"\A" + name + @"\z");
+            return name == null ? null : new Regex(@"\A" + Regex.Escape(name) + @"\z");
         }
 
         /// <summary>
