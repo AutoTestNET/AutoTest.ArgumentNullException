@@ -46,8 +46,20 @@
             int nonNullableInt,
             Guid? nullableGuid,
             ArraySegment<bool> nonNullableArraySegment,
-            IDisposable nullableDisposable)
+            IDisposable nullableDisposable,
+            ref int nonNullableIntRef,
+            ref Guid? nullableGuidRef,
+            ref ArraySegment<bool> nonNullableArraySegmentRef,
+            ref IDisposable nullableDisposableRef,
+            out int nonNullableIntOut,
+            out Guid? nullableGuidOut,
+            out ArraySegment<bool> nonNullableArraySegmentOut,
+            out IDisposable nullableDisposableOut)
         {
+            nonNullableIntOut = 0;
+            nullableGuidOut = Guid.Empty;
+            nonNullableArraySegmentOut = default(ArraySegment<bool>);
+            nullableDisposableOut = null;
         }
 // ReSharper restore UnusedParameter.Local
 // ReSharper restore UnusedMember.Local
@@ -64,7 +76,15 @@
                     new object[] {testParams[0], false},
                     new object[] {testParams[1], true},
                     new object[] {testParams[2], false},
-                    new object[] {testParams[3], true}
+                    new object[] {testParams[3], true},
+                    new object[] {testParams[4], false},
+                    new object[] {testParams[5], true},
+                    new object[] {testParams[6], false},
+                    new object[] {testParams[7], true},
+                    new object[] {testParams[8], false},
+                    new object[] {testParams[9], true},
+                    new object[] {testParams[10], false},
+                    new object[] {testParams[11], true}
                 };
         }
 

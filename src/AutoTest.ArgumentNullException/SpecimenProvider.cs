@@ -70,7 +70,7 @@
                 if (parameterIndex == nullIndex || (parameter.IsNullable() && parameter.IsOut))
                     continue;
 
-                data[parameterIndex] = Resolve(parameter);
+                data[parameterIndex] = ResolveParameter(parameter);
             }
 
             return data;
@@ -87,6 +87,22 @@
                 throw new ArgumentNullException("type");
 
             return Resolve(type);
+        }
+
+        /// <summary>
+        /// Resolves the <paramref name="parameter"/> specimen.
+        /// </summary>
+        /// <param name="parameter">The <see cref="ParameterInfo"/> that describes what to create.</param>
+        /// <returns>The <paramref name="parameter"/> specimen.</returns>
+        private object ResolveParameter(ParameterInfo parameter)
+        {
+            if (parameter == null)
+                throw new ArgumentNullException("parameter");
+
+            // If the parameter IsByRef then the underlying type needs to be resolved.
+            return parameter.ParameterType.IsByRef
+                       ? Resolve(parameter.ParameterType.GetElementType())
+                       : Resolve(parameter);
         }
 
         /// <summary>
