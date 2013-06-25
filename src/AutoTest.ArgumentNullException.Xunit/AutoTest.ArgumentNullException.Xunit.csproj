@@ -56,6 +56,7 @@
     <Compile Include="App_Packages\TaskHelpers.Sources.0.2\TaskHelpersExtensions.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="ExcludeAllAttribute.cs" />
+    <Compile Include="ExclusionType.cs" />
     <Compile Include="IncludeAttribute.cs" />
     <Compile Include="MethodDataExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

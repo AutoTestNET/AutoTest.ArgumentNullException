@@ -10,6 +10,11 @@
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class ExcludeAllAttribute : CustomizeAttribute, IArgNullExCustomization
     {
+        /// <summary> 
+        /// Gets or sets the type of exclusion, the default is <see cref="Xunit.ExclusionType.Types"/>.
+        /// </summary>
+        public ExclusionType ExclusionType { get; set; }
+
         /// <summary>
         /// Gets a customization for a test method.
         /// </summary>
@@ -32,7 +37,14 @@
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
-            fixture.ExcludeAllTypes();
+            if (ExclusionType.HasFlag(ExclusionType.Types))
+                fixture.ExcludeAllTypes();
+
+            if (ExclusionType.HasFlag(ExclusionType.Methods))
+                fixture.ExcludeAllMethods();
+
+            if (ExclusionType.HasFlag(ExclusionType.Parameters))
+                fixture.ExcludeAllParameters();
         }
     }
 }

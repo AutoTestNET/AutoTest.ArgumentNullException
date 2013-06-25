@@ -39,6 +39,7 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
+            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
@@ -63,6 +64,7 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
+            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
@@ -88,6 +90,7 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
+            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);

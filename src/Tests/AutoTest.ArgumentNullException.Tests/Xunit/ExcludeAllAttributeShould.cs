@@ -1,10 +1,10 @@
 ﻿namespace AutoTest.ArgNullEx.Xunit
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using AutoTest.ArgNullEx.Filter;
-    using Moq;
     using global::Xunit;
     using global::Xunit.Extensions;
 
@@ -28,28 +28,132 @@
             Assert.Same(sut, customization);
         }
 
+        private static void AssertSingleExcludeAllTypesRule(IRegexFilter regexFilter)
+        {
+            RegexRule regexRule = regexFilter.TypeRules.Single();
+            Assert.False(regexRule.Include);
+            Assert.True(regexRule.Type.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        private static void AssertSingleExcludeAllMethodsRule(IRegexFilter regexFilter)
+        {
+            RegexRule regexRule = regexFilter.MethodRules.Single();
+            Assert.False(regexRule.Include);
+            Assert.Null(regexRule.Type);
+            Assert.True(regexRule.Method.IsMatch(Guid.NewGuid().ToString()));
+        }
+
+        private static void AssertSingleExcludeAllParametersRule(IRegexFilter regexFilter)
+        {
+            RegexRule regexRule = regexFilter.ParameterRules.Single();
+            Assert.False(regexRule.Include);
+            Assert.Null(regexRule.Type);
+            Assert.Null(regexRule.Method);
+            Assert.True(regexRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+        }
+
         [Theory, AutoMock]
         public void ExcludeAllTypes(
             ExcludeAllAttribute sut,
-            MethodInfo method,
-            List<IFilter> filters,
-            List<RegexRule> regexRules,
-            Mock<IRegexFilter> regexFilterMock,
-            Mock<IArgumentNullExceptionFixture> fixtureMock)
+            MethodInfo method)
         {
             // Arrange
-            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
-            filters.Add(regexFilterMock.Object);
-            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
-            List<RegexRule> existingRules = regexRules.ToList();
+            sut.ExclusionType = ExclusionType.Types;
+            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act
-            IArgNullExCustomization customization = sut.GetCustomization(method);
-            customization.Customize(fixtureMock.Object);
+            customization.Customize(fixture);
+            IEnumerable<MethodData> data = fixture.GetData();
 
             // Assert
-            Assert.Equal(existingRules.Count + 1, regexRules.Count);
-            Assert.False(existingRules.Except(regexRules).Any());
+            Assert.Empty(data);
+            IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
+            Assert.Equal(1, regexFilter.Rules.Count);
+            AssertSingleExcludeAllTypesRule(regexFilter);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAllMethods(
+            ExcludeAllAttribute sut,
+            MethodInfo method)
+        {
+            // Arrange
+            sut.ExclusionType = ExclusionType.Methods;
+            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            IArgNullExCustomization customization = sut.GetCustomization(method);
+
+            // Act
+            customization.Customize(fixture);
+            IEnumerable<MethodData> data = fixture.GetData();
+
+            // Assert
+            Assert.Empty(data);
+            IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
+            Assert.Equal(1, regexFilter.Rules.Count);
+            AssertSingleExcludeAllMethodsRule(regexFilter);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAllParameters(
+            ExcludeAllAttribute sut,
+            MethodInfo method)
+        {
+            // Arrange
+            sut.ExclusionType = ExclusionType.Parameters;
+            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            IArgNullExCustomization customization = sut.GetCustomization(method);
+
+            // Act
+            customization.Customize(fixture);
+            IEnumerable<MethodData> data = fixture.GetData();
+
+            // Assert
+            Assert.Empty(data);
+            IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
+            Assert.Equal(1, regexFilter.Rules.Count);
+            AssertSingleExcludeAllParametersRule(regexFilter);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludesAll(
+            ExcludeAllAttribute sut,
+            MethodInfo method)
+        {
+            // Arrange
+            sut.ExclusionType = ExclusionType.All;
+            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            IArgNullExCustomization customization = sut.GetCustomization(method);
+
+            // Act
+            customization.Customize(fixture);
+            IEnumerable<MethodData> data = fixture.GetData();
+
+            // Assert
+            Assert.Empty(data);
+            IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
+            Assert.Equal(3, regexFilter.Rules.Count);
+            AssertSingleExcludeAllTypesRule(regexFilter);
+            AssertSingleExcludeAllMethodsRule(regexFilter);
+            AssertSingleExcludeAllParametersRule(regexFilter);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeNone(
+            ExcludeAllAttribute sut,
+            MethodInfo method)
+        {
+            // Arrange
+            sut.ExclusionType = ExclusionType.None;
+            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            IArgNullExCustomization customization = sut.GetCustomization(method);
+
+            // Act
+            customization.Customize(fixture);
+
+            // Assert
+            IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
+            Assert.Empty(regexFilter.Rules);
         }
     }
 }
