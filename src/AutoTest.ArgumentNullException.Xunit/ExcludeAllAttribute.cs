@@ -10,6 +10,14 @@
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class ExcludeAllAttribute : CustomizeAttribute, IArgNullExCustomization
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExcludeAllAttribute" /> class.
+        /// </summary>
+        public ExcludeAllAttribute()
+        {
+            ExclusionType = ExclusionType.Types;
+        }
+
         /// <summary> 
         /// Gets or sets the type of exclusion, the default is <see cref="Xunit.ExclusionType.Types"/>.
         /// </summary>
