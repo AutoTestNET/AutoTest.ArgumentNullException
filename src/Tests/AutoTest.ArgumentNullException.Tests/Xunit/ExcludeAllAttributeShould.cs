@@ -18,6 +18,16 @@
             Assert.IsAssignableFrom<CustomizeAttribute>(sut);
         }
 
+        [Fact]
+        public void HaveDefaultExclusionTypeOfTypes()
+        {
+            // Act
+            var sut = new ExcludeAllAttribute();
+
+            // Assert
+            Assert.Equal(ExclusionType.Types, sut.ExclusionType);
+        }
+
         [Theory, AutoMock]
         public void ReturnSelfCustomization(ExcludeAllAttribute sut, MethodInfo method)
         {
