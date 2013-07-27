@@ -6,11 +6,11 @@
     using Xunit;
     using Xunit.Extensions;
 
-    public class RequiresArgNullEx
+    public class Issue006
     {
         [Theory, RequiresArgNullExAutoMoq(typeof(SpecialCharacters))]
         [Include(Type = typeof(SpecialCharacters.InnerClass))]
-        public async Task TestAllNullArguments(MethodData method)
+        public async Task TestNullArguments(MethodData method)
         {
             await method.Execute();
 

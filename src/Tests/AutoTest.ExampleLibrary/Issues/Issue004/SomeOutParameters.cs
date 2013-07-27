@@ -7,8 +7,18 @@
     /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/3
     /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/4
     /// </summary>
-    class SomeOutParameters
+    public class SomeOutParameters
     {
+        /// <summary>
+        /// Gets a value indicating the <see cref="SomeOutParametersMethod"/> stringInput parameter has been tested.
+        /// </summary>
+        public static bool StringInputTested { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating the <see cref="SomeOutParametersMethod"/> stringRef parameter has been tested.
+        /// </summary>
+        public static bool StringRefTested { get; private set; }
+
         private static void SomeOutParametersMethod(
             int intInput,
             string stringInput,
@@ -20,14 +30,21 @@
             out string stringOutput,
             out Guid guidOutput)
         {
-            if (stringInput == null)
-                throw new ArgumentNullException("stringInput");
-            if (stringRef == null)
-                throw new ArgumentNullException("stringRef");
+            StringInputTested = false;
+            StringRefTested = false;
 
-            intOutput = 0;
-            stringOutput = string.Empty;
-            guidOutput = Guid.Empty;
+            if (stringInput == null)
+            {
+                StringInputTested = true;
+                throw new ArgumentNullException("stringInput");
+            }
+            if (stringRef == null)
+            {
+                StringRefTested = true;
+                throw new ArgumentNullException("stringRef");
+            }
+
+            throw new Exception("Shouldn't ever get here.");
         }
     }
 }

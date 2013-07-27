@@ -17,6 +17,8 @@
         {
             static void AMethod(object input)
             {
+                Tested = false;
+
                 if (input != null)
                     throw new Exception("Shouldn't ever get here.");
 
