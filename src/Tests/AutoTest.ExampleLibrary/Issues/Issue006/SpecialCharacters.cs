@@ -8,12 +8,20 @@
     /// </summary>
     public class SpecialCharacters
     {
+        /// <summary>
+        /// Gets a value indicating the <see cref="InnerClass"/> has been tested.
+        /// </summary>
+        public static bool Tested { get; private set; }
+
         public class InnerClass
         {
             static void AMethod(object input)
             {
-                if (input == null)
-                    throw new ArgumentNullException("input");
+                if (input != null)
+                    throw new Exception("Shouldn't ever get here.");
+
+                Tested = true;
+                throw new ArgumentNullException("input");
             }
         }
     }

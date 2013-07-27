@@ -3,15 +3,18 @@
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
+    using Xunit;
     using Xunit.Extensions;
 
     public class RequiresArgNullEx
     {
         [Theory, RequiresArgNullExAutoMoq(typeof(SpecialCharacters))]
         [Include(Type = typeof(SpecialCharacters.InnerClass))]
-        public Task TestAllNullArguments(MethodData method)
+        public async Task TestAllNullArguments(MethodData method)
         {
-            return method.Execute();
+            await method.Execute();
+
+            Assert.True(SpecialCharacters.Tested);
         }
     }
 }
