@@ -25,10 +25,40 @@
             if (filters == null)
                 throw new ArgumentNullException("filters");
 
-            return filters.Aggregate(
+            IEnumerable<MethodBase> allMethods =
                 type.GetMethods(bindingAttr).Cast<MethodBase>()
-                    .Union(type.GetConstructors(bindingAttr)),
-                (current, filter) => current.Where(method => !method.ApplyFilter(type, filter))).ToArray();
+                    .Union(type.GetConstructors(bindingAttr));
+
+            IEnumerable<MethodBase> filteredMethods =
+                filters.Aggregate(
+                    allMethods,
+                    (current, filter) => current.Where(method => !method.ApplyFilter(type, filter)));
+
+            return filteredMethods.Select(ConvertGenericMethod).ToList();
+        }
+
+        /// <summary>
+        /// Converts generic method definitions to methods with specific type definitions.
+        /// </summary>
+        /// <param name="method">The method that may be a generic method definition.</param>
+        /// <returns>The converted generic method definition; otherwise the <paramref name="method"/> if it is non generic.</returns>
+        private static MethodBase ConvertGenericMethod(MethodBase method)
+        {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
+            // If it's not generic return the method.
+            if (!method.IsGenericMethodDefinition)
+                return method;
+
+            // Only MethodInfo can be generic (at the time of writing).
+            var methodInfo = (MethodInfo)method;
+
+            // Get non generic argument types from the generic arguments.
+            Type[] genericArguments = methodInfo.GetGenericArguments();
+            Type[] nonGenericArguments = genericArguments.Select(GenericTypeConversion.GetNonGenericType).ToArray();
+
+            return methodInfo.MakeGenericMethod(nonGenericArguments);
         }
 
         /// <summary>

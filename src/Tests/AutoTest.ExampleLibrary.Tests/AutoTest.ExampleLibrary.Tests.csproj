@@ -63,6 +63,7 @@
     <Compile Include="..\..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Issues\Issue001\Issue001.cs" />
     <Compile Include="Issues\Issue004\Issue004.cs" />
     <Compile Include="Issues\Issue006\Issue006.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -26,7 +26,7 @@
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
-                (current, filter) => current.Where(type => !type.ApplyFilter(filter))).ToArray();
+                (current, filter) => current.Where(type => !type.ApplyFilter(filter))).ToList();
         }
 
         /// <summary>

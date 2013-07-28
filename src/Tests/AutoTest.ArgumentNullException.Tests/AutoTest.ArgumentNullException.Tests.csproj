@@ -84,6 +84,8 @@
     <Compile Include="Filter\RegexFilterShould.cs" />
     <Compile Include="Filter\RegexRuleExtensionsShould.cs" />
     <Compile Include="Filter\MethodFilteringShould.cs" />
+    <Compile Include="Lock\ReadLockDisposableUnitTests.cs" />
+    <Compile Include="Lock\WriteLockDisposableUnitTests.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="MethodDataShould.cs" />

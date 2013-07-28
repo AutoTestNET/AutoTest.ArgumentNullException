@@ -33,7 +33,6 @@
             filterMock.Verify(f => f.ExcludeMethod(It.IsAny<Type>(), It.IsAny<MethodBase>()),
                               Times.Exactly(expectedMethods.Count));
             Assert.Equal(expectedMethods.Count, actualMethods.Count);
-            Assert.False(expectedMethods.Except(actualMethods).Any());
         }
 
         private static IEnumerable<MethodBase> GetAllMethods(Assembly assembly, BindingFlags bindingFlags)
