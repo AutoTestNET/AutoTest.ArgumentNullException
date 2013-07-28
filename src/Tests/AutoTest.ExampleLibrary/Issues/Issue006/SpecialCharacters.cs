@@ -9,7 +9,7 @@
     public class SpecialCharacters
     {
         /// <summary>
-        /// Gets a value indicating the <see cref="InnerClass"/> has been tested.
+        /// Gets a value indicating if the <see cref="InnerClass"/> has been tested.
         /// </summary>
         public static bool Tested { get; private set; }
 

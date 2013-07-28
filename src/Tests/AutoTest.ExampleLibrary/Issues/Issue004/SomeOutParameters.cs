@@ -10,12 +10,12 @@
     public class SomeOutParameters
     {
         /// <summary>
-        /// Gets a value indicating the <see cref="SomeOutParametersMethod"/> stringInput parameter has been tested.
+        /// Gets a value indicating if the <see cref="SomeOutParametersMethod"/> stringInput parameter has been tested.
         /// </summary>
         public static bool StringInputTested { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating the <see cref="SomeOutParametersMethod"/> stringRef parameter has been tested.
+        /// Gets a value indicating if the <see cref="SomeOutParametersMethod"/> stringRef parameter has been tested.
         /// </summary>
         public static bool StringRefTested { get; private set; }
 
@@ -30,8 +30,7 @@
             out string stringOutput,
             out Guid guidOutput)
         {
-            StringInputTested = false;
-            StringRefTested = false;
+            StringInputTested = StringRefTested = false;
 
             if (stringInput == null)
             {
