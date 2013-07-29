@@ -2,6 +2,10 @@
 {
     using System;
 
+    /// <summary>
+    /// Test class used to demonstrate issue 1 on generic methods.
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/1
+    /// </summary>
     public static class ComplexGenericMethods
     {
         /// <summary>
@@ -38,7 +42,7 @@
         }
 
         public static void GenericExceptionMethod<TException>(TException classValue, string stringValue)
-            where TException : Exception, ITest1, ITest2
+            where TException : Exception, ITest1, ITest2, new()
         {
             throw new Exception("Shouldn't ever get here.");
         }

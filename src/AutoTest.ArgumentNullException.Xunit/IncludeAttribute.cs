@@ -10,20 +10,20 @@
     public class IncludeAttribute : ExcludeAllAttribute
     {
         /// <summary>
-        /// Gets or sets the <see name="System.Type"/> for checks for <see cref="ArgumentNullException"/>.
-        /// Overrides any type rules that may exclude the <see name="System.Type"/>.
+        /// Gets or sets the <see cref="System.Type"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any type rules that may exclude the <see cref="System.Type"/>.
         /// </summary>
         public Type Type { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see name="Method"/> for checks for <see cref="ArgumentNullException"/>.
-        /// Overrides any method rules that may exclude the <see name="Method"/>.
+        /// Gets or sets the <see cref="Method"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any method rules that may exclude the <see cref="Method"/>.
         /// </summary>
         public string Method { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see name="Parameter"/> for checks for <see cref="ArgumentNullException"/>.
-        /// Overrides any parameter rules that may exclude the <see name="Parameter"/>.
+        /// Gets or sets the <see cref="Parameter"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any parameter rules that may exclude the <see cref="Parameter"/>.
         /// </summary>
         public string Parameter { get; set; }
 

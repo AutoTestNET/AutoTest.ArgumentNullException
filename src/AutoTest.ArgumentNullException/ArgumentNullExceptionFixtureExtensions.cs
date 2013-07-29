@@ -62,7 +62,7 @@
         }
 
         /// <summary>
-        /// Removes all the supplied <paramref name="filtersToRemove"/> from the <paramref name="fixture"/> collection of <see name="IArgumentNullExceptionFixture.Filters"/>.
+        /// Removes all the supplied <paramref name="filtersToRemove"/> from the <paramref name="fixture"/> collection of <see cref="IArgumentNullExceptionFixture.Filters"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="filtersToRemove">The filters to remove.</param>
@@ -83,7 +83,7 @@
         }
 
         /// <summary>
-        /// Adds the <paramref name="filters"/> to the <paramref name="fixture"/> collection of <see name="IArgumentNullExceptionFixture.Filters"/> if they are not already in he collection.
+        /// Adds the <paramref name="filters"/> to the <paramref name="fixture"/> collection of <see cref="IArgumentNullExceptionFixture.Filters"/> if they are not already in he collection.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="filters">The filters to add.</param>

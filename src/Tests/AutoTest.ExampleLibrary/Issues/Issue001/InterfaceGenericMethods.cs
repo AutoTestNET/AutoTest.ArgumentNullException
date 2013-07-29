@@ -2,6 +2,10 @@
 {
     using System;
 
+    /// <summary>
+    /// Test class used to demonstrate issue 1 on generic methods.
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/1
+    /// </summary>
     public static class InterfaceGenericMethods
     {
         /// <summary>

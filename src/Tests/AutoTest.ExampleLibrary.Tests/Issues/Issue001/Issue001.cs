@@ -9,12 +9,25 @@
     public class Issue001
     {
         [Theory, RequiresArgNullExAutoMoq(typeof(SimpleGenericMethods))]
+        [Exclude(Type = typeof(SimpleGenericMethods), Method = "GenericExceptionMethod")]
         [Include(Type = typeof(SimpleGenericMethods))]
         public async Task Simple(MethodData method)
         {
             await method.Execute();
 
             Assert.True(SimpleGenericMethods.GenericMethod2Tested);
+        }
+
+        [Theory, RequiresArgNullExAutoMoq(typeof(SimpleGenericMethods))]
+        [Include(
+            ExclusionType = ExclusionType.Types | ExclusionType.Methods,
+            Type = typeof(SimpleGenericMethods),
+            Method = "GenericExceptionMethod")]
+        public async Task SimpleException(MethodData method)
+        {
+            await method.Execute();
+
+            Assert.True(SimpleGenericMethods.GenericExceptionMethodTested);
         }
 
         [Theory, RequiresArgNullExAutoMoq(typeof(MixedGenericMethods))]

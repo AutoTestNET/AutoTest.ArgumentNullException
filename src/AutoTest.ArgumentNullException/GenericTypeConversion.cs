@@ -127,7 +127,8 @@
                     return true;
                 }
 
-                if (!constraint.IsInterface)
+                // If there is a single constraint with no attributes, just use the constraint as the non generic type.
+                if (attributes == GenericParameterAttributes.None)
                 {
                     nonGenericType = constraint;
                     return true;

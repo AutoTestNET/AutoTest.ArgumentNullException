@@ -13,6 +13,11 @@
         /// </summary>
         public static bool GenericMethod2Tested { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating if the <see cref="GenericExceptionMethod{T}"/> method has been tested.
+        /// </summary>
+        public static bool GenericExceptionMethodTested { get; private set; }
+
         public static void GenericMethod1<TStruct>(TStruct value)
             where TStruct : struct
         {
@@ -24,11 +29,27 @@
         {
             GenericMethod2Tested = false;
 
-            if (value != null)
-                throw new Exception("Shouldn't ever get here.");
+            if (value == null)
+            {
+                GenericMethod2Tested = true;
+                throw new ArgumentNullException("value");
+            }
 
-            GenericMethod2Tested = true;
-            throw new ArgumentNullException("value");
+            throw new Exception("Shouldn't ever get here.");
+        }
+
+        public static void GenericExceptionMethod<TClass>(TClass value)
+            where TClass : Exception
+        {
+            GenericExceptionMethodTested = false;
+
+            if (value == null)
+            {
+                GenericExceptionMethodTested = true;
+                throw new ArgumentNullException("value");
+            }
+
+            throw new Exception("Shouldn't ever get here.");
         }
     }
 }
