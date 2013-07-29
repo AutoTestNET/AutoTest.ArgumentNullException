@@ -42,7 +42,7 @@
         }
 
         public static void GenericExceptionMethod<TException>(TException classValue, string stringValue)
-            where TException : Exception, ITest1, ITest2, new()
+            where TException : Exception, new()
         {
             throw new Exception("Shouldn't ever get here.");
         }

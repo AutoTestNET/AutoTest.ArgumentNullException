@@ -77,14 +77,15 @@
                 if (TypesMap.TryGetValue(genericType, out nonGenericType))
                     return nonGenericType;
 
+                // Try a simple solution, where a non runtime generated type is not necessary.
                 if (TrySimple(genericType, out nonGenericType))
                 {
                     TypesMap.Add(genericType, nonGenericType);
                     return nonGenericType;
                 }
 
-                // Since the copy type was no found generate it.
-                nonGenericType = GenerateNonGenericType(genericType);
+                // A simple solution cannot be used, therefore runtime generated type is necessary.
+                nonGenericType = GenerateRuntimeType(genericType);
 
                 TypesMap.Add(genericType, nonGenericType);
 
@@ -93,7 +94,8 @@
         }
 
         /// <summary>
-        /// Tries a simple solution to
+        /// Tries a simple solution to to get a non generic type by using either a built in type or the constraint type
+        /// if there is only one.
         /// </summary>
         /// <param name="genericType">The generic type.</param>
         /// <param name="nonGenericType">The non generic type for the <paramref name="genericType"/>.</param>
@@ -140,11 +142,12 @@
         }
 
         /// <summary>
-        /// Generates a non generic type for the specified <paramref name="genericType"/>.
+        /// Generates a runtime generated type for the specified <paramref name="genericType"/> based upon the type
+        /// constraints.
         /// </summary>
         /// <param name="genericType">The generic type.</param>
-        /// <returns>A non generic type for the specified <paramref name="genericType"/>.</returns>
-        private static Type GenerateNonGenericType(Type genericType)
+        /// <returns>A runtime generated type for the specified <paramref name="genericType"/>.</returns>
+        private static Type GenerateRuntimeType(Type genericType)
         {
             if (genericType == null)
                 throw new ArgumentNullException("genericType");
@@ -157,7 +160,7 @@
 
             TypeBuilder builder =
                 ModuleBuilder.DefineType(
-                    string.Format("{0}_NonGeneric_{1:N}", genericType.Name, Guid.NewGuid()),
+                    string.Format("{0}_Dynamic_{1:N}", genericType.Name, Guid.NewGuid()),
                     TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Public);
 
             foreach (Type constraint in constraints)
