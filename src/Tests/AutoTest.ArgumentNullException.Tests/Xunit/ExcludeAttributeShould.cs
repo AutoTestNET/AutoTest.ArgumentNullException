@@ -9,10 +9,10 @@
     using global::Xunit;
     using global::Xunit.Extensions;
 
-    public class IncludeAttributeShould
+    public class ExcludeAttributeShould
     {
         [Theory, AutoMock]
-        public void BeACustomization(IncludeAttribute sut)
+        public void BeACustomization(ExcludeAttribute sut)
         {
             // Assert
             Assert.IsAssignableFrom<IArgNullExCustomization>(sut);
@@ -20,7 +20,7 @@
         }
 
         [Theory, AutoMock]
-        public void ReturnSelfCustomization(IncludeAttribute sut, MethodInfo method)
+        public void ReturnSelfCustomization(ExcludeAttribute sut, MethodInfo method)
         {
             // Act
             IArgNullExCustomization customization = sut.GetCustomization(method);
@@ -30,8 +30,8 @@
         }
 
         [Theory, AutoMock]
-        public void ExcludeAllTypesAndIncludeParameter(
-            IncludeAttribute sut,
+        public void ExcludeParameter(
+            ExcludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
             List<RegexRule> regexRules,
@@ -39,7 +39,6 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
-            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
@@ -50,13 +49,13 @@
             customization.Customize(fixtureMock.Object);
 
             // Assert
-            Assert.Equal(existingRules.Count + 4, regexRules.Count);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
         }
 
         [Theory, AutoMock]
-        public void ExcludeAllTypesAndIncludeMethod(
-            IncludeAttribute sut,
+        public void ExcludeMethod(
+            ExcludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
             List<RegexRule> regexRules,
@@ -64,7 +63,6 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
-            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
@@ -76,13 +74,13 @@
             customization.Customize(fixtureMock.Object);
 
             // Assert
-            Assert.Equal(existingRules.Count + 3, regexRules.Count);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
         }
 
         [Theory, AutoMock]
-        public void ExcludeAllTypesAndIncludeType(
-            IncludeAttribute sut,
+        public void ExcludeType(
+            ExcludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
             List<RegexRule> regexRules,
@@ -90,7 +88,6 @@
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
             // Arrange
-            sut.ExclusionType = ExclusionType.Types;
             regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
             filters.Add(regexFilterMock.Object);
             fixtureMock.SetupGet(f => f.Filters).Returns(filters);
@@ -103,13 +100,13 @@
             customization.Customize(fixtureMock.Object);
 
             // Assert
-            Assert.Equal(existingRules.Count + 2, regexRules.Count);
+            Assert.Equal(existingRules.Count + 1, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
         }
 
         [Theory, AutoMock]
         public void ThrowsIfNothingSpecified(
-            IncludeAttribute sut,
+            ExcludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
             List<RegexRule> regexRules,

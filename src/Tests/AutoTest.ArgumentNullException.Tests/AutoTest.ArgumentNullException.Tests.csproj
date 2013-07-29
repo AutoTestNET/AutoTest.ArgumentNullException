@@ -96,6 +96,7 @@
     <Compile Include="SpecimenProviderShould.cs" />
     <Compile Include="TestNullArguments.cs" />
     <Compile Include="Filter\IsClassOrStructShould.cs" />
+    <Compile Include="Xunit\ExcludeAttributeShould.cs" />
     <Compile Include="Xunit\ExcludeAllAttributeShould.cs" />
     <Compile Include="Xunit\IncludeAttributeShould.cs" />
   </ItemGroup>
