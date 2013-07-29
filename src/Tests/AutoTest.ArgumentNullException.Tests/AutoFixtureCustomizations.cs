@@ -34,13 +34,6 @@
 
         void ICustomization.Customize(IFixture fixture)
         {
-            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
-            if (throwingRecursionBehavior != null)
-            {
-                fixture.Behaviors.Remove(throwingRecursionBehavior);
-                fixture.Behaviors.Add(new OmitOnRecursionBehavior());
-            }
-
             fixture.Inject(ParameterInfo);
             fixture.Customize<CatchInfo>(
                 composer => composer.FromFactory(

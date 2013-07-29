@@ -14,11 +14,46 @@
     {
         [Theory, AutoMock]
         internal void InitialiseBuilder(
-            IFixture builder,
+            IFixture fixture,
             SpecimenProvider sut)
         {
             // Act
-            Assert.Same(builder, sut.Builder);
+            Assert.Same(fixture, sut.Builder);
+        }
+
+        [Theory, AutoMock]
+        internal void AddGlobalCustomizations(
+            IFixture fixture,
+            SpecimenProvider sut)
+        {
+            // Act/Assert
+            Assert.Same(fixture, sut.Builder);
+            Assert.Empty(fixture.Behaviors.OfType<ThrowingRecursionBehavior>());
+            Assert.Equal(1, fixture.Behaviors.OfType<OmitOnRecursionBehavior>().Count());
+            Assert.True(fixture.OmitAutoProperties);
+        }
+
+        [Theory, AutoMock]
+        internal void AddGlobalCustomizationsIsIdempotent(
+            IFixture fixture)
+        {
+            // Arrange
+            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            if (throwingRecursionBehavior != null)
+            {
+                fixture.Behaviors.Remove(throwingRecursionBehavior);
+                fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            }
+            Assert.False(fixture.OmitAutoProperties);
+
+            // Act
+            var sut = new SpecimenProvider(fixture);
+
+            // Assert
+            Assert.Same(fixture, sut.Builder);
+            Assert.Empty(fixture.Behaviors.OfType<ThrowingRecursionBehavior>());
+            Assert.Equal(1, fixture.Behaviors.OfType<OmitOnRecursionBehavior>().Count());
+            Assert.True(fixture.OmitAutoProperties);
         }
 
         [Theory, AutoMock]

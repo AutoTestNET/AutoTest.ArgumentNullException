@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
+    using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Kernel;
 
     /// <summary>
@@ -18,13 +20,14 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecimenProvider"/> class.
         /// </summary>
-        /// <param name="builder">The specimen builder.</param>
-        public SpecimenProvider(ISpecimenBuilder builder)
+        /// <param name="fixture">The specimen fixture.</param>
+        public SpecimenProvider(IFixture fixture)
         {
-            if (builder == null)
-                throw new ArgumentNullException("builder");
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
 
-            _builder = builder;
+            _builder = fixture;
+            GlobalCustomizations(fixture);
         }
 
         /// <summary>
@@ -87,6 +90,26 @@
                 throw new ArgumentNullException("type");
 
             return Resolve(type);
+        }
+
+        /// <summary>
+        /// Added the global customizations to the <paramref name="fixture"/>.
+        /// </summary>
+        /// <param name="fixture">The test fixture.</param>
+        private static void GlobalCustomizations(IFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            // Don't need to create complex graphs, just need objects.
+            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            if (throwingRecursionBehavior != null)
+            {
+                fixture.Behaviors.Remove(throwingRecursionBehavior);
+                fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            }
+
+            fixture.OmitAutoProperties = true;
         }
 
         /// <summary>

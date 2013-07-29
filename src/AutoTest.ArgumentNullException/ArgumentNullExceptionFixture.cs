@@ -8,7 +8,6 @@
     using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Framework;
     using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Kernel;
 
     /// <summary>
     /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
@@ -53,9 +52,9 @@
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        /// <param name="builder">The specimen builder.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenBuilder builder)
-            : this(assemblyUnderTest, builder, DiscoverFilters())
+        /// <param name="fixture">The specimen fixture.</param>
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture)
+            : this(assemblyUnderTest, fixture, DiscoverFilters())
         {
         }
 
@@ -63,10 +62,10 @@
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        /// <param name="builder">The specimen builder.</param>
+        /// <param name="fixture">The specimen fixture.</param>
         /// <param name="filters">The list of filters.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenBuilder builder, List<IFilter> filters)
-            : this(assemblyUnderTest, new SpecimenProvider(builder), filters)
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, List<IFilter> filters)
+            : this(assemblyUnderTest, new SpecimenProvider(fixture), filters)
         {
         }
 
@@ -74,7 +73,7 @@
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture" /> class.
         /// </summary>
         /// <param name="assemblyUnderTest">The assembly under test.</param>
-        /// <param name="specimenProvider">The builder.</param>
+        /// <param name="specimenProvider">The specimen provider.</param>
         /// <param name="filters">The list of filters.</param>
         internal ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
         {
