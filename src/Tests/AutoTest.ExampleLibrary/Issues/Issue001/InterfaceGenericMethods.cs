@@ -27,7 +27,7 @@
         public static void GenericMethod<TClass>(TClass classValue, string stringValue)
             where TClass : ITest1, ITest2
         {
-            ClassValueTested = false;
+            StringValueTested = ClassValueTested = false;
 
             if (classValue == null)
             {

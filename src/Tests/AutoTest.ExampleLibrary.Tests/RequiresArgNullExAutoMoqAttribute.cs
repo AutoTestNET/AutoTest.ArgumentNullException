@@ -5,6 +5,7 @@
     using System.Reflection;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
+    using AutoTest.ExampleLibrary.Issues.Issue001;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
 
@@ -40,7 +41,8 @@
             // Don't need to create complex graphs, just need objects.
             fixture.OmitAutoProperties = true;
 
-            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
+            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture)
+                .ExcludeType(typeof(ComplexGenericMethods)); // Exclude until it can be tested.
         }
     }
 }

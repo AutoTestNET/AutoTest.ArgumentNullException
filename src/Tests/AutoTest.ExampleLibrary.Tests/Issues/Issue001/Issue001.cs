@@ -44,7 +44,6 @@
         }
 
         [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
-        [Include(Type = typeof(InterfaceGenericMethods))]
         [Include(
             ExclusionType = ExclusionType.All,
             Type = typeof(InterfaceGenericMethods),
@@ -58,7 +57,6 @@
         }
 
         [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
-        [Include(Type = typeof(InterfaceGenericMethods))]
         [Include(
             ExclusionType = ExclusionType.All,
             Type = typeof(InterfaceGenericMethods),
@@ -69,6 +67,19 @@
             await method.Execute();
 
             Assert.True(InterfaceGenericMethods.StringValueTested);
+        }
+
+        [Theory, RequiresArgNullExAutoMoq(typeof(ComplexGenericMethods))]
+        [Include(
+            ExclusionType = ExclusionType.Parameters,
+            Type = typeof(ComplexGenericMethods),
+            Method = "NonGenericMethod",
+            Parameter = "value")]
+        public async Task ComplexNonGeneric(MethodData method)
+        {
+            await method.Execute();
+
+            Assert.True(ComplexGenericMethods.NonGenericTested);
         }
     }
 }

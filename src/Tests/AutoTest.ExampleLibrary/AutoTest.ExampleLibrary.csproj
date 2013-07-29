@@ -38,6 +38,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Issues\Issue001\ComplexGenericMethods.cs" />
     <Compile Include="Issues\Issue001\InterfaceGenericMethods.cs" />
     <Compile Include="Issues\Issue001\MixedGenericMethods.cs" />
     <Compile Include="Issues\Issue001\SimpleGenericMethods.cs" />
