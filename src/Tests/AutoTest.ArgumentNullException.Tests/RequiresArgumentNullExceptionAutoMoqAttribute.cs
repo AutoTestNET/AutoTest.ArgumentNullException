@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
     using System.Threading.Tasks;
+    using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Xunit;
     using Ploeh.AutoFixture;
@@ -40,6 +41,10 @@
                     .ExcludeType(typeof(CatchInfoBase<>))
                     .ExcludeType(typeof(CatchInfo))
                     .ExcludeType(typeof(CatchInfo<>))
+                    .ExcludeParameter("type", typeof(RegexFilterExtensions), "ExcludeMethod")
+                    .ExcludeParameter("type", typeof(RegexFilterExtensions), "ExcludeParameter")
+                    .ExcludeParameter("type", typeof(RegexFilterExtensions), "IncludeMethod")
+                    .ExcludeParameter("type", typeof(RegexFilterExtensions), "IncludeParameter")
                     .ExcludeParameter("instanceUnderTest", typeof(MethodData), ".ctor");
         }
     }
