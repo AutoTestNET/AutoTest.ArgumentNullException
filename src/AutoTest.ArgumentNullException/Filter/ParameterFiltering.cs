@@ -7,7 +7,7 @@
     /// <summary>
     /// Helper class for applying filters on parameters.
     /// </summary>
-    internal static class ParameterFiltering
+    public static class ParameterFiltering
     {
         /// <summary>
         /// Executes the <paramref name="filter"/> on the <paramref name="parameter"/>, logging information if it was excluded.

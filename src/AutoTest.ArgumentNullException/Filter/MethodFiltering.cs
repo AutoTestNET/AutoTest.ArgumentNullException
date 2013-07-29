@@ -9,7 +9,7 @@
     /// <summary>
     /// Helper class for applying filters on methods in types.
     /// </summary>
-    internal static class MethodFiltering
+    public static class MethodFiltering
     {
         /// <summary>
         /// Gets all the methods (including constructors) in the <paramref name="type"/> limited by the <paramref name="filters"/>.

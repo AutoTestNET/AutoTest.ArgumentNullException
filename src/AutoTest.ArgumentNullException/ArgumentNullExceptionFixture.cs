@@ -75,7 +75,7 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="specimenProvider">The specimen provider.</param>
         /// <param name="filters">The list of filters.</param>
-        internal ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
+        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
         {
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");

@@ -9,7 +9,7 @@
     /// <summary>
     /// Helper class for applying filters on types in assemblies.
     /// </summary>
-    internal static class TypeFiltering
+    public static class TypeFiltering
     {
         /// <summary>
         /// Gets all the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.
