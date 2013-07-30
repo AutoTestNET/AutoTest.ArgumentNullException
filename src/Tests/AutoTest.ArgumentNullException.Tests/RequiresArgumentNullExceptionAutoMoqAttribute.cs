@@ -35,12 +35,12 @@
 
             return
                 new ArgumentNullExceptionFixture(assemblyUnderTest, fixture)
-                    .ExcludeType(typeof(ReflectionDiscoverableCollection<>))
-                    .ExcludeType(typeof(TaskHelpers))
-                    .ExcludeType(typeof(TaskHelpersExtensions))
-                    .ExcludeType(typeof(CatchInfoBase<>))
-                    .ExcludeType(typeof(CatchInfo))
-                    .ExcludeType(typeof(CatchInfo<>))
+                    .ExcludeType("AutoTest.ArgNullEx.Framework.ReflectionDiscoverableCollection`1")
+                    .ExcludeType("System.Threading.Tasks.TaskHelpers")
+                    .ExcludeType("System.Threading.Tasks.TaskHelpersExtensions")
+                    .ExcludeType("System.Threading.Tasks.CatchInfoBase`1")
+                    .ExcludeType("System.Threading.Tasks.CatchInfo")
+                    .ExcludeType("System.Threading.Tasks.CatchInfo`1")
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "ExcludeMethod")
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "ExcludeParameter")
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "IncludeMethod")
