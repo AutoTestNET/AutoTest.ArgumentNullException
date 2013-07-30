@@ -111,34 +111,64 @@
         /// <returns>The <paramref name="fixture"/>.</returns>
         public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
-            if (fixture == null)
-                throw new ArgumentNullException("fixture");
             if (type == null)
                 throw new ArgumentNullException("type");
 
+            return fixture.ExcludeType(type.FullName);
+        }
+
+        /// <summary>
+        /// Excludes the <paramref name="typeFullName"/> from checks for <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (string.IsNullOrWhiteSpace(typeFullName))
+                throw new ArgumentNullException("typeFullName");
+
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.ExcludeType(type);
+            regexFilter.ExcludeType(typeFullName);
 
             return fixture;
         }
 
         /// <summary>
-        /// Includes the <paramref name="type"/> for checks for <see cref="ArgumentNullException"/>. Overrides any type rules that may exclude the <paramref name="type"/>.
+        /// Includes the <paramref name="type"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any type rules that may exclude the <paramref name="type"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="type">The type.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
         public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
-            if (fixture == null)
-                throw new ArgumentNullException("fixture");
             if (type == null)
                 throw new ArgumentNullException("type");
 
+            return fixture.IncludeType(type.FullName);
+        }
+
+        /// <summary>
+        /// Includes the <paramref name="typeFullName"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any type rules that may exclude the <paramref name="typeFullName"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+            if (string.IsNullOrWhiteSpace(typeFullName))
+                throw new ArgumentNullException("typeFullName");
+
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.IncludeType(type);
+            regexFilter.IncludeType(typeFullName);
 
             return fixture;
         }
@@ -150,7 +180,25 @@
         /// <param name="methodName">The method name.</param>
         /// <param name="type">The type.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static IArgumentNullExceptionFixture ExcludeMethod(this IArgumentNullExceptionFixture fixture, string methodName, Type type = null)
+        public static IArgumentNullExceptionFixture ExcludeMethod(
+            this IArgumentNullExceptionFixture fixture,
+            string methodName,
+            Type type)
+        {
+            return fixture.ExcludeMethod(methodName, type != null ? type.FullName : null);
+        }
+
+        /// <summary>
+        /// Excludes the <paramref name="methodName"/> from checks for <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeMethod(
+            this IArgumentNullExceptionFixture fixture,
+            string methodName,
+            string typeFullName = null)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -159,19 +207,39 @@
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.ExcludeMethod(methodName, type);
+            regexFilter.ExcludeMethod(methodName, typeFullName);
 
             return fixture;
         }
 
         /// <summary>
-        /// Includes the <paramref name="methodName"/> for checks for <see cref="ArgumentNullException"/>. Overrides any method rules that may exclude the <paramref name="methodName"/>.
+        /// Includes the <paramref name="methodName"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any method rules that may exclude the <paramref name="methodName"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <param name="methodName">The method name.</param>
         /// <param name="type">The type.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static IArgumentNullExceptionFixture IncludeMethod(this IArgumentNullExceptionFixture fixture, string methodName, Type type = null)
+        public static IArgumentNullExceptionFixture IncludeMethod(
+            this IArgumentNullExceptionFixture fixture,
+            string methodName,
+            Type type)
+        {
+            return fixture.IncludeMethod(methodName, type != null ? type.FullName : null);
+        }
+
+        /// <summary>
+        /// Includes the <paramref name="methodName"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any method rules that may exclude the <paramref name="methodName"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture IncludeMethod(
+            this IArgumentNullExceptionFixture fixture,
+            string methodName,
+            string typeFullName = null)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -180,7 +248,7 @@
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.IncludeMethod(methodName, type);
+            regexFilter.IncludeMethod(methodName, typeFullName);
 
             return fixture;
         }
@@ -193,7 +261,28 @@
         /// <param name="type">The type.</param>
         /// <param name="methodName">The method name.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static IArgumentNullExceptionFixture ExcludeParameter(this IArgumentNullExceptionFixture fixture, string parameterName, Type type = null, string methodName = null)
+        public static IArgumentNullExceptionFixture ExcludeParameter(
+            this IArgumentNullExceptionFixture fixture,
+            string parameterName,
+            Type type,
+            string methodName = null)
+        {
+            return fixture.ExcludeParameter(parameterName, type != null ? type.FullName : null, methodName);
+        }
+
+        /// <summary>
+        /// Excludes the <paramref name="parameterName"/> from checks for <see cref="ArgumentNullException"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture ExcludeParameter(
+            this IArgumentNullExceptionFixture fixture,
+            string parameterName,
+            string typeFullName = null,
+            string methodName = null)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -202,7 +291,7 @@
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.ExcludeParameter(parameterName, type, methodName);
+            regexFilter.ExcludeParameter(parameterName, typeFullName, methodName);
 
             return fixture;
         }
@@ -215,7 +304,28 @@
         /// <param name="type">The type.</param>
         /// <param name="methodName">The method name.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
-        public static IArgumentNullExceptionFixture IncludeParameter(this IArgumentNullExceptionFixture fixture, string parameterName, Type type = null, string methodName = null)
+        public static IArgumentNullExceptionFixture IncludeParameter(
+            this IArgumentNullExceptionFixture fixture,
+            string parameterName,
+            Type type,
+            string methodName = null)
+        {
+            return fixture.IncludeParameter(parameterName, type != null ? type.FullName : null, methodName);
+        }
+
+        /// <summary>
+        /// Includes the <paramref name="parameterName"/> for checks for <see cref="ArgumentNullException"/>. Overrides any parameter rules that may exclude the <paramref name="parameterName"/>.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <param name="parameterName">The parameter name.</param>
+        /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
+        /// <param name="methodName">The method name.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        public static IArgumentNullExceptionFixture IncludeParameter(
+            this IArgumentNullExceptionFixture fixture,
+            string parameterName,
+            string typeFullName = null,
+            string methodName = null)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
@@ -224,7 +334,7 @@
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
-            regexFilter.IncludeParameter(parameterName, type, methodName);
+            regexFilter.IncludeParameter(parameterName, typeFullName, methodName);
 
             return fixture;
         }

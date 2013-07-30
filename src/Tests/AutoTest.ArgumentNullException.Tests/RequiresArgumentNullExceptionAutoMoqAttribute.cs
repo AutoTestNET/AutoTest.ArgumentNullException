@@ -45,6 +45,10 @@
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "ExcludeParameter")
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "IncludeMethod")
                     .ExcludeParameter("type", typeof(RegexFilterExtensions), "IncludeParameter")
+                    .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "ExcludeMethod")
+                    .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "ExcludeParameter")
+                    .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "IncludeMethod")
+                    .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "IncludeParameter")
                     .ExcludeParameter("instanceUnderTest", typeof(MethodData), ".ctor");
         }
     }
