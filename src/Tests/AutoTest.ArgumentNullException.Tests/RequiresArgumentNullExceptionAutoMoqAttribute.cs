@@ -49,7 +49,8 @@
                     .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "ExcludeParameter")
                     .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "IncludeMethod")
                     .ExcludeParameter("type", typeof(ArgumentNullExceptionFixtureExtensions), "IncludeParameter")
-                    .ExcludeParameter("instanceUnderTest", typeof(MethodData), ".ctor");
+                    .ExcludeParameter("instanceUnderTest", typeof(MethodData), ".ctor")
+                    .ExcludeParameter("nullParameter", typeof(MethodDataExtensions), "CheckException");
         }
     }
 }

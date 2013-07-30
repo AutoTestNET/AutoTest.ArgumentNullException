@@ -53,8 +53,6 @@
         {
             if (catchInfo == null)
                 throw new ArgumentNullException("catchInfo");
-            if (string.IsNullOrWhiteSpace(nullParameter))
-                throw new ArgumentNullException("nullParameter");
 
             string actualParamName =
                 Assert.Throws<ArgumentNullException>(() => { throw catchInfo.Exception; }).ParamName;

@@ -35,9 +35,6 @@
         void ICustomization.Customize(IFixture fixture)
         {
             fixture.Inject(ParameterInfo);
-            fixture.Customize<CatchInfo>(
-                composer => composer.FromFactory(
-                    () => new CatchInfo(TaskHelpers.FromError(new Exception()))));
         }
     }
 
