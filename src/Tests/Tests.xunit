@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xunit>
-  <assemblies>
-    <assembly filename="AutoTest.ArgumentNullException.Tests\bin\Debug\AutoTest.ArgumentNullException.Tests.dll" shadow-copy="false" />
-    <assembly filename="AutoTest.ExampleLibrary.Tests\bin\Debug\AutoTest.ExampleLibrary.Tests.dll" shadow-copy="false" />
-  </assemblies>
-</xunit>
