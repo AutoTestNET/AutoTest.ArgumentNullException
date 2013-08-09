@@ -82,17 +82,56 @@
             Assert.True(InterfaceGenericMethods.StringValueTested);
         }
 
-        [Theory, RequiresArgNullExAutoMoq(typeof(ComplexGenericMethods))]
+        [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
         [Include(
-            ExclusionType = ExclusionType.Parameters,
+            ExclusionType = ExclusionType.All,
             Type = typeof(ComplexGenericMethods),
-            Method = "NonGenericMethod",
-            Parameter = "value")]
-        public async Task ComplexNonGeneric(MethodData method)
+            Method = "GenericClassMethod",
+            Parameter = "classValue")]
+        public async Task ComplexClassValue(MethodData method)
         {
             await method.Execute();
 
-            Assert.True(ComplexGenericMethods.NonGenericTested);
+            Assert.True(ComplexGenericMethods.ClassValueTested);
+        }
+
+        [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
+        [Include(
+            ExclusionType = ExclusionType.All,
+            Type = typeof(ComplexGenericMethods),
+            Method = "GenericClassMethod",
+            Parameter = "genericClassMethodStringValue")]
+        public async Task ComplexGenericClassMethodStringValue(MethodData method)
+        {
+            await method.Execute();
+
+            Assert.True(ComplexGenericMethods.GenericClassMethodStringValueTested);
+        }
+
+        [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
+        [Include(
+            ExclusionType = ExclusionType.All,
+            Type = typeof(ComplexGenericMethods),
+            Method = "GenericExceptionMethod",
+            Parameter = "exceptionValue")]
+        public async Task ComplexExceptionValue(MethodData method)
+        {
+            await method.Execute();
+
+            Assert.True(ComplexGenericMethods.ExceptionValueTested);
+        }
+
+        [Theory, RequiresArgNullExAutoMoq(typeof(InterfaceGenericMethods))]
+        [Include(
+            ExclusionType = ExclusionType.All,
+            Type = typeof(ComplexGenericMethods),
+            Method = "GenericExceptionMethod",
+            Parameter = "genericExceptionMethodStringValue")]
+        public async Task ComplexGenericExceptionMethodStringValue(MethodData method)
+        {
+            await method.Execute();
+
+            Assert.True(ComplexGenericMethods.GenericExceptionMethodStringValueTested);
         }
     }
 }

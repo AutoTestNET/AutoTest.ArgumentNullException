@@ -4,7 +4,6 @@
     using System.Reflection;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
-    using AutoTest.ExampleLibrary.Issues.Issue001;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.AutoMoq;
 
@@ -30,8 +29,7 @@
         {
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
-            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture)
-                .ExcludeType(typeof(ComplexGenericMethods)); // Exclude until it can be tested.
+            return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
         }
     }
 }

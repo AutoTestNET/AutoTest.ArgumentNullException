@@ -135,6 +135,17 @@
                     nonGenericType = constraint;
                     return true;
                 }
+
+                // If there is a single constraint, the generic type requires a default constructor and the constraint
+                // has a default constructor, just use the constraint as the non generic type.
+                if (attributes == GenericParameterAttributes.DefaultConstructorConstraint)
+                {
+                    if (constraint.GetConstructor(Type.EmptyTypes) != null)
+                    {
+                        nonGenericType = constraint;
+                        return true;
+                    }
+                }
             }
 
             nonGenericType = null;

@@ -1,6 +1,5 @@
 ﻿namespace AutoTest.ArgNullEx.Lock
 {
-    using System;
     using System.Threading;
     using global::Xunit;
 

@@ -8,11 +8,6 @@
     /// </summary>
     public static class ComplexGenericMethods
     {
-        /// <summary>
-        /// Gets a value indicating if the <see cref="NonGenericMethod"/> value parameter has been tested.
-        /// </summary>
-        public static bool NonGenericTested { get; private set; }
-
         public interface ITest1
         {
             string String1 { get; set; }
@@ -23,33 +18,61 @@
             string String2 { get; set; }
         }
 
-        public static void NonGenericMethod(string value)
+        /// <summary>
+        /// Gets a value indicating if the <see cref="GenericClassMethod{T}"/> classValue parameter has been tested.
+        /// </summary>
+        public static bool ClassValueTested { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating if the <see cref="GenericClassMethod{T}"/> genericClassMethodStringValue parameter has been tested.
+        /// </summary>
+        public static bool GenericClassMethodStringValueTested { get; private set; }
+
+        public static void GenericClassMethod<TClass>(TClass classValue, string genericClassMethodStringValue)
+            where TClass : class, ITest1, ITest2
         {
-            NonGenericTested = false;
-            if (value == null)
+            ClassValueTested = GenericClassMethodStringValueTested = false;
+
+            if (classValue == null)
             {
-                NonGenericTested = true;
-                throw new ArgumentNullException("value");
+                ClassValueTested = true;
+                throw new ArgumentNullException("classValue");
+            }
+            if (genericClassMethodStringValue == null)
+            {
+                GenericClassMethodStringValueTested = true;
+                throw new ArgumentNullException("genericClassMethodStringValue");
             }
 
             throw new Exception("Shouldn't ever get here.");
         }
 
-        public static void GenericClassMethod<TClass>(TClass classValue, string stringValue)
-            where TClass : class, ITest1, ITest2
-        {
-            throw new Exception("Shouldn't ever get here.");
-        }
+        /// <summary>
+        /// Gets a value indicating if the <see cref="GenericExceptionMethod{T}"/> exceptionValue parameter has been tested.
+        /// </summary>
+        public static bool ExceptionValueTested { get; private set; }
 
-        public static void GenericExceptionMethod<TException>(TException classValue, string stringValue)
+        /// <summary>
+        /// Gets a value indicating if the <see cref="GenericExceptionMethod{T}"/> genericExceptionMethodStringValue parameter has been tested.
+        /// </summary>
+        public static bool GenericExceptionMethodStringValueTested { get; private set; }
+
+        public static void GenericExceptionMethod<TException>(TException exceptionValue, string genericExceptionMethodStringValue)
             where TException : Exception, new()
         {
-            throw new Exception("Shouldn't ever get here.");
-        }
+            ExceptionValueTested = GenericExceptionMethodStringValueTested = false;
 
-        public static void GenericStructMethod<TStruct>(TStruct classValue, string stringValue)
-            where TStruct : struct, ITest1, ITest2
-        {
+            if (exceptionValue == null)
+            {
+                ExceptionValueTested = true;
+                throw new ArgumentNullException("exceptionValue");
+            }
+            if (genericExceptionMethodStringValue == null)
+            {
+                GenericExceptionMethodStringValueTested = true;
+                throw new ArgumentNullException("genericExceptionMethodStringValue");
+            }
+
             throw new Exception("Shouldn't ever get here.");
         }
     }
