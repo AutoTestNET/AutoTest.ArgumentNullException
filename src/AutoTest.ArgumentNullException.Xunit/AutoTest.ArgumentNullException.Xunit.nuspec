@@ -19,6 +19,8 @@ using this tokenized nuspec file.
     <title>$title$</title>
     <authors>James Skimming</authors>
     <owners>James Skimming</owners>
+    <licenseUrl>https://github.com/AutoTestNET/AutoTest.ArgumentNullException/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/AutoTestNET/AutoTest.ArgumentNullException</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException</tags>
