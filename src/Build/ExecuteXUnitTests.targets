@@ -8,8 +8,7 @@
 
   <ItemGroup>
     <XUnitRunnerAssemblyPathGroup Condition="'$(XUnitRunnerAssemblyPath)'==''"
-                                  Include="$(WorkingDir)\packages\**\xunit.runner.msbuild.dll"
-                                  Exclude="$(WorkingDir)\packages\xunit.runners*\**\xunit.runner.msbuild.dll" />
+                                  Include="$(WorkingDir)\packages\xunit.runners*\**\xunit.runner.msbuild.dll" />
   </ItemGroup>
 
   <PropertyGroup>
