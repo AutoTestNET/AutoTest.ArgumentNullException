@@ -15,11 +15,12 @@ using this tokenized nuspec file.
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
   <metadata>
     <id>$id$</id>
-    <version>$version$</version>
+    <version>0.5.2</version>
     <title>$title$</title>
     <authors>James Skimming</authors>
     <owners>James Skimming</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
+    <tags>Unit Test TDD AutoFixture Exception ArgumentNullException</tags>
   </metadata>
 </package>
