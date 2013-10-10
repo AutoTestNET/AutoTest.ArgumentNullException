@@ -1,5 +1,10 @@
+@echo Off
 
-@"%~dp0src\.nuget\NuGet.exe" push "%~dp0nuget\AutoTest.ArgumentNullException.0.2.0.nupkg"  -Source https://staging.nuget.org
-@"%~dp0src\.nuget\NuGet.exe" push "%~dp0nuget\AutoTest.ArgumentNullException.Xunit.0.2.0.nupkg"  -Source https://staging.nuget.org
+SET msbuild="%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
 
-@pause
+if "%1" == "" (
+   call "%~dp0build.cmd"
+)
+
+echo %msbuild% "%~dp0src\Build\NuGetPush.proj" /nologo /verbosity:m
+%msbuild% "%~dp0src\Build\NuGetPush.proj" /nologo /verbosity:m
