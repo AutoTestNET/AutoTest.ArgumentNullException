@@ -29,14 +29,14 @@
             Assert.Same(sut, customization);
         }
 
-        [Theory, AutoMock]
-        public void ExcludeAllTypesAndIncludeParameter(
+        private static void Execute(
             IncludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
             List<RegexRule> regexRules,
             Mock<IRegexFilter> regexFilterMock,
-            Mock<IArgumentNullExceptionFixture> fixtureMock)
+            Mock<IArgumentNullExceptionFixture> fixtureMock,
+            int additionalRules)
         {
             // Arrange
             sut.ExclusionType = ExclusionType.Types;
@@ -50,8 +50,34 @@
             customization.Customize(fixtureMock.Object);
 
             // Assert
-            Assert.Equal(existingRules.Count + 4, regexRules.Count);
+            Assert.Equal(existingRules.Count + additionalRules, regexRules.Count);
             Assert.False(existingRules.Except(regexRules).Any());
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAllTypesAndIncludeParameter(
+            IncludeAttribute sut,
+            MethodInfo method,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            sut.TypeFullName = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 4);
+        }
+
+        [Theory, AutoMock]
+        public void ExcludeAllTypesAndIncludeParameterWithTypeByName(
+            IncludeAttribute sut,
+            MethodInfo method,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            sut.Type = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 4);
         }
 
         [Theory, AutoMock]
@@ -63,21 +89,23 @@
             Mock<IRegexFilter> regexFilterMock,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
-            // Arrange
-            sut.ExclusionType = ExclusionType.Types;
-            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
-            filters.Add(regexFilterMock.Object);
-            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
-            List<RegexRule> existingRules = regexRules.ToList();
-
-            // Act
             sut.Parameter = null;
-            IArgNullExCustomization customization = sut.GetCustomization(method);
-            customization.Customize(fixtureMock.Object);
+            sut.TypeFullName = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 3);
+        }
 
-            // Assert
-            Assert.Equal(existingRules.Count + 3, regexRules.Count);
-            Assert.False(existingRules.Except(regexRules).Any());
+        [Theory, AutoMock]
+        public void ExcludeAllTypesAndIncludeMethodWithTypeByName(
+            IncludeAttribute sut,
+            MethodInfo method,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            sut.Parameter = null;
+            sut.Type = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 3);
         }
 
         [Theory, AutoMock]
@@ -89,26 +117,40 @@
             Mock<IRegexFilter> regexFilterMock,
             Mock<IArgumentNullExceptionFixture> fixtureMock)
         {
-            // Arrange
-            sut.ExclusionType = ExclusionType.Types;
-            regexFilterMock.SetupGet(r => r.Rules).Returns(regexRules);
-            filters.Add(regexFilterMock.Object);
-            fixtureMock.SetupGet(f => f.Filters).Returns(filters);
-            List<RegexRule> existingRules = regexRules.ToList();
-
-            // Act
             sut.Parameter = null;
             sut.Method = null;
-            IArgNullExCustomization customization = sut.GetCustomization(method);
-            customization.Customize(fixtureMock.Object);
-
-            // Assert
-            Assert.Equal(existingRules.Count + 2, regexRules.Count);
-            Assert.False(existingRules.Except(regexRules).Any());
+            sut.TypeFullName = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 2);
         }
 
         [Theory, AutoMock]
-        public void ThrowsIfNothingSpecified(
+        public void ExcludeAllTypesAndIncludeTypeByName(
+            IncludeAttribute sut,
+            MethodInfo method,
+            List<IFilter> filters,
+            List<RegexRule> regexRules,
+            Mock<IRegexFilter> regexFilterMock,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            sut.Parameter = null;
+            sut.Method = null;
+            sut.Type = null;
+            Execute(sut, method, filters, regexRules, regexFilterMock, fixtureMock, additionalRules: 2);
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfBothTypeAndTypeFullNameSpecified(
+            IncludeAttribute sut,
+            MethodInfo method,
+            Mock<IArgumentNullExceptionFixture> fixtureMock)
+        {
+            // AAA
+            IArgNullExCustomization customization = sut.GetCustomization(method);
+            Assert.Throws<InvalidOperationException>(() => customization.Customize(fixtureMock.Object));
+        }
+
+        [Theory, AutoMock]
+        public void ThrowIfNothingSpecified(
             IncludeAttribute sut,
             MethodInfo method,
             List<IFilter> filters,
@@ -125,6 +167,7 @@
             sut.Parameter = null;
             sut.Method = null;
             sut.Type = null;
+            sut.TypeFullName = null;
             IArgNullExCustomization customization = sut.GetCustomization(method);
             Assert.Throws<InvalidOperationException>(() => customization.Customize(fixtureMock.Object));
         }

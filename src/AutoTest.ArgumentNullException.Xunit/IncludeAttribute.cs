@@ -16,6 +16,12 @@
         public Type Type { get; set; }
 
         /// <summary>
+        /// Gets or sets the full name of the <see cref="System.Type"/> for checks for <see cref="ArgumentNullException"/>.
+        /// Overrides any type rules that may exclude the <see cref="System.Type"/>.
+        /// </summary>
+        public string TypeFullName { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="Method"/> for checks for <see cref="ArgumentNullException"/>.
         /// Overrides any method rules that may exclude the <see cref="Method"/>.
         /// </summary>
@@ -37,17 +43,40 @@
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
+            if (Type != null && !string.IsNullOrWhiteSpace(TypeFullName))
+            {
+                throw new InvalidOperationException("Type and TypeFullName cannot both be specified.");
+            }
+
             base.Customize(fixture);
 
             if (!string.IsNullOrWhiteSpace(Parameter))
             {
+                if (!string.IsNullOrWhiteSpace(TypeFullName))
+                {
+                    fixture.IncludeParameter(Parameter, TypeFullName, Method);
+                    return;
+                }
+
                 fixture.IncludeParameter(Parameter, Type, Method);
                 return;
             }
 
             if (!string.IsNullOrWhiteSpace(Method))
             {
+                if (!string.IsNullOrWhiteSpace(TypeFullName))
+                {
+                    fixture.IncludeMethod(Method, TypeFullName);
+                    return;
+                }
+
                 fixture.IncludeMethod(Method, Type);
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(TypeFullName))
+            {
+                fixture.IncludeType(TypeFullName);
                 return;
             }
 
