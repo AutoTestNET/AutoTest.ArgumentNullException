@@ -14,9 +14,9 @@ namespace System.Threading.Tasks
         private static readonly Action<Task> _rethrowWithNoStackLossDelegate = GetRethrowWithNoStackLossDelegate();
 
         // <summary>
-        // Calls the given continuation, after the given task completes, if it ends in a faulted state.
-        // Will not be called if the task did not fault (meaning, it will not be called if the task ran
-        // to completion or was canceled). Intended to roughly emulate C# 5's support for "try/catch" in
+        // Calls the given continuation, after the given task completes, if it ends in a faulted or canceled state.
+        // Will not be called if the task did not fault or cancel (meaning, it will not be called if the task ran
+        // to completion). Intended to roughly emulate C# 5's support for "try/catch" in
         // async methods. Note that this method allows you to return a Task, so that you can either return
         // a completed Task (indicating that you swallowed the exception) or a faulted task (indicating that
         // that the exception should be propagated). In C#, you cannot normally use await within a catch
@@ -30,13 +30,13 @@ namespace System.Threading.Tasks
                 return task;
             }
 
-            return task.CatchImpl(() => continuation(new CatchInfo(task)).Task.ToTask<AsyncVoid>(), cancellationToken);
+            return task.CatchImpl(() => continuation(new CatchInfo(task, cancellationToken)).Task.ToTask<AsyncVoid>(), cancellationToken);
         }
 
         // <summary>
-        // Calls the given continuation, after the given task completes, if it ends in a faulted state.
-        // Will not be called if the task did not fault (meaning, it will not be called if the task ran
-        // to completion or was canceled). Intended to roughly emulate C# 5's support for "try/catch" in
+        // Calls the given continuation, after the given task completes, if it ends in a faulted or canceled state.
+        // Will not be called if the task did not fault or cancel (meaning, it will not be called if the task ran
+        // to completion). Intended to roughly emulate C# 5's support for "try/catch" in
         // async methods. Note that this method allows you to return a Task, so that you can either return
         // a completed Task (indicating that you swallowed the exception) or a faulted task (indicating that
         // that the exception should be propagated). In C#, you cannot normally use await within a catch
@@ -49,7 +49,7 @@ namespace System.Threading.Tasks
             {
                 return task;
             }
-            return task.CatchImpl(() => continuation(new CatchInfo<TResult>(task)).Task, cancellationToken);
+            return task.CatchImpl(() => continuation(new CatchInfo<TResult>(task, cancellationToken)).Task, cancellationToken);
         }
 
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The caught exception type is reflected into a faulted task.")]
@@ -60,7 +60,7 @@ namespace System.Threading.Tasks
             // Stay on the same thread if we can
             if (task.IsCompleted)
             {
-                if (task.IsFaulted)
+                if (task.IsFaulted || task.IsCanceled || cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
@@ -78,10 +78,6 @@ namespace System.Threading.Tasks
                     {
                         return TaskHelpers.FromError<TResult>(ex);
                     }
-                }
-                if (task.IsCanceled || cancellationToken.IsCancellationRequested)
-                {
-                    return TaskHelpers.Canceled<TResult>();
                 }
 
                 if (task.Status == TaskStatus.RanToCompletion)
@@ -106,7 +102,7 @@ namespace System.Threading.Tasks
             TaskCompletionSource<Task<TResult>> tcs = new TaskCompletionSource<Task<TResult>>();
 
             // this runs only if the inner task did not fault
-            task.ContinueWith(innerTask => tcs.TrySetFromTask(innerTask), TaskContinuationOptions.NotOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+            task.ContinueWith(innerTask => tcs.TrySetFromTask(innerTask), TaskContinuationOptions.OnlyOnRanToCompletion | TaskContinuationOptions.ExecuteSynchronously);
 
             // this runs only if the inner task faulted
             task.ContinueWith(innerTask =>
@@ -148,7 +144,7 @@ namespace System.Threading.Tasks
                         tcs.TrySetException(ex);
                     }
                 }
-            }, TaskContinuationOptions.OnlyOnFaulted);
+            }, TaskContinuationOptions.NotOnRanToCompletion);
 
             return tcs.Task.FastUnwrap();
         }
@@ -570,7 +566,7 @@ namespace System.Threading.Tasks
 
         // <summary>
         // Calls the given continuation, after the given task has completed, if the task successfully ran
-        // to completion (i.e., was not cancelled and did not fault).
+        // to completion (i.e., was not canceled and did not fault).
         // </summary>
         internal static Task Then(this Task task, Action continuation, CancellationToken cancellationToken = default(CancellationToken), bool runSynchronously = false)
         {
@@ -579,7 +575,7 @@ namespace System.Threading.Tasks
 
         // <summary>
         // Calls the given continuation, after the given task has completed, if the task successfully ran
-        // to completion (i.e., was not cancelled and did not fault).
+        // to completion (i.e., was not canceled and did not fault).
         // </summary>
         internal static Task<TOuterResult> Then<TOuterResult>(this Task task, Func<TOuterResult> continuation, CancellationToken cancellationToken = default(CancellationToken), bool runSynchronously = false)
         {
@@ -618,7 +614,7 @@ namespace System.Threading.Tasks
 
         // <summary>
         // Calls the given continuation, after the given task has completed, if the task successfully ran
-        // to completion (i.e., was not cancelled and did not fault). The continuation is provided with the
+        // to completion (i.e., was not canceled and did not fault). The continuation is provided with the
         // result of the task as its sole parameter.
         // </summary>
         [SuppressMessage("Microsoft.Web.FxCop", "MW1201:DoNotCallProblematicMethodsOnTask", Justification = "The usages here are deemed safe, and provide the implementations that this rule relies upon.")]
@@ -629,7 +625,7 @@ namespace System.Threading.Tasks
 
         // <summary>
         // Calls the given continuation, after the given task has completed, if the task successfully ran
-        // to completion (i.e., was not cancelled and did not fault). The continuation is provided with the
+        // to completion (i.e., was not canceled and did not fault). The continuation is provided with the
         // result of the task as its sole parameter.
         // </summary>
         [SuppressMessage("Microsoft.Web.FxCop", "MW1201:DoNotCallProblematicMethodsOnTask", Justification = "The usages here are deemed safe, and provide the implementations that this rule relies upon.")]
@@ -640,7 +636,7 @@ namespace System.Threading.Tasks
 
         // <summary>
         // Calls the given continuation, after the given task has completed, if the task successfully ran
-        // to completion (i.e., was not cancelled and did not fault). The continuation is provided with the
+        // to completion (i.e., was not canceled and did not fault). The continuation is provided with the
         // result of the task as its sole parameter.
         // </summary>
         [SuppressMessage("Microsoft.Web.FxCop", "MW1201:DoNotCallProblematicMethodsOnTask", Justification = "The usages here are deemed safe, and provide the implementations that this rule relies upon.")]
@@ -835,11 +831,28 @@ namespace System.Threading.Tasks
         private Exception _exception;
         private TTask _task;
 
-        protected CatchInfoBase(TTask task)
+        protected CatchInfoBase(TTask task, CancellationToken cancellationToken)
         {
             Contract.Assert(task != null);
             _task = task;
-            _exception = _task.Exception.GetBaseException();  // Observe the exception early, to prevent tasks tearing down the app domain
+            if (task.IsFaulted)
+            {
+                _exception = _task.Exception.GetBaseException();  // Observe the exception early, to prevent tasks tearing down the app domain
+            }
+            else if (task.IsCanceled)
+            {
+                _exception = new TaskCanceledException(task);
+            }
+            else
+            {
+                System.Diagnostics.Debug.Assert(cancellationToken.IsCancellationRequested);
+                _exception = new OperationCanceledException(cancellationToken);
+            }
+        }
+
+        protected TTask Task
+        {
+            get { return _task; }
         }
 
         // <summary>
@@ -848,14 +861,6 @@ namespace System.Threading.Tasks
         public Exception Exception
         {
             get { return _exception; }
-        }
-
-        // <summary>
-        // Returns a CatchResult that re-throws the original exception.
-        // </summary>
-        public CatchResult Throw()
-        {
-            return new CatchResult { Task = _task };
         }
 
         // <summary>
@@ -875,8 +880,8 @@ namespace System.Threading.Tasks
     {
         private static CatchResult _completed = new CatchResult { Task = TaskHelpers.Completed() };
 
-        public CatchInfo(Task task)
-            : base(task)
+        public CatchInfo(Task task, CancellationToken cancellationToken)
+            : base(task, cancellationToken)
         {
         }
 
@@ -900,6 +905,22 @@ namespace System.Threading.Tasks
         }
 
         // <summary>
+        // Returns a CatchResult that re-throws the original exception.
+        // </summary>
+        public CatchResult Throw()
+        {
+            if (base.Task.IsFaulted || base.Task.IsCanceled)
+            {
+                return new CatchResult { Task = base.Task };
+            }
+            else
+            {
+                // Canceled via CancelationToken
+                return new CatchResult { Task = TaskHelpers.Canceled() };
+            }
+        }
+
+        // <summary>
         // Returns a CatchResult that throws the given exception.
         // </summary>
         // <param name="ex">The exception to throw.</param>
@@ -913,8 +934,8 @@ namespace System.Threading.Tasks
     [SuppressMessage("Microsoft.StyleCop.CSharp.MaintainabilityRules", "SA1402:FileMayOnlyContainASingleClass", Justification = "Packaged as one file to make it easy to link against")]
     internal class CatchInfo<T> : CatchInfoBase<Task<T>>
     {
-        public CatchInfo(Task<T> task)
-            : base(task)
+        public CatchInfo(Task<T> task, CancellationToken cancellationToken)
+            : base(task, cancellationToken)
         {
         }
 
@@ -936,6 +957,22 @@ namespace System.Threading.Tasks
         public CatchResult Task(Task<T> task)
         {
             return new CatchResult { Task = task };
+        }
+
+        // <summary>
+        // Returns a CatchResult that re-throws the original exception.
+        // </summary>
+        public CatchResult Throw()
+        {
+            if (base.Task.IsFaulted || base.Task.IsCanceled)
+            {
+                return new CatchResult { Task = base.Task };
+            }
+            else
+            {
+                // Canceled via CancelationToken
+                return new CatchResult { Task = TaskHelpers.Canceled<T>() };
+            }
         }
 
         // <summary>
