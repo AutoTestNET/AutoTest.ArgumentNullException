@@ -51,8 +51,8 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="App_Packages\TaskHelpers.Sources.0.2\TaskHelpers.cs" />
-    <Compile Include="App_Packages\TaskHelpers.Sources.0.2\TaskHelpersExtensions.cs" />
+    <Compile Include="App_Packages\TaskHelpers.Sources.0.3\TaskHelpers.cs" />
+    <Compile Include="App_Packages\TaskHelpers.Sources.0.3\TaskHelpersExtensions.cs" />
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="ExcludeAllAttribute.cs" />
     <Compile Include="ExcludeAttribute.cs" />
