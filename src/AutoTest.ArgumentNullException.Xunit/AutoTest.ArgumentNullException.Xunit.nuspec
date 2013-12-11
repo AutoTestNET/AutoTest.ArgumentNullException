@@ -25,7 +25,7 @@ using this tokenized nuspec file.
     <description>$description$</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException</tags>
     <dependencies>
-      <dependency id="AutoTest.ArgumentNullException" version="$version$" />
+      <dependency id="AutoTest.ArgumentNullException" version="0.5.3" />
     </dependencies>
   </metadata>
 </package>

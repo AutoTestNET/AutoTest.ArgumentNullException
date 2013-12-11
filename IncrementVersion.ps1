@@ -36,13 +36,22 @@ function IncrementVersion-NuSpec($file, $rank)
 {
     (Get-Content $file) |
     % {
-        $exp = ([regex]'(^\s*<version>)(\d+\.\d+\.\d+)(</version>\s*$)')
-        $match = $exp.match($_)
-        if ($match.success)
+        $exp1 = ([regex]'(^\s*<version>)(\d+\.\d+\.\d+)(</version>\s*$)')
+        $match1 = $exp1.match($_)
+        $exp2 = ([regex]'(^\s*<dependency\s*id="AutoTest\.ArgumentNullException"\s*version=")(\d+\.\d+\.\d+)("\s*/>\s*$)')
+        $match2 = $exp2.match($_)
+        if ($match1.success)
         {
-            $ov = New-Object Version($match.groups[2].value + '.0')
+            $ov = New-Object Version($match1.groups[2].value + '.0')
             $nv = Increment-Version $ov $rank
-            $replaced = $exp.replace($_, $match.groups[1].value + $nv.Major + '.' + $nv.Minor + '.' + $nv.Build + $match.groups[3].value)
+            $replaced = $exp1.replace($_, $match1.groups[1].value + $nv.Major + '.' + $nv.Minor + '.' + $nv.Build + $match1.groups[3].value)
+            $replaced
+        }
+        elseif ($match2.success)
+        {
+            $ov = New-Object Version($match2.groups[2].value + '.0')
+            $nv = Increment-Version $ov $rank
+            $replaced = $exp2.replace($_, $match2.groups[1].value + $nv.Major + '.' + $nv.Minor + '.' + $nv.Build + $match2.groups[3].value)
             $replaced
         }
         else
