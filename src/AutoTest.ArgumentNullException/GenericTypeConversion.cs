@@ -179,7 +179,16 @@
                 builder.AddInterfaceImplementation(constraint);
             }
 
-            return builder.CreateType();
+            try
+            {
+                // Try to create the type.
+                return builder.CreateType();
+            }
+            catch
+            {
+                // If create failed return the generic type which will cause a failure later.
+                return genericType;
+            }
         }
     }
 }
