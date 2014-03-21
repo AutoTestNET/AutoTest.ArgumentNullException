@@ -75,6 +75,7 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="specimenProvider">The specimen provider.</param>
         /// <param name="filters">The list of filters.</param>
+        /// <exception cref="ArgumentNullException">Any of the parameters are <see langword="null"/>.</exception>
         public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
         {
             if (assemblyUnderTest == null)
@@ -173,6 +174,8 @@
         /// <param name="type">The <see cref="Type"/> the method belongs to.</param>
         /// <param name="method">The method.</param>
         /// <returns>The parameter data for the <paramref name="method"/> on the <paramref name="type"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="type"/> or <paramref name="method"/> parameters
+        /// are <see langword="null"/>.</exception>
         private IEnumerable<MethodData> SetupParameterData(Type type, MethodBase method)
         {
             if (type == null)

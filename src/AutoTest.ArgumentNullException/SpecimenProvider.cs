@@ -21,6 +21,8 @@
         /// Initializes a new instance of the <see cref="SpecimenProvider"/> class.
         /// </summary>
         /// <param name="fixture">The specimen fixture.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is
+        /// <see langword="null"/>.</exception>
         public SpecimenProvider(IFixture fixture)
         {
             if (fixture == null)
@@ -44,6 +46,10 @@
         /// <param name="parameters">The parameters.</param>
         /// <param name="nullIndex">The index of the null parameter.</param>
         /// <returns>The specimens for the <paramref name="parameters"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="parameters"/> parameter is
+        /// <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="parameters"/> list is empty or the
+        /// <paramref name="nullIndex"/> is outside the range of the <paramref name="parameters"/>.</exception>
         object[] ISpecimenProvider.GetParameterSpecimens(IList<ParameterInfo> parameters, int nullIndex)
         {
             if (parameters == null)
@@ -84,6 +90,8 @@
         /// </summary>
         /// <param name="type">The <see cref="Type"/> to create</param>
         /// <returns>The instance of the <paramref name="type"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="type"/> parameter is
+        /// <see langword="null"/>.</exception>
         object ISpecimenProvider.CreateInstance(Type type)
         {
             if (type == null)
@@ -96,6 +104,8 @@
         /// Added the global customizations to the <paramref name="fixture"/>.
         /// </summary>
         /// <param name="fixture">The test fixture.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is
+        /// <see langword="null"/>.</exception>
         private static void GlobalCustomizations(IFixture fixture)
         {
             if (fixture == null)
@@ -117,6 +127,8 @@
         /// </summary>
         /// <param name="parameter">The <see cref="ParameterInfo"/> that describes what to create.</param>
         /// <returns>The <paramref name="parameter"/> specimen.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="parameter"/> parameter is
+        /// <see langword="null"/>.</exception>
         private object ResolveParameter(ParameterInfo parameter)
         {
             if (parameter == null)
@@ -133,6 +145,8 @@
         /// </summary>
         /// <param name="request">The request that describes what to create.</param>
         /// <returns>The <paramref name="request"/> specimen.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="request"/> parameter is
+        /// <see langword="null"/>.</exception>
         private object Resolve(object request)
         {
             if (request == null)

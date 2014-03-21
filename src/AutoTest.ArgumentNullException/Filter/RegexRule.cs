@@ -1,7 +1,9 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Text.RegularExpressions;
 
     /// <summary>
@@ -18,7 +20,14 @@
         /// <param name="type">The <see cref="Regex"/> to include or exclude the type.</param>
         /// <param name="method">The <see cref="Regex"/> to include or exclude the method.</param>
         /// <param name="parameter">The <see cref="Regex"/> to include or exclude the parameter.</param>
-        public RegexRule(string name, bool include = false, Regex type = null, Regex method = null, Regex parameter = null)
+        /// <exception cref="ArgumentNullException">The <paramref name="name"/> parameter is
+        /// <see langword="null"/>.</exception>
+        public RegexRule(
+            string name,
+            bool include = false,
+            Regex type = null,
+            Regex method = null,
+            Regex parameter = null)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException("name");

@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx.Xunit
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -15,6 +17,8 @@
         /// </summary>
         /// <param name="method">The method to be customized.</param>
         /// <returns>A customization for a test method.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="method"/> parameter is
+        /// <see langword="null"/>.</exception>
         public abstract IArgNullExCustomization GetCustomization(MethodInfo method);
     }
 }

@@ -39,7 +39,7 @@ namespace AutoTest.ArgNullEx.Framework
         /// Gets or sets a value indicating whether or not auto discover.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if [auto discover]; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if [auto discover]; otherwise, <see langword="false"/>.
         /// </value>
         public bool AutoDiscover { get; set; }
 
@@ -161,7 +161,7 @@ namespace AutoTest.ArgNullEx.Framework
         /// </summary>
         /// <param name="item">The item.</param>
         /// <returns>
-        ///   <c>true</c> if the collection contains the specified item; otherwise, <c>false</c>.
+        ///   <see langword="true"/> if the collection contains the specified item; otherwise, <see langword="false"/>.
         /// </returns>
         public bool Contains(T item)
         {
@@ -182,7 +182,7 @@ namespace AutoTest.ArgNullEx.Framework
         /// Removes the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        /// <returns><c>true</c> is the item was removed.</returns>
+        /// <returns><see langword="true"/> is the item was removed.</returns>
         public bool Remove(T item)
         {
             var result = Items.Remove(item);

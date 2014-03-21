@@ -99,7 +99,7 @@ namespace System.Threading.Tasks
         // <param name="asyncIterator">collection of tasks to wait on</param>
         // <param name="cancellationToken">cancellation token</param>
         // <param name="disposeEnumerator">whether or not to dispose the enumerator we get from <paramref name="asyncIterator"/>.
-        // Only set to <c>false</c> if you can guarantee that <paramref name="asyncIterator"/>'s enumerator does not have any resources it needs to dispose.</param>
+        // Only set to <see langword="false"/> if you can guarantee that <paramref name="asyncIterator"/>'s enumerator does not have any resources it needs to dispose.</param>
         // <returns>a task that signals completed when all the incoming tasks are finished.</returns>
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "The exception is propagated in a Task.")]
         internal static Task Iterate(IEnumerable<Task> asyncIterator, CancellationToken cancellationToken = default(CancellationToken), bool disposeEnumerator = true)

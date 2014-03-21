@@ -17,6 +17,7 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ClearBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
@@ -33,6 +34,7 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="mask">The mask of <see cref="BindingFlags"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture SetBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
@@ -49,6 +51,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="filterType">The type of filter.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="filterType"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture RemoveFilters(this IArgumentNullExceptionFixture fixture, Type filterType)
         {
             if (fixture == null)
@@ -67,6 +71,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="filtersToRemove">The filters to remove.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="filtersToRemove"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture RemoveFilters(this IArgumentNullExceptionFixture fixture, IEnumerable<IFilter> filtersToRemove)
         {
             if (fixture == null)
@@ -88,6 +94,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="filters">The filters to add.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="filters"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture AddFilters(this IArgumentNullExceptionFixture fixture, IEnumerable<IFilter> filters)
         {
             if (fixture == null)
@@ -109,6 +117,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="type">The type.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="type"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
             if (type == null)
@@ -123,6 +133,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="typeFullName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
         {
             if (fixture == null)
@@ -144,6 +156,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="type">The type.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="type"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
             if (type == null)
@@ -159,6 +173,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="typeFullName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
         {
             if (fixture == null)
@@ -195,6 +211,8 @@
         /// <param name="methodName">The method name.</param>
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="methodName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeMethod(
             this IArgumentNullExceptionFixture fixture,
             string methodName,
@@ -236,6 +254,8 @@
         /// <param name="methodName">The method name.</param>
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="methodName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture IncludeMethod(
             this IArgumentNullExceptionFixture fixture,
             string methodName,
@@ -278,6 +298,8 @@
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <param name="methodName">The method name.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="parameterName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeParameter(
             this IArgumentNullExceptionFixture fixture,
             string parameterName,
@@ -321,6 +343,8 @@
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <param name="methodName">The method name.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="parameterName"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture IncludeParameter(
             this IArgumentNullExceptionFixture fixture,
             string parameterName,
@@ -344,6 +368,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeAllTypes(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
@@ -361,6 +386,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeAllMethods(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
@@ -378,6 +404,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeAllParameters(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
@@ -395,6 +422,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture ExcludeAll(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
@@ -413,6 +441,8 @@
         /// <param name="fixture">The fixture.</param>
         /// <param name="customization">The customization to apply.</param>
         /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> or <paramref name="customization"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IArgumentNullExceptionFixture Customize(this IArgumentNullExceptionFixture fixture, IArgNullExCustomization customization)
         {
             if (fixture == null)
@@ -429,6 +459,7 @@
         /// </summary>
         /// <param name="fixture">The fixture.</param>
         /// <returns>The single <see cref="IRegexFilter"/> from the <see cref="IArgumentNullExceptionFixture.Filters"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         /// <exception cref="InvalidOperationException">There are zero of more than one <see cref="IRegexFilter"/> objects in the <see cref="IArgumentNullExceptionFixture.Filters"/>.</exception>
         private static IRegexFilter GetRegexFilter(this IArgumentNullExceptionFixture fixture)
         {

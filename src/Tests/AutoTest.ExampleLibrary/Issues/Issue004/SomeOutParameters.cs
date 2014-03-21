@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ExampleLibrary.Issues.Issue004
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Test class used to demonstrate issue 3 and 4

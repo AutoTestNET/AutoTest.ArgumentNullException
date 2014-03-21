@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx.Filter
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -13,7 +15,12 @@
         /// </summary>
         /// <param name="rule">The rule to match against the <paramref name="type"/>.</param>
         /// <param name="type">The type to check if it matches the <paramref name="rule"/>.</param>
-        /// <returns><c>true</c> if the <paramref name="rule"/> matches against the <paramref name="type"/>; otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="rule"/> matches against the <paramref name="type"/>;
+        /// otherwise <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="rule"/> or <paramref name="type"/> parameters
+        /// are <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The <see cref="RegexRule.Type"/> property of the <paramref name="rule"/>
+        /// is <see langword="null"/>.</exception>
         public static bool MatchType(this RegexRule rule, Type type)
         {
             if (rule == null)
@@ -30,9 +37,15 @@
         /// Checks whether the supplied <paramref name="method"/> matches the <paramref name="rule"/>.
         /// </summary>
         /// <param name="rule">The rule to match against the <paramref name="method"/>.</param>
-        /// <param name="type">The type to check if it matches the <paramref name="rule"/> if <see cref="RegexRule.Type"/> is not null.</param>
+        /// <param name="type">The type to check if it matches the <paramref name="rule"/> if
+        /// <see cref="RegexRule.Type"/> is not null.</param>
         /// <param name="method">The method to check if it matches the <paramref name="rule"/>.</param>
-        /// <returns><c>true</c> if the <paramref name="rule"/> matches against the <paramref name="method"/>; otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="rule"/> matches against the
+        /// <paramref name="method"/>; otherwise <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="rule"/>, <paramref name="type"/> or
+        /// <paramref name="method"/> parameters are <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The <see cref="RegexRule.Method"/> property of the
+        /// <paramref name="rule"/> is <see langword="null"/>.</exception>
         public static bool MatchMethod(this RegexRule rule, Type type, MethodBase method)
         {
             if (rule == null)
@@ -55,10 +68,17 @@
         /// Checks whether the supplied <paramref name="parameter"/> matches the <paramref name="rule"/>.
         /// </summary>
         /// <param name="rule">The rule to match against the <paramref name="method"/>.</param>
-        /// <param name="type">The type to check if it matches the <paramref name="rule"/> if <see cref="RegexRule.Type"/> is not null.</param>
-        /// <param name="method">The method to check if it matches the <paramref name="rule"/> if <see cref="RegexRule.Method"/> is not null.</param>
+        /// <param name="type">The type to check if it matches the <paramref name="rule"/> if
+        /// <see cref="RegexRule.Type"/> is not null.</param>
+        /// <param name="method">The method to check if it matches the <paramref name="rule"/> if
+        /// <see cref="RegexRule.Method"/> is not null.</param>
         /// <param name="parameter">The parameter to check if it matches the <paramref name="rule"/>.</param>
-        /// <returns><c>true</c> if the <paramref name="rule"/> matches against the <paramref name="parameter"/>; otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the <paramref name="rule"/> matches against the
+        /// <paramref name="parameter"/>; otherwise <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="rule"/>, <paramref name="type"/>,
+        /// <paramref name="method"/> or <paramref name="parameter"/> parameters are <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">The <see cref="RegexRule.Parameter"/> property of the
+        /// <paramref name="rule"/> is <see langword="null"/>.</exception>
         public static bool MatchParameter(this RegexRule rule, Type type, MethodBase method, ParameterInfo parameter)
         {
             if (rule == null)

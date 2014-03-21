@@ -16,7 +16,10 @@
         /// </summary>
         /// <param name="assembly">The <see cref="Assembly"/> from which to retrieve the types.</param>
         /// <param name="filters">The collection of filters to limit the types.</param>
-        /// <returns>All the types in the <paramref name="assembly"/> limited by the <paramref name="filters"/>.</returns>
+        /// <returns>All the types in the <paramref name="assembly"/> limited by the
+        /// <paramref name="filters"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="assembly"/> or <paramref name="filters"/>
+        /// parameters are <see langword="null"/>.</exception>
         public static IEnumerable<Type> GetTypes(this Assembly assembly, IEnumerable<ITypeFilter> filters)
         {
             if (assembly == null)
@@ -30,11 +33,14 @@
         }
 
         /// <summary>
-        /// Executes the <paramref name="filter"/> on the <paramref name="type"/>, logging information if it was excluded.
+        /// Executes the <paramref name="filter"/> on the <paramref name="type"/>, logging information if it was
+        /// excluded.
         /// </summary>
         /// <param name="type">The type.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="ITypeFilter.ExcludeType"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="type"/> or <paramref name="filter"/> parameters
+        /// are <see langword="null"/>.</exception>
         private static bool ApplyFilter(this Type type, ITypeFilter filter)
         {
             if (type == null)

@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ExampleLibrary.Issues.Issue001
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Test class used to demonstrate issue 1 on generic methods.

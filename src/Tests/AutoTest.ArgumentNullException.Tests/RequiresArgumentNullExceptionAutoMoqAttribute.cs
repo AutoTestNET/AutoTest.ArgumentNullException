@@ -1,10 +1,10 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
-    using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Filter;
-    using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Xunit;
     using Ploeh.AutoFixture;
 
@@ -22,7 +22,8 @@
 
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
-            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
+            if (assemblyUnderTest == null)
+                throw new ArgumentNullException("assemblyUnderTest");
 
             return assemblyUnderTest.Assembly;
         }
