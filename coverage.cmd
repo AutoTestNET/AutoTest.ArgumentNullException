@@ -1,6 +1,6 @@
 @echo Off
 
-SET msbuild="%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
+CALL "%~dp0setmsbuild.cmd"
 
 if "%1" == "" (
    call "%~dp0build.cmd" Debug
