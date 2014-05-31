@@ -46,6 +46,7 @@
     <Compile Include="Issues\Issue005\PropertySetters.cs" />
     <Compile Include="Issues\Issue006\SpecialCharacters.cs" />
     <Compile Include="Issues\Issue009\InternalInnerInterface.cs" />
+    <Compile Include="Issues\Issue012\YieldExample.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
