@@ -205,41 +205,33 @@ namespace AutoTest.ArgNullEx.Framework
         {
             var results = new List<T>();
 
-            foreach (var file in Directory.GetFiles(DiscoveryLocation, "*.dll", SearchOption.AllDirectories))
+            // This behavior only to support usage of glimpse[@discoverLocation] attribute. Remove "if" block in Glimpse 2.0 in favor of "else" if it is decided that discovery location is not required
+            if (!DiscoveryLocation.Equals(BaseDirectory))
             {
-                try
+                foreach (var file in Directory.GetFiles(DiscoveryLocation, "*.dll", SearchOption.AllDirectories))
                 {
-                    Assembly assembly = Assembly.LoadFrom(file);
-                    Type[] allTypes;
-
-                    // GetTypes potentially throws and exception. Defensive coding as per http://haacked.com/archive/2012/07/23/get-all-types-in-an-assembly.aspx
                     try
                     {
-                        allTypes = assembly.GetTypes();
-                    }
-                    catch (ReflectionTypeLoadException ex)
-                    {
-                        allTypes = ex.Types.Where(t => t != null).ToArray();
-                    }
+                        Assembly assembly = Assembly.LoadFrom(file);
 
-                    var concreteTypes = allTypes.Where(type => typeof(T).IsAssignableFrom(type) &&
-                                                                          !type.IsInterface &&
-                                                                          !type.IsAbstract &&
-                                                                          !IgnoredTypes.Contains(type));
-                    foreach (var type in concreteTypes)
+                        GetConcreteTypes(assembly, results);
+                    }
+                    catch (Exception)
                     {
-                        try
-                        {
-                            var instance = (T)Activator.CreateInstance(type);
-                            results.Add(instance);
-                        }
-                        catch (Exception)
-                        {
-                        }
                     }
                 }
-                catch (Exception)
+            }
+            else
+            {
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
+                    try
+                    {
+                        GetConcreteTypes(assembly, results);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             }
 
@@ -248,6 +240,32 @@ namespace AutoTest.ArgNullEx.Framework
                 Items.Clear();
 
                 Items.AddRange(results);
+            }
+        }
+
+        private void GetConcreteTypes(Assembly assembly, List<T> results)
+        {
+            if (ReflectionBlackList.IsBlackListed(assembly))
+            {
+                return;
+            }
+
+            var allTypes = AssemblyTypesResolver.ResolveTypes(assembly);
+
+            var concreteTypes = allTypes.Where(type => typeof(T).IsAssignableFrom(type) &&
+                                                       !type.IsInterface &&
+                                                       !type.IsAbstract &&
+                                                       !IgnoredTypes.Contains(type));
+            foreach (var type in concreteTypes)
+            {
+                try
+                {
+                    var instance = (T)Activator.CreateInstance(type);
+                    results.Add(instance);
+                }
+                catch (Exception)
+                {
+                }
             }
         }
     }

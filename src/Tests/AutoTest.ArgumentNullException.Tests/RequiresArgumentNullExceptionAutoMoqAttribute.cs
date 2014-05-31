@@ -36,6 +36,8 @@
             return
                 new ArgumentNullExceptionFixture(assemblyUnderTest, fixture)
                     .ExcludeType("AutoTest.ArgNullEx.Framework.ReflectionDiscoverableCollection`1")
+                    .ExcludeType("AutoTest.ArgNullEx.Framework.ReflectionBlackList")
+                    .ExcludeType("AutoTest.ArgNullEx.Framework.AssemblyTypesResolver")
                     .ExcludeType("System.Threading.Tasks.TaskHelpers")
                     .ExcludeType("System.Threading.Tasks.TaskHelpersExtensions")
                     .ExcludeType("System.Threading.Tasks.CatchInfoBase`1")

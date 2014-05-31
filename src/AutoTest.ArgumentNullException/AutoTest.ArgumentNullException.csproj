@@ -63,7 +63,9 @@
     <Compile Include="Filter\RegexRule.cs" />
     <Compile Include="Filter\RegexRuleExtensions.cs" />
     <Compile Include="Filter\MethodFiltering.cs" />
+    <Compile Include="Framework\AssemblyTypesResolver.cs" />
     <Compile Include="Framework\IDiscoverableCollection.cs" />
+    <Compile Include="Framework\ReflectionBlackList.cs" />
     <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
     <Compile Include="GenericTypeConversion.cs" />
     <Compile Include="IArgNullExCustomization.cs" />
