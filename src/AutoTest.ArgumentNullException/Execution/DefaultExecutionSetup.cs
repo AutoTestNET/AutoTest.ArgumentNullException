@@ -1,6 +1,7 @@
 ﻿namespace AutoTest.ArgNullEx.Execution
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
     using System.Threading.Tasks;
@@ -115,7 +116,13 @@
         {
             try
             {
-                _methodUnderTest.Invoke(_sut, _parameters);
+                object result = _methodUnderTest.Invoke(_sut, _parameters);
+
+                var enumerable = result as IEnumerable;
+                if (enumerable != null)
+                {
+                    enumerable.GetEnumerator().MoveNext();
+                }
             }
             catch (TargetInvocationException targetInvocationException)
             {
