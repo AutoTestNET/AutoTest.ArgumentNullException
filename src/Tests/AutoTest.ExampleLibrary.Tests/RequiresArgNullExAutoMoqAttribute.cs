@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ExampleLibrary
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
@@ -20,7 +22,8 @@
 
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
-            if (assemblyUnderTest == null) throw new ArgumentNullException("assemblyUnderTest");
+            if (assemblyUnderTest == null)
+                throw new ArgumentNullException("assemblyUnderTest");
 
             return assemblyUnderTest.Assembly;
         }

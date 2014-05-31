@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Xunit;
@@ -27,7 +29,8 @@
         /// <returns>A completed task.</returns>
         private static Task ExceptionTask(Exception exception)
         {
-            if (exception == null) throw new ArgumentNullException("exception");
+            if (exception == null)
+                throw new ArgumentNullException("exception");
 
             var tcs = new TaskCompletionSource<int>();
             tcs.SetException(exception);

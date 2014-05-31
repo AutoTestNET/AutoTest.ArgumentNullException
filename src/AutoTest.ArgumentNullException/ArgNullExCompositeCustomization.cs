@@ -18,6 +18,7 @@
         /// Initializes a new instance of the <see cref="ArgNullExCompositeCustomization"/> class.
         /// </summary>
         /// <param name="customizations">The customizations.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="customizations"/> parameter is <see langword="null"/>.</exception>
         public ArgNullExCompositeCustomization(IEnumerable<IArgNullExCustomization> customizations)
         {
             if (customizations == null)
@@ -47,6 +48,7 @@
         /// Customizes the specified fixture.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
         void IArgNullExCustomization.Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)

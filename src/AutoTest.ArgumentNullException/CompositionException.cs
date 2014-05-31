@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -32,6 +34,7 @@
         /// <param name="nullParameter">The name of the null parameter.</param>
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         /// <returns>The error message.</returns>
+        /// <exception cref="ArgumentNullException">Any of the parameters are <see langword="null"/>.</exception>
         private static string CreateMessage(
             Type classUnderTest,
             MethodBase methodUnderTest,

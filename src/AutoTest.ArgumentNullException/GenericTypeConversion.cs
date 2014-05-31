@@ -57,6 +57,8 @@
         /// </summary>
         /// <param name="genericType">The generic type.</param>
         /// <returns>A non generic type for the specified <paramref name="genericType"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="genericType"/> parameter is
+        /// <see langword="null"/>.</exception>
         internal static Type GetNonGenericType(Type genericType)
         {
             if (genericType == null)
@@ -99,7 +101,10 @@
         /// </summary>
         /// <param name="genericType">The generic type.</param>
         /// <param name="nonGenericType">The non generic type for the <paramref name="genericType"/>.</param>
-        /// <returns><c>true</c> if a <paramref name="nonGenericType"/> can be used; otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if a <paramref name="nonGenericType"/> can be used; otherwise
+        /// <see langword="false"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="genericType"/> parameter is
+        /// <see langword="null"/>.</exception>
         private static bool TrySimple(Type genericType, out Type nonGenericType)
         {
             if (genericType == null)
@@ -158,6 +163,8 @@
         /// </summary>
         /// <param name="genericType">The generic type.</param>
         /// <returns>A runtime generated type for the specified <paramref name="genericType"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="genericType"/> parameter is
+        /// <see langword="null"/>.</exception>
         private static Type GenerateRuntimeType(Type genericType)
         {
             if (genericType == null)

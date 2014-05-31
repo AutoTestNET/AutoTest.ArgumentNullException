@@ -1,6 +1,8 @@
 ﻿namespace AutoTest.ArgNullEx.Xunit
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -28,6 +30,8 @@
         /// </summary>
         /// <param name="method">The method to be customized.</param>
         /// <returns>A customization for a test method.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="method"/> parameter is
+        /// <see langword="null"/>.</exception>
         public override IArgNullExCustomization GetCustomization(MethodInfo method)
         {
             if (method == null)
@@ -40,6 +44,8 @@
         /// Customizes the specified <paramref name="fixture"/> by excluding all types.
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is
+        /// <see langword="null"/>.</exception>
         public virtual void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)

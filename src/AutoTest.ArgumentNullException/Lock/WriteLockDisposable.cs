@@ -1,6 +1,8 @@
 namespace AutoTest.ArgNullEx.Lock
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
 
     /// <summary>
@@ -14,15 +16,18 @@ namespace AutoTest.ArgNullEx.Lock
         private readonly ReaderWriterLockSlim _slimLock;
 
         /// <summary>
-        /// <c>true</c> if the write lock is acquired, otherwise <c>false</c>.
+        /// <see langword="true"/> if the write lock is acquired, otherwise <see langword="false"/>.
         /// </summary>
         private bool _lockAcquired;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteLockDisposable" /> struct with the <paramref name="slimLock"/> and optionally acquires the write lock.
+        /// Initializes a new instance of the <see cref="WriteLockDisposable" /> struct with the
+        /// <paramref name="slimLock"/> and optionally acquires the write lock.
         /// </summary>
         /// <param name="slimLock">The <see cref="ReaderWriterLockSlim"/>.</param>
-        /// <param name="aquireLock">Acquires the write lock if <c>true</c>.</param>
+        /// <param name="aquireLock">Acquires the write lock if <see langword="true"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="slimLock"/> parameter is
+        /// <see langword="null"/>.</exception>
         public WriteLockDisposable(ReaderWriterLockSlim slimLock, bool aquireLock = true)
         {
             if (slimLock == null)

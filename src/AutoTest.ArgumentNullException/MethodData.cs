@@ -1,7 +1,9 @@
 ﻿namespace AutoTest.ArgNullEx
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Execution;
@@ -16,12 +18,16 @@
         /// Initializes a new instance of the <see cref="MethodData"/> class.
         /// </summary>
         /// <param name="classUnderTest">The type of the class under test.</param>
-        /// <param name="instanceUnderTest">The instance of the class under test if the <paramref name="methodUnderTest"/> is not static.</param>
+        /// <param name="instanceUnderTest">The instance of the class under test if the
+        /// <paramref name="methodUnderTest"/> is not static.</param>
         /// <param name="methodUnderTest">The method under test.</param>
         /// <param name="parameters">The parameters to the <paramref name="methodUnderTest"/>.</param>
         /// <param name="nullParameter">The name of the null parameter in the <paramref name="parameters"/>.</param>
         /// <param name="nullIndex">The index of the null parameter in the <paramref name="parameters"/>.</param>
         /// <param name="executionSetup">The setup for the <see cref="ExecuteAction"/>.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="classUnderTest"/>,
+        /// <paramref name="methodUnderTest"/>, <paramref name="parameters"/>, <paramref name="nullParameter"/> or
+        /// <paramref name="executionSetup"/> parameters are <see langword="null"/>.</exception>
         public MethodData(
             Type classUnderTest,
             object instanceUnderTest,

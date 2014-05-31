@@ -8,6 +8,7 @@ namespace AutoTest.ArgNullEx.Framework
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     /// Defines methods to self discover collection content.
@@ -18,7 +19,7 @@ namespace AutoTest.ArgNullEx.Framework
         /// <summary>
         /// Gets a value indicating whether [auto discover].
         /// </summary>
-        /// <value><c>true</c> if [auto discover]; otherwise, <c>false</c>.</value>
+        /// <value><see langword="true"/> if [auto discover]; otherwise, <see langword="false"/>.</value>
         /// <remarks>
         /// Indicates whether the system can automatically call Discover()
         /// </remarks>

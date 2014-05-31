@@ -30,6 +30,8 @@
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
         /// <param name="fixture">The fixture.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is
+        /// <see langword="null"/>.</exception>
         protected RequiresArgumentNullExceptionAttribute(
             IArgumentNullExceptionFixture fixture)
         {
@@ -53,6 +55,8 @@
         /// <param name="methodUnderTest">The test method under test.</param>
         /// <param name="parameterTypes">The types of the parameters.</param>
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="methodUnderTest"/> or
+        /// <paramref name="parameterTypes"/> parameters is <see langword="null"/>.</exception>
         public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
         {
             if (methodUnderTest == null)
@@ -70,6 +74,8 @@
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
         /// <returns>The <see cref="Assembly"/> from the supplied <see cref="Type"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="assemblyUnderTest"/> parameter is
+        /// <see langword="null"/>.</exception>
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
             if (assemblyUnderTest == null)
@@ -83,6 +89,8 @@
         /// </summary>
         /// <param name="method">The method that may have been customized.</param>
         /// <param name="fixture">The fixture.</param>
+        /// <exception cref="ArgumentNullException">The <paramref name="method"/> or <paramref name="fixture"/>
+        /// parameters is <see langword="null"/>.</exception>
         private static void CustomizeFixture(MethodInfo method, IArgumentNullExceptionFixture fixture)
         {
             if (method == null)

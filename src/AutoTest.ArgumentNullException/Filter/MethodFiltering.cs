@@ -12,12 +12,16 @@
     public static class MethodFiltering
     {
         /// <summary>
-        /// Gets all the methods (including constructors) in the <paramref name="type"/> limited by the <paramref name="filters"/>.
+        /// Gets all the methods (including constructors) in the <paramref name="type"/> limited by the
+        /// <paramref name="filters"/>.
         /// </summary>
         /// <param name="type">The <see cref="Type"/> from which to retrieve the methods.</param>
-        /// <param name="bindingAttr">A bitmask comprised of one or more <see cref="System.Reflection.BindingFlags"/> that specify how the search is conducted.</param>
+        /// <param name="bindingAttr">A bitmask comprised of one or more <see cref="System.Reflection.BindingFlags"/>
+        /// that specify how the search is conducted.</param>
         /// <param name="filters">The collection of filters to limit the methods.</param>
         /// <returns>All the methods in the <paramref name="type"/> limited by the <paramref name="filters"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="type"/> or <paramref name="filters"/> parameters
+        /// are <see langword="null"/>.</exception>
         public static IEnumerable<MethodBase> GetMethods(this Type type, BindingFlags bindingAttr, IEnumerable<IMethodFilter> filters)
         {
             if (type == null)
@@ -41,7 +45,10 @@
         /// Converts generic method definitions to methods with specific type definitions.
         /// </summary>
         /// <param name="method">The method that may be a generic method definition.</param>
-        /// <returns>The converted generic method definition; otherwise the <paramref name="method"/> if it is non generic.</returns>
+        /// <returns>The converted generic method definition; otherwise the <paramref name="method"/> if it is non
+        /// generic.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="method"/> parameter is <see langword="null"/>.
+        /// </exception>
         private static MethodBase ConvertGenericMethod(MethodBase method)
         {
             if (method == null)
@@ -62,12 +69,15 @@
         }
 
         /// <summary>
-        /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was excluded.
+        /// Executes the <paramref name="filter"/> on the <paramref name="method"/>, logging information if it was
+        /// excluded.
         /// </summary>
         /// <param name="method">The method.</param>
         /// <param name="type">The type.</param>
         /// <param name="filter">The <see cref="Type"/> filter.</param>
         /// <returns>The result of <see cref="IMethodFilter.ExcludeMethod"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="method"/>, <paramref name="type"/> or
+        /// <paramref name="filter"/> parameters are <see langword="null"/>.</exception>
         private static bool ApplyFilter(this MethodBase method, Type type, IMethodFilter filter)
         {
             if (method == null)

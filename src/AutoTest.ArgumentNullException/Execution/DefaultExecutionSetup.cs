@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@
         private object[] _parameters;
 
         /// <summary>
-        /// The system under tests, can be <c>null</c> if the <see cref="_methodUnderTest"/> is static.
+        /// The system under tests, can be <see langword="null"/> if the <see cref="_methodUnderTest"/> is static.
         /// </summary>
         private object _sut;
 
@@ -48,7 +49,7 @@
         }
 
         /// <summary>
-        /// Gets the system under tests, can be <c>null</c> if the <see cref="MethodUnderTest"/> is static.
+        /// Gets the system under tests, can be <see langword="null"/> if the <see cref="MethodUnderTest"/> is static.
         /// </summary>
         public object Sut
         {
@@ -60,6 +61,7 @@
         /// </summary>
         /// <param name="methodData">The method data.</param>
         /// <returns>A reflected asynchronous <see cref="MethodBase"/> execution.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="methodData"/> parameter is <see langword="null"/>.</exception>
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
             if (methodData == null)
