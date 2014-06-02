@@ -48,7 +48,9 @@
     <Compile Include="ArgNullExCompositeCustomization.cs" />
     <Compile Include="ArgumentNullExceptionFixture.cs" />
     <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
+    <Compile Include="Filter\MethodExtensions.cs" />
     <Compile Include="Filter\NotAbstractMethod.cs" />
+    <Compile Include="Filter\NotEqualsMethod.cs" />
     <Compile Include="Filter\NotOutParameter.cs" />
     <Compile Include="Filter\NotPropertySetter.cs" />
     <Compile Include="Filter\TypeFiltering.cs" />
