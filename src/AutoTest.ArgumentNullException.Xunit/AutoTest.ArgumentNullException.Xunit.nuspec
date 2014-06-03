@@ -15,7 +15,7 @@ using this tokenized nuspec file.
 <package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
   <metadata>
     <id>$id$</id>
-    <version>0.5.4</version>
+    <version>0.6.0</version>
     <title>$title$</title>
     <authors>James Skimming</authors>
     <owners>James Skimming</owners>
@@ -25,7 +25,7 @@ using this tokenized nuspec file.
     <description>$description$</description>
     <tags>Unit Test TDD AutoFixture Exception ArgumentNullException</tags>
     <dependencies>
-      <dependency id="AutoTest.ArgumentNullException" version="0.5.4" />
+      <dependency id="AutoTest.ArgumentNullException" version="0.6.0" />
     </dependencies>
   </metadata>
 </package>
