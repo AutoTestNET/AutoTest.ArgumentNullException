@@ -8,6 +8,7 @@
     /// <summary>
     /// An <see cref="Exception"/> representing an error composing a method execution.
     /// </summary>
+    [Serializable]
     public class CompositionException : Exception
     {
         /// <summary>

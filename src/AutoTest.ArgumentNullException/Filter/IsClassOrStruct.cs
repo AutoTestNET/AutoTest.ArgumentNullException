@@ -7,7 +7,7 @@
     /// <summary>
     /// Filters out types that are not classes or structs.
     /// </summary>
-    public class IsClassOrStruct : FilterBase, ITypeFilter
+    public sealed class IsClassOrStruct : FilterBase, ITypeFilter
     {
         /// <summary>
         /// Filters out types that are not classes.

@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out parameters that have a <see langword="null"/> default value.
     /// </summary>
-    public class NotNullDefault : FilterBase, IParameterFilter
+    public sealed class NotNullDefault : FilterBase, IParameterFilter
     {
         /// <summary>
         /// Filters out parameters that have a <see langword="null"/> default value.

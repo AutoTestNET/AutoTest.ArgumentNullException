@@ -8,7 +8,7 @@
     /// <summary>
     /// The <see cref="IExecutionSetup"/> used to throw a setup error.
     /// </summary>
-    public class ErroredExecutionSetup : IExecutionSetup
+    public sealed class ErroredExecutionSetup : IExecutionSetup
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ErroredExecutionSetup"/> class.

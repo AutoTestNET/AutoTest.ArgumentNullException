@@ -10,7 +10,7 @@
     /// <summary>
     /// Provides parameter and instance specimens for a null parameter invocation of a method.
     /// </summary>
-    public class SpecimenProvider : ISpecimenProvider
+    public sealed class SpecimenProvider : ISpecimenProvider
     {
         /// <summary>
         /// The specimen builder.

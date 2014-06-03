@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out methods that are compiler generated.
     /// </summary>
-    public class NotCompilerGenerated : FilterBase, ITypeFilter, IMethodFilter
+    public sealed class NotCompilerGenerated : FilterBase, ITypeFilter, IMethodFilter
     {
         /// <summary>
         /// Filters out types that are compiler generated.

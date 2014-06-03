@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out property setters.
     /// </summary>
-    public class NotPropertySetter : FilterBase, IMethodFilter
+    public sealed class NotPropertySetter : FilterBase, IMethodFilter
     {
         /// <summary>
         /// Filters out property setters.
