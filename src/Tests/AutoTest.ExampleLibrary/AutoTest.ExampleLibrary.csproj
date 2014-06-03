@@ -47,6 +47,9 @@
     <Compile Include="Issues\Issue006\SpecialCharacters.cs" />
     <Compile Include="Issues\Issue009\InternalInnerInterface.cs" />
     <Compile Include="Issues\Issue012\YieldExample.cs" />
+    <Compile Include="Issues\Issue015\ExplicitEquals.cs" />
+    <Compile Include="Issues\Issue015\ImplicitEquals.cs" />
+    <Compile Include="Issues\Issue015\OtherEquals.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
