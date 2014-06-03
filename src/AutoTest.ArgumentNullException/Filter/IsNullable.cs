@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out parameters that are not nullable.
     /// </summary>
-    public class IsNullable : FilterBase, IParameterFilter
+    public sealed class IsNullable : FilterBase, IParameterFilter
     {
         /// <summary>
         /// Filters out parameters that are not nullable.

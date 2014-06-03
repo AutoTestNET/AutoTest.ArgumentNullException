@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out output parameters.
     /// </summary>
-    public class NotOutParameter : FilterBase, IParameterFilter
+    public sealed class NotOutParameter : FilterBase, IParameterFilter
     {
         /// <summary>
         /// Filters out output parameters.

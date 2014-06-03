@@ -10,7 +10,7 @@
     /// <summary>
     /// The default <see cref="IExecutionSetup"/>.
     /// </summary>
-    public class DefaultExecutionSetup : IExecutionSetup
+    public sealed class DefaultExecutionSetup : IExecutionSetup
     {
         /// <summary>
         /// A singleton completed task.

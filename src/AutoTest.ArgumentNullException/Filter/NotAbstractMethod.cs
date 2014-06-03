@@ -8,7 +8,7 @@
     /// <summary>
     /// Filters out abstract methods.
     /// </summary>
-    public class NotAbstractMethod : FilterBase, IMethodFilter
+    public sealed class NotAbstractMethod : FilterBase, IMethodFilter
     {
         /// <summary>
         /// Filters out abstract methods.

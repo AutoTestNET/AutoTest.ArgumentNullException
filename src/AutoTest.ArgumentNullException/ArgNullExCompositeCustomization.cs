@@ -49,7 +49,7 @@
         /// </summary>
         /// <param name="fixture">The fixture to customize.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
-        void IArgNullExCustomization.Customize(IArgumentNullExceptionFixture fixture)
+        public void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
                 throw new ArgumentNullException("fixture");

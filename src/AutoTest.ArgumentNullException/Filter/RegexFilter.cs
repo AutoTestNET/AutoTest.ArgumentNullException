@@ -9,7 +9,7 @@
     /// <summary>
     /// A filter to include or exclude using <see cref="Regex"/> matching.
     /// </summary>
-    public class RegexFilter : FilterBase, ITypeFilter, IMethodFilter, IParameterFilter, IRegexFilter
+    public sealed class RegexFilter : FilterBase, ITypeFilter, IMethodFilter, IParameterFilter, IRegexFilter
     {
         /// <summary>
         /// The list of rules.
