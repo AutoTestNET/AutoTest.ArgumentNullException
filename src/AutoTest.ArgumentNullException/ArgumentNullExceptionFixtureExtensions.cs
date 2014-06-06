@@ -436,6 +436,22 @@
         }
 
         /// <summary>
+        /// Excludes all private members.
+        /// </summary>
+        /// <param name="fixture">The fixture.</param>
+        /// <returns>The <paramref name="fixture"/>.</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="fixture"/> parameter is <see langword="null"/>.</exception>
+        public static IArgumentNullExceptionFixture ExcludePrivate(this IArgumentNullExceptionFixture fixture)
+        {
+            if (fixture == null)
+                throw new ArgumentNullException("fixture");
+
+            fixture.BindingFlags &= ~BindingFlags.NonPublic;
+
+            return fixture;
+        }
+
+        /// <summary>
         /// Applies the <paramref name="customization"/>.
         /// </summary>
         /// <param name="fixture">The fixture.</param>

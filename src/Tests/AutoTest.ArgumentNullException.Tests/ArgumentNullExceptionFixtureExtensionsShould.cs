@@ -872,6 +872,31 @@
 
         #endregion ExcludeAll
 
+        #region ExcludePrivate
+
+        [Theory]
+        [InlineData(ArgumentNullExceptionFixture.DefaultBindingFlags,
+            ArgumentNullExceptionFixture.DefaultBindingFlags & ~(BindingFlags.NonPublic))]
+        [InlineData(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.NonPublic,
+            BindingFlags.Instance | BindingFlags.DeclaredOnly)]
+        [InlineData(BindingFlags.Static | BindingFlags.DeclaredOnly, BindingFlags.Static | BindingFlags.DeclaredOnly)]
+        void ExcludePrivate(BindingFlags initial, BindingFlags expected)
+        {
+            // Arrange
+            var fixtureMock = new Mock<IArgumentNullExceptionFixture>();
+            fixtureMock.SetupProperty(f => f.BindingFlags);
+            fixtureMock.Object.BindingFlags = initial;
+
+            // Act
+            IArgumentNullExceptionFixture fixture = fixtureMock.Object.ExcludePrivate();
+
+            // Assert
+            Assert.Equal(expected, fixtureMock.Object.BindingFlags);
+            Assert.Same(fixtureMock.Object, fixture);
+        }
+
+        #endregion ExcludePrivate
+
         #region Customizations
 
         [Theory, AutoMock]

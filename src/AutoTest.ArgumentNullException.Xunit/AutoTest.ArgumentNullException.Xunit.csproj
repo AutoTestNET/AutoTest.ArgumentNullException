@@ -57,6 +57,7 @@
     <Compile Include="CustomizeAttribute.cs" />
     <Compile Include="ExcludeAllAttribute.cs" />
     <Compile Include="ExcludeAttribute.cs" />
+    <Compile Include="ExcludePrivateAttribute.cs" />
     <Compile Include="ExclusionType.cs" />
     <Compile Include="IncludeAttribute.cs" />
     <Compile Include="MethodDataExtensions.cs" />
