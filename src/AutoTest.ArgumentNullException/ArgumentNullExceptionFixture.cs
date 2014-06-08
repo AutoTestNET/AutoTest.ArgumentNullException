@@ -7,10 +7,12 @@
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Framework;
+    using AutoTest.ArgNullEx.Mapping;
     using Ploeh.AutoFixture;
 
     /// <summary>
-    /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw <see cref="ArgumentNullException"/> errors.
+    /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw
+    /// <see cref="ArgumentNullException"/> errors.
     /// </summary>
     public class ArgumentNullExceptionFixture : IArgumentNullExceptionFixture
     {
@@ -40,11 +42,16 @@
         private readonly List<IFilter> _filters;
 
         /// <summary>
+        /// The list of filters.
+        /// </summary>
+        private readonly List<IMapping> _mappings;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
         public ArgumentNullExceptionFixture(Assembly assemblyUnderTest)
-            : this(assemblyUnderTest, new Fixture(), DiscoverFilters())
+            : this(assemblyUnderTest, new Fixture(), DiscoverFilters(), DiscoverMappings())
         {
         }
 
@@ -54,7 +61,7 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="fixture">The specimen fixture.</param>
         public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture)
-            : this(assemblyUnderTest, fixture, DiscoverFilters())
+            : this(assemblyUnderTest, fixture, DiscoverFilters(), DiscoverMappings())
         {
         }
 
@@ -64,8 +71,13 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="fixture">The specimen fixture.</param>
         /// <param name="filters">The list of filters.</param>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, IFixture fixture, List<IFilter> filters)
-            : this(assemblyUnderTest, new SpecimenProvider(fixture), filters)
+        /// <param name="mappings">The list of mappings.</param>
+        public ArgumentNullExceptionFixture(
+            Assembly assemblyUnderTest,
+            IFixture fixture,
+            List<IFilter> filters,
+            List<IMapping> mappings)
+            : this(assemblyUnderTest, new SpecimenProvider(fixture), filters, mappings)
         {
         }
 
@@ -75,8 +87,13 @@
         /// <param name="assemblyUnderTest">The assembly under test.</param>
         /// <param name="specimenProvider">The specimen provider.</param>
         /// <param name="filters">The list of filters.</param>
+        /// <param name="mappings">The list of mappings.</param>
         /// <exception cref="ArgumentNullException">Any of the parameters are <see langword="null"/>.</exception>
-        public ArgumentNullExceptionFixture(Assembly assemblyUnderTest, ISpecimenProvider specimenProvider, List<IFilter> filters)
+        public ArgumentNullExceptionFixture(
+            Assembly assemblyUnderTest,
+            ISpecimenProvider specimenProvider,
+            List<IFilter> filters,
+            List<IMapping> mappings)
         {
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
@@ -84,10 +101,13 @@
                 throw new ArgumentNullException("specimenProvider");
             if (filters == null)
                 throw new ArgumentNullException("filters");
+            if (mappings == null)
+                throw new ArgumentNullException("mappings");
 
             _assemblyUnderTest = assemblyUnderTest;
             _specimenProvider = specimenProvider;
             _filters = filters;
+            _mappings = mappings;
             BindingFlags = DefaultBindingFlags;
         }
 
@@ -113,7 +133,15 @@
         public List<IFilter> Filters
         {
             get { return _filters; }
-        } 
+        }
+
+        /// <summary>
+        /// Gets the list of mappings.
+        /// </summary>
+        public List<IMapping> Mappings
+        {
+            get { return _mappings; }
+        }
 
         /// <summary>
         /// Gets the list of <see cref="ITypeFilter"/> objects.
@@ -140,9 +168,18 @@
         }
 
         /// <summary>
-        /// Gets or sets the flags that control binding and the way in which the search for members and types is conducted by reflection.
+        /// Gets or sets the flags that control binding and the way in which the search for members and types is
+        /// conducted by reflection.
         /// </summary>
         public BindingFlags BindingFlags { get; set; }
+
+        /// <summary>
+        /// Gets the list of <see cref="ITypeMapping"/> objects.
+        /// </summary>
+        internal IEnumerable<ITypeMapping> TypeMappings
+        {
+            get { return _mappings.OfType<ITypeMapping>(); }
+        }
 
         /// <summary>
         /// Returns the data for the methods to test.
@@ -151,7 +188,7 @@
         public IEnumerable<MethodData> GetData()
         {
             return
-                from type in _assemblyUnderTest.GetTypes(TypeFilters)
+                from type in _assemblyUnderTest.GetTypes(TypeFilters).MapTypes(TypeMappings)
                 from method in type.GetMethods(BindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
@@ -164,6 +201,17 @@
         private static List<IFilter> DiscoverFilters()
         {
             var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
+            discoverableCollection.Discover();
+            return discoverableCollection.Items;
+        }
+
+        /// <summary>
+        /// Discovers the list of mappings using reflection.
+        /// </summary>
+        /// <returns>The list of mappings.</returns>
+        private static List<IMapping> DiscoverMappings()
+        {
+            var discoverableCollection = new ReflectionDiscoverableCollection<IMapping>();
             discoverableCollection.Discover();
             return discoverableCollection.Items;
         }

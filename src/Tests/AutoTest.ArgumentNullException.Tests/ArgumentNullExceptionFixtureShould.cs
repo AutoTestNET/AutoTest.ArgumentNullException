@@ -8,6 +8,7 @@
     using System.Text.RegularExpressions;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
+    using AutoTest.ArgNullEx.Mapping;
     using Moq;
     using Ploeh.AutoFixture;
     using Ploeh.AutoFixture.Xunit;
@@ -29,6 +30,7 @@
             Assert.NotNull(sut.TypeFilters);
             Assert.NotNull(sut.MethodFilters);
             Assert.NotNull(sut.ParameterFilters);
+            Assert.NotNull(sut.Mappings);
         }
 
         [Theory, AutoMock]
@@ -54,12 +56,14 @@
             [Frozen] Assembly expectedAssembly,
             IFixture expectedFixture,
             [Frozen] List<IFilter> filters,
+            [Frozen] List<IMapping> mappings,
             [Greedy] ArgumentNullExceptionFixture sut)
         {
             // AAA
             Assert.Same(expectedFixture, ((SpecimenProvider)sut.SpecimenProvider).Builder);
             Assert.Same(expectedAssembly, sut.AssemblyUnderTest);
             Assert.Same(filters, sut.Filters);
+            Assert.Same(mappings, sut.Mappings);
             Assert.Equal(ArgumentNullExceptionFixture.DefaultBindingFlags, sut.BindingFlags);
             Assert.NotNull(sut.TypeFilters);
             Assert.NotNull(sut.MethodFilters);
@@ -78,7 +82,8 @@
             IArgumentNullExceptionFixture sut =
                 new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
                                                  specimenProvider,
-                                                 new List<IFilter> { filter });
+                                                 new List<IFilter> { filter },
+                                                 new List<IMapping>());
 
             // Act
             List<MethodData> methodDatas = sut.GetData().ToList();
@@ -100,7 +105,8 @@
             IArgumentNullExceptionFixture sut =
                 new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
                                                  specimenProvider,
-                                                 new List<IFilter> { filter });
+                                                 new List<IFilter> { filter },
+                                                 new List<IMapping>());
 
             // Act
             List<MethodData> methodDatas = sut.GetData().ToList();
@@ -125,7 +131,8 @@
             IArgumentNullExceptionFixture sut =
                 new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
                                                  specimenProviderMock.Object,
-                                                 new List<IFilter> { filter });
+                                                 new List<IFilter> { filter },
+                                                 new List<IMapping>());
 
             // Act
             List<MethodData> methodDatas = sut.GetData().ToList();
@@ -155,7 +162,8 @@
             IArgumentNullExceptionFixture sut =
                 new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
                                                  specimenProvider,
-                                                 new List<IFilter> { filter });
+                                                 new List<IFilter> { filter },
+                                                 new List<IMapping>());
 
             // Act
             List<MethodData> methodDatas = sut.GetData().ToList();

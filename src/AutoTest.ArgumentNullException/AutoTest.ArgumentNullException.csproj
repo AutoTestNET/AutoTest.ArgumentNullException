@@ -81,6 +81,11 @@
     <Compile Include="ISpecimenProvider.cs" />
     <Compile Include="Lock\ReadLockDisposable.cs" />
     <Compile Include="Lock\WriteLockDisposable.cs" />
+    <Compile Include="Mapping\IMapping.cs" />
+    <Compile Include="Mapping\ITypeMapping.cs" />
+    <Compile Include="Mapping\MappingBase.cs" />
+    <Compile Include="Mapping\TypeMapping.cs" />
+    <Compile Include="Mapping\TypeMappingBase.cs" />
     <Compile Include="MethodData.cs" />
     <Compile Include="Filter\IMethodFilter.cs" />
     <Compile Include="Filter\NotCompilerGenerated.cs" />
