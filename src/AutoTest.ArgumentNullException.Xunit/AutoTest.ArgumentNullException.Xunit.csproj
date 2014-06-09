@@ -63,6 +63,7 @@
     <Compile Include="MethodDataExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgumentNullExceptionAttribute.cs" />
+    <Compile Include="SubstituteAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AutoTest.ArgumentNullException.Xunit.nuspec" />
