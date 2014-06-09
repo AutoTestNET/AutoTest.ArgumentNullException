@@ -84,6 +84,7 @@
     <Compile Include="Filter\MethodFilteringShould.cs" />
     <Compile Include="Lock\ReadLockDisposableUnitTests.cs" />
     <Compile Include="Lock\WriteLockDisposableUnitTests.cs" />
+    <Compile Include="MappingExtensionsShould.cs" />
     <Compile Include="MethodDataExtensionsShould.cs" />
     <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
     <Compile Include="MethodDataShould.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="Xunit\ExcludeAttributeShould.cs" />
     <Compile Include="Xunit\ExcludeAllAttributeShould.cs" />
     <Compile Include="Xunit\IncludeAttributeShould.cs" />
+    <Compile Include="Xunit\SubstituteAttributeShould.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

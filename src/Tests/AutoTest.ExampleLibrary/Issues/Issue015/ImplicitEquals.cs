@@ -12,6 +12,10 @@
     {
     }
 
+    /// <summary>
+    /// Test class used to demonstrate issue 15
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/15
+    /// </summary>
     public class ImplicitEquals : IEquatable<string>, IEqualityComparer<string>, IDummy
     {
         /// <summary>

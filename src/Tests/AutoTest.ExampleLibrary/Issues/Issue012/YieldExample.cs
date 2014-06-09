@@ -4,6 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Test class used to demonstrate issue 12
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/12
+    /// </summary>
     public static class YieldExample
     {
         /// <summary>

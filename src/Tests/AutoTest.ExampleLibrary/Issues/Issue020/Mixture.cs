@@ -4,6 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Test class used to demonstrate issue 20
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/20
+    /// </summary>
     public static class Mixture
     {
         /// <summary>
