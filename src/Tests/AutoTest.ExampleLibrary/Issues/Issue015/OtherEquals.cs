@@ -4,6 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    /// <summary>
+    /// Test class used to demonstrate issue 15
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/15
+    /// </summary>
     public class OtherEquals
     {
 #pragma warning disable 108,114

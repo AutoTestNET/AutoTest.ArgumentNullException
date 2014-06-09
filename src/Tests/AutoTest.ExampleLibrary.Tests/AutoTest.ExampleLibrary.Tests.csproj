@@ -68,6 +68,7 @@
     <Compile Include="Issues\Issue012\Issue012.cs" />
     <Compile Include="Issues\Issue015\Issue015.cs" />
     <Compile Include="Issues\Issue020\Issue020.cs" />
+    <Compile Include="Issues\Issue022\Issue022.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequiresArgNullEx.cs" />
     <Compile Include="RequiresArgNullExAutoMoqAttribute.cs" />
