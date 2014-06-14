@@ -22,4 +22,6 @@ build:
   verbosity: minimal
 
 # scripts to run before build
-before_build: nuget restore src\AutoTest.ArgumentNullException.sln
+before_build: |
+  PowerShell .\CiVersion.ps1
+  nuget restore src\AutoTest.ArgumentNullException.sln
