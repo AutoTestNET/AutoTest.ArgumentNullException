@@ -4,6 +4,8 @@
     % { IncrementVersion-InFile $_ $rank }
     dir -Include *.nuspec -Recurse |
     % { IncrementVersion-NuSpec $_ $rank }
+    dir -Include appveyor.yml -Recurse |
+    % { IncrementVersion-AppVeyor $_ $rank }
 }
 
 function IncrementVersion-InFile($file, $rank)
@@ -62,13 +64,35 @@ function IncrementVersion-NuSpec($file, $rank)
     Set-Content $file -encoding ASCII
 }
 
+function IncrementVersion-AppVeyor($file, $rank)
+{
+    $exp = ([regex]'(^\s*version: )(\d+\.\d+\.\d+)(\.{build}\s*$)')
+
+    (Get-Content $file) |
+    % {
+        $match = $exp.match($_)
+        if ($match.success)
+        {
+            $ov = New-Object Version($match.groups[2].value + '.0')
+            $nv = Increment-Version $ov $rank
+            $replaced = $exp.replace($_, $match.groups[1].value + $nv.Major + '.' + $nv.Minor + '.' + $nv.Build + $match.groups[3].value)
+            $replaced
+        }
+        else
+        {
+            $_
+        }
+    } |
+    Set-Content $file -encoding UTF8
+}
+
 function Increment-Version($version, $rank)
 {
     switch ($rank)
     {
         'major' { New-Object Version(($version.Major + 1), 0, 0, 0) }
         'minor' { New-Object Version($version.Major, ($version.Minor + 1), 0, 0) }
-        default { New-Object Version($version.Major, $version.Minor, ($version.Build + 1), $version.Revision) }
+        default { New-Object Version($version.Major, $version.Minor, ($version.Build + 1), 0) }
         'revision' { New-Object Version($version.Major, $version.Minor, $version.Build, ($version.Revision +1 )) }
     }
 }
