@@ -12,6 +12,13 @@
 version: 0.7.0.{build}
 
 #---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# http://blog.appveyor.com/2014/06/04/shallow-clone-for-git-repositories/
+clone_depth: 5
+
+#---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
