@@ -25,3 +25,15 @@ build:
 before_build: |
   PowerShell .\CiVersion.ps1
   nuget restore src\AutoTest.ArgumentNullException.sln
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+  
+notifications:
+
+  # Slack
+  - provider: Slack
+    auth_token:
+      secure: AkSNuuHmfzAFp2+Oq00NRQFOfrXl4ue08SHx0FC2WTeXSiZv8uVKI3ZBWns7HTcV
+    channel: autotest
