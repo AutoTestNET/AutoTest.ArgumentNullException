@@ -22,6 +22,14 @@ clone_depth: 5
 #       build configuration       #
 #---------------------------------#
 
+# build Configuration, i.e. Debug, Release, etc.
+#configuration: Release
+
+# to add several configurations to build matrix:
+configuration:
+  - Debug
+  - Release
+
 build:
   publish_nuget: true             # package projects with .nuspec files and push to artifacts
 
