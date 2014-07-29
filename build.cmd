@@ -6,6 +6,6 @@ if "%config%" == "" (
 
 CALL "%~dp0setmsbuild.cmd"
 
-call "%~dp0src\RestorePackages.cmd"
+call "%~dp0RestorePackages.cmd"
 echo %msbuild% "%~dp0src\AutoTest.ArgumentNullException.sln" /nologo /verbosity:m /t:Rebuild /p:Configuration="%config%"
 %msbuild% "%~dp0src\AutoTest.ArgumentNullException.sln" /nologo /verbosity:m /t:Rebuild /p:Configuration="%config%"
