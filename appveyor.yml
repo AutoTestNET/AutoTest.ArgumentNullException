@@ -18,6 +18,11 @@ version: 0.7.0.{build}
 # http://blog.appveyor.com/2014/06/04/shallow-clone-for-git-repositories/
 shallow_clone: true
 
+# Automatically register private account and/or project AppVeyor NuGet feeds.
+nuget:
+  account_feed: true
+  project_feed: true
+
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
@@ -27,6 +32,7 @@ configuration: Release
 
 build:
   publish_nuget: true             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
 
   # MSBuild verbosity level
   verbosity: minimal

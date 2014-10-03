@@ -15,13 +15,13 @@ function SetCiVersion-NuSpec($file)
         if ($match1.success)
         {
             $version = New-Object Version($match1.groups[2].value + '.0')
-            $replaced = $exp1.replace($_, $match1.groups[1].value + $version.Major + '.' + $version.Minor + '.' + $version.Build + '.' + $env:APPVEYOR_BUILD_NUMBER + '-' + $env:APPVEYOR_REPO_BRANCH + '-sha-' + $env:APPVEYOR_REPO_COMMIT.Substring(0,7) + $match1.groups[3].value)
+            $replaced = $exp1.replace($_, $match1.groups[1].value + $version.Major + '.' + $version.Minor + '.' + $version.Build + '.' + $env:APPVEYOR_BUILD_NUMBER + '-sha-' + $env:APPVEYOR_REPO_COMMIT.Substring(0,10) + $match1.groups[3].value)
             $replaced
         }
         elseif ($match2.success)
         {
             $version = New-Object Version($match2.groups[2].value + '.0')
-            $replaced = $exp2.replace($_, $match2.groups[1].value + $version.Major + '.' + $version.Minor + '.' + $version.Build + '.' + $env:APPVEYOR_BUILD_NUMBER + '-' + $env:APPVEYOR_REPO_BRANCH + '-sha-' + $env:APPVEYOR_REPO_COMMIT.Substring(0,7) + $match2.groups[3].value)
+            $replaced = $exp2.replace($_, $match2.groups[1].value + $version.Major + '.' + $version.Minor + '.' + $version.Build + '.' + $env:APPVEYOR_BUILD_NUMBER + '-sha-' + $env:APPVEYOR_REPO_COMMIT.Substring(0,10) + $match2.groups[3].value)
             $replaced
         }
         else
