@@ -4,7 +4,7 @@
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <WorkingDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..'))</WorkingDir>
-    <CoverageFilter>+[AutoTest.ArgumentNullException]* +[AutoTest.ArgumentNullException.Xunit]* -[AutoTest.ArgumentNullException.Xunit]System.Threading.Tasks.* -[AutoTest.ArgumentNullException]AutoTest.ArgNullEx.Framework.*</CoverageFilter>
+    <CoverageFilter>+[AutoTest.ArgumentNullException]AutoTest.* +[AutoTest.ArgumentNullException.Xunit]AutoTest.* -[AutoTest.ArgumentNullException]AutoTest.ArgNullEx.Framework.*</CoverageFilter>
   </PropertyGroup>
 
   <Import Project="ExecuteUnitTestsOpenCover.targets"/>
