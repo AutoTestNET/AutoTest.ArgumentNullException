@@ -4,7 +4,7 @@
   <Import Project="ExecuteXUnitTests.targets"/>
 
   <ItemGroup>
-    <XUnitRunnerExePathGroup Condition="'$(XUnitRunnerExePath)'==''" Include="$(WorkingDir)\packages\**\xunit.console.clr4.exe" />
+    <XUnitRunnerExePathGroup Condition="'$(XUnitRunnerExePath)'==''" Include="$(WorkingDir)\packages\xunit.runner.console*\**\xunit.console.exe" />
     <OpenCoverExePathGroup Condition="'$(OpenCoverExePath)'==''" Include="$(WorkingDir)\packages\**\OpenCover.Console.exe" />
     <ReportGeneratorExePathGroup Condition="'$(ReportGeneratorExePath)'==''" Include="$(WorkingDir)\packages\**\ReportGenerator.exe" />
   </ItemGroup>
@@ -41,18 +41,19 @@
   </Target>
 
   <!--
-  Executes the unit tests with MsTest through OpenCover.
+  Executes the unit tests with xUnit through OpenCover.
   -->
   <Target Name="CoreExecuteUnitTestsOpenCover"
-          Inputs="%(TestAssemblies.FullPath)"
-          Outputs="$(OutputPath)\%(TestAssemblies.Filename).html"
-          DependsOnTargets="CoreExecuteXUnitTests">
-    
+          Inputs="@(TestAssemblies)"
+          Outputs="$(OutputPath)\Combined.Tests.html"
+          DependsOnTargets="GetXUnitTestAssemblies"
+          Condition="$(ExcludeOpenCoverTests) != 'True'">
+
     <MakeDir Directories="$(OutputPath)" />
 
     <PropertyGroup>
-      <XUnitRunnerArguments>%(TestAssemblies.FullPath) /silent /noshadow /html $(OutputPath)\%(TestAssemblies.Filename).html</XUnitRunnerArguments>
-      <OpenCoverCommand>"$(OpenCoverExePath)" -register:user "-target:$(XUnitRunnerExePath)" "-targetargs:$(XUnitRunnerArguments)" "-filter:$(CoverageFilter)" "-output:$(OutputPath)\%(TestAssemblies.Filename).Coverage.xml"</OpenCoverCommand>
+      <XUnitRunnerArguments>@(TestAssemblies->'%(FullPath)',' ') -noshadow -html $(OutputPath)\Combined.Tests.html</XUnitRunnerArguments>
+      <OpenCoverCommand>"$(OpenCoverExePath)" -register:user "-target:$(XUnitRunnerExePath)" "-targetargs:$(XUnitRunnerArguments)" "-filter:$(CoverageFilter)" "-output:$(OutputPath)\Combined.Tests.Coverage.xml"</OpenCoverCommand>
     </PropertyGroup>
 
     <Exec Command="$(OpenCoverCommand)" />
@@ -93,6 +94,7 @@
     <ExecuteUnitTestsDependsOn>
       TestExecuteXUnitTestsProperties;
       TestExecuteCoverageProperties;
+      CoreExecuteXUnitTests;
       CoreExecuteUnitTestsOpenCover;
       CoreGenerateCoverReport;
     </ExecuteUnitTestsDependsOn>

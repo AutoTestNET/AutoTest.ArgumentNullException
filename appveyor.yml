@@ -8,6 +8,10 @@
 #      general configuration      #
 #---------------------------------#
 
+# Retain the NuGet packages between builds
+cache:
+  - src\packages -> **\packages.config
+
 # version format
 version: 0.7.0.{build}
 
@@ -31,6 +35,7 @@ nuget:
 configuration: Release
 
 build:
+  project: src\AutoTest.ArgumentNullException.sln
   publish_nuget: true             # package projects with .nuspec files and push to artifacts
   publish_nuget_symbols: true     # generate and publish NuGet symbol packages
 
@@ -41,6 +46,16 @@ build:
 before_build: |
   PowerShell .\CiVersion.ps1
   nuget restore src\AutoTest.ArgumentNullException.sln
+ 
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+test_script: msbuild src\Build\ExecuteUnitTests.proj /verbosity:m /t:Rebuild /p:ExcludeXUnitTests=True
+
+after_test: |
+  7z a CoverageResults.7z src\TestResults\
+  appveyor PushArtifact CoverageResults.7z -FileName CoverageResults_%APPVEYOR_BUILD_VERSION%.7z
 
 #---------------------------------#
 #         notifications           #
