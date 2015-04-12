@@ -22,6 +22,10 @@ version: 0.7.0.{build}
 # http://blog.appveyor.com/2014/06/04/shallow-clone-for-git-repositories/
 shallow_clone: true
 
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: y58nAbztko+kSar3VzPnEKhC8W4mA4G0dbtsu4EzpT1G0taRabXjF+v0eggpwcTr
+
 # Automatically register private account and/or project AppVeyor NuGet feeds.
 nuget:
   account_feed: true
@@ -56,6 +60,7 @@ test_script: msbuild src\Build\ExecuteUnitTests.proj /verbosity:m /t:Rebuild /p:
 after_test: |
   7z a CoverageResults.7z src\TestResults\
   appveyor PushArtifact CoverageResults.7z -FileName CoverageResults_%APPVEYOR_BUILD_VERSION%.7z
+  src\packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover src\TestResults\Combined.Tests.Coverage.xml
 
 #---------------------------------#
 #         notifications           #
