@@ -50,7 +50,15 @@ build:
 before_build: |
   PowerShell .\CiVersion.ps1
   nuget restore src\AutoTest.ArgumentNullException.sln
- 
+
+# to run your custom scripts instead of automatic MSBuild
+build_script: |
+  cov-build --dir cov-int msbuild src\AutoTest.ArgumentNullException.sln /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+after_build: |
+  7z a AutoTest.ArgumentNullException.Coverity.zip cov-int\
+  appveyor PushArtifact AutoTest.ArgumentNullException.Coverity.zip -FileName AutoTest.ArgumentNullException.Coverity_%APPVEYOR_BUILD_VERSION%.zip
+
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
@@ -72,7 +80,7 @@ after_test: |
 #---------------------------------#
 #         notifications           #
 #---------------------------------#
-  
+
 notifications:
 
   # Slack
