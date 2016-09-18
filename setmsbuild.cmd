@@ -1,6 +1,15 @@
 :: Do nothing if the msbuild variable has been set.
 @IF NOT ["%msbuild%"] == [""] GOTO :EOF
 
+:: Use VS2015 if installed.
+@IF ["%msbuild%"] == [""] (
+    IF EXIST "%VS140COMNTOOLS%vsvars32.bat" (
+        echo Setting up variables for Visual Studio 2015.
+        CALL "%VS140COMNTOOLS%vsvars32.bat"
+        SET msbuild=MSBuild.exe
+    )
+)
+
 :: Use VS2013 if installed.
 @IF ["%msbuild%"] == [""] (
     IF EXIST "%VS120COMNTOOLS%vsvars32.bat" (

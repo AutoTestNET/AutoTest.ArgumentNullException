@@ -52,15 +52,22 @@ before_build: |
   nuget restore src\AutoTest.ArgumentNullException.sln
  
 #---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: '*.7z'
+
+#---------------------------------#
 #       tests configuration       #
 #---------------------------------#
 
-test_script: msbuild src\Build\ExecuteUnitTests.proj /verbosity:m /t:Rebuild /p:ExcludeXUnitTests=True
+test_script: coverage.cmd
 
 after_test: |
-  7z a CoverageResults.7z src\TestResults\
-  appveyor PushArtifact CoverageResults.7z -FileName CoverageResults_%APPVEYOR_BUILD_VERSION%.7z
-  src\packages\coveralls.io.1.3.4\tools\coveralls.net.exe --opencover src\TestResults\Combined.Tests.Coverage.xml
+  7z a CoverageResults_%APPVEYOR_BUILD_VERSION%.7z src\Tests\TestResults\
+  FOR /r %%F IN (*coveralls.net.exe) DO SET coveralls_exe=%%F
+  %coveralls_exe% --opencover src\Tests\TestResults\Test.Coverage.xml
 
 #---------------------------------#
 #         notifications           #
