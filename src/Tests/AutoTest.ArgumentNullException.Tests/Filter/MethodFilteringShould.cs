@@ -6,7 +6,6 @@
     using System.Reflection;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class MethodFilteringShould
     {

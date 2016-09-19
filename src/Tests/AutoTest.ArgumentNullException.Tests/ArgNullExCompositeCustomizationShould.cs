@@ -5,7 +5,6 @@
     using System.Linq;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class ArgNullExArgNullExCompositeCustomizationShould
     {

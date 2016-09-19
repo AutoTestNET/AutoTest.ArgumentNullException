@@ -6,7 +6,6 @@
     using System.Reflection;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NotNullDefaultShould
     {
@@ -21,7 +20,7 @@
             get { return NullExtensionsShould.GetTestNullDefaultParams(); }
         }
 
-        [Theory, PropertyData("NullDefaultParams")]
+        [Theory, MemberData(nameof(NullDefaultParams))]
         public void ExcludeNullDefault(ParameterInfo param, bool exclude)
         {
             // Arrange

@@ -7,7 +7,6 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class DefaultExecutionSetupShould
     {

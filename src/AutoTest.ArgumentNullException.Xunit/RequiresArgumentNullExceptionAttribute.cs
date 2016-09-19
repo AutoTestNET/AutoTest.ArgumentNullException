@@ -4,7 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using global::Xunit.Extensions;
+    using global::Xunit;
+    using global::Xunit.Sdk;
 
     /// <summary>
     /// Test Attribute to prove methods correctly throw <see cref="ArgumentNullException"/> errors.
@@ -52,19 +53,17 @@
         /// <summary>
         /// Returns the data for the test <see cref="TheoryAttribute"/>.
         /// </summary>
-        /// <param name="methodUnderTest">The test method under test.</param>
-        /// <param name="parameterTypes">The types of the parameters.</param>
+        /// <param name="testMethod">The test method under test.</param>
         /// <returns>The data for the test <see cref="TheoryAttribute"/>.</returns>
-        /// <exception cref="ArgumentNullException">The <paramref name="methodUnderTest"/> or
-        /// <paramref name="parameterTypes"/> parameters is <see langword="null"/>.</exception>
-        public override IEnumerable<object[]> GetData(MethodInfo methodUnderTest, Type[] parameterTypes)
+        /// <exception cref="ArgumentNullException">
+        /// The <paramref name="testMethod"/> is <see langword="null"/>.
+        /// </exception>
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
-            if (methodUnderTest == null)
-                throw new ArgumentNullException("methodUnderTest");
-            if (parameterTypes == null)
-                throw new ArgumentNullException("parameterTypes");
+            if (testMethod == null)
+                throw new ArgumentNullException("testMethod");
 
-            CustomizeFixture(methodUnderTest, _fixture);
+            CustomizeFixture(testMethod, _fixture);
 
             return _fixture.GetData().Select(data => new object[] { data });
         }

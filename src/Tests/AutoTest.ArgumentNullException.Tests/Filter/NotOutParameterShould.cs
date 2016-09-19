@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NotOutParameterShould
     {
@@ -45,7 +44,7 @@
             Assert.Equal("NotOutParameter", sut.Name);
         }
 
-        [Theory, PropertyData("SomeOutParameters")]
+        [Theory, MemberData(nameof(SomeOutParameters))]
         public void ExcludOutParameter(Type type, MethodInfo method, ParameterInfo parameter, bool expected)
         {
             // Arrange

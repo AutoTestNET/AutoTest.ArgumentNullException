@@ -6,7 +6,6 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NullExtensionsShould
     {
@@ -154,7 +153,7 @@
             Assert.Equal(expected, actual);
         }
 
-        [Theory, PropertyData("NullableParams")]
+        [Theory, MemberData(nameof(NullableParams))]
         public void IdentifyNullableParameters(ParameterInfo param, bool expected)
         {
             // Act
@@ -164,7 +163,7 @@
             Assert.Equal(expected, actual);
         }
 
-        [Theory, PropertyData("NullDefaultParams")]
+        [Theory, MemberData(nameof(NullDefaultParams))]
         public void IdentifyNullDefault(ParameterInfo param, bool expected)
         {
             // Act

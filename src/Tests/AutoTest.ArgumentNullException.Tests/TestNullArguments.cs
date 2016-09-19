@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx.Xunit;
-    using global::Xunit.Extensions;
+    using global::Xunit;
 
     public class TestNullArguments
     {

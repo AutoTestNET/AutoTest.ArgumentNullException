@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NotPropertySetterShould
     {
@@ -79,7 +78,7 @@
             Assert.Equal("NotPropertySetter", sut.Name);
         }
 
-        [Theory, PropertyData("SomePropertySetters")]
+        [Theory, MemberData(nameof(SomePropertySetters))]
         public void ExcludPropertySetters(Type type, MethodInfo method, bool expected)
         {
             // Arrange
