@@ -7,9 +7,8 @@
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Xunit;
     using Moq;
-    using Ploeh.AutoFixture.Xunit;
+    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
-    using global::Xunit.Extensions;
     using global::Xunit.Sdk;
 
     public class MethodDataExtensionsShould

@@ -7,7 +7,6 @@
     using AutoTest.ArgNullEx.Filter;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class ArgumentNullExceptionFixtureExtensionsShould
     {
@@ -37,7 +36,7 @@
                     .Select(bf => new object[] { bf });
         }
 
-        [Theory, PropertyData("AllBindingFlags")]
+        [Theory, MemberData(nameof(AllBindingFlags))]
         public void SetBindingFlag(
             BindingFlags mask)
         {
@@ -57,7 +56,7 @@
             Assert.Equal(original | mask, sut.BindingFlags);
         }
 
-        [Theory, PropertyData("AllBindingFlags")]
+        [Theory, MemberData(nameof(AllBindingFlags))]
         public void ClearBindingFlag(
             BindingFlags mask)
         {

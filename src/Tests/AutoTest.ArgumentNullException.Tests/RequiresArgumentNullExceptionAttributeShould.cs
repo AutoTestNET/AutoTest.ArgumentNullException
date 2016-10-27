@@ -6,9 +6,8 @@
     using System.Reflection;
     using AutoTest.ArgNullEx.Xunit;
     using Moq;
-    using Ploeh.AutoFixture.Xunit;
+    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class RequiresArgumentNullExceptionAttributeShould
     {
@@ -46,7 +45,6 @@
             [Frozen] Mock<IArgumentNullExceptionFixture> fixtureMock,
             ICollection<MethodData> expectedData,
             MethodInfo unused1,
-            Type[] unused2,
             CustomAttribute sut)
         {
             // Arrange
@@ -54,7 +52,7 @@
 
             // Act
             List<MethodData> actualData =
-                sut.GetData(unused1, unused2)
+                sut.GetData(unused1)
                    .SelectMany(d => d.OfType<MethodData>())
                    .ToList();
 

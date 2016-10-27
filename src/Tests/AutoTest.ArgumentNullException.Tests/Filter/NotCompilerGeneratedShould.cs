@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NotCompilerGeneratedShould
     {

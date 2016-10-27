@@ -7,7 +7,6 @@
     using System.Reflection;
     using AutoTest.ArgNullEx.Execution;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class MethodDataShould
     {
@@ -17,8 +16,8 @@
             object instanceUnderTest,
             MethodBase methodUnderTest,
             object[] parameters,
-            string nullParameter, 
-            int nullIndex, 
+            string nullParameter,
+            int nullIndex,
             IExecutionSetup executionSetup)
         {
             // Act

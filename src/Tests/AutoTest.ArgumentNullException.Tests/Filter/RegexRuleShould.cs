@@ -7,7 +7,6 @@
     using System.Reflection;
     using System.Text.RegularExpressions;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class RegexRuleShould
     {

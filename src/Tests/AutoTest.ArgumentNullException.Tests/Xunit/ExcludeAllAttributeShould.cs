@@ -6,7 +6,6 @@
     using System.Reflection;
     using AutoTest.ArgNullEx.Filter;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class ExcludeAllAttributeShould
     {

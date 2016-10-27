@@ -7,7 +7,6 @@
     using AutoTest.ArgNullEx.Filter;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class IncludeAttributeShould
     {

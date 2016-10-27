@@ -7,7 +7,6 @@
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
     using Xunit;
-    using Xunit.Extensions;
 
     public class ExcludePrivateShould
     {

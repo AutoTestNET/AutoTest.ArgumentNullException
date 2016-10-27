@@ -4,15 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Ploeh.AutoFixture.Xunit;
+    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class ErroredExecutionSetupShould
     {
         [Theory, AutoMock]
         public void InitialiseException(
-            [Frozen(As = typeof(Exception))] InvalidOperationException expected,
+            [Frozen(Matching.DirectBaseType)] SystemException expected,
             ErroredExecutionSetup sut)
         {
             Assert.Same(expected, sut.Exception);
@@ -20,7 +19,7 @@
 
         [Theory, AutoMock]
         public async Task SetupThrowingExecution(
-            [Frozen(As = typeof(Exception))] ArgumentException expected,
+            [Frozen(Matching.DirectBaseType)] ApplicationException expected,
             ErroredExecutionSetup sut,
             MethodData methodData)
         {
@@ -29,20 +28,11 @@
 
             // Executing method should not throw but return a faulted task.
             Task task = execute();
+
+            // Assert
             Assert.True(task.IsFaulted);
-
-            try
-            {
-                await task;
-            }
-            catch (ArgumentException actual)
-            {
-                Assert.Same(expected, actual);
-                return;
-            }
-
-            // To get here is an error.
-            Assert.Throws<ArgumentException>(() => { });
+            ApplicationException actual = await Assert.ThrowsAsync<ApplicationException>(() => task);
+            Assert.Same(expected, actual);
         }
     }
 }

@@ -7,11 +7,13 @@
     using System.Reflection;
     using System.Threading.Tasks;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class DefaultExecutionSetupShould
     {
-        private static MethodData GetMethodData(MethodBase methodUnderTest, IExecutionSetup sut, object instanceUnderTest = null)
+        private static MethodData GetMethodData(
+            MethodBase methodUnderTest,
+            IExecutionSetup sut,
+            object instanceUnderTest = null)
         {
             return new MethodData(
                 typeof(DefaultExecutionSetupShould),
@@ -76,11 +78,13 @@
         public async Task ExecuteSynchronousMethod(DefaultExecutionSetup sut)
         {
             // Arrange
-            Action action = () => { };
-            MethodData methodData = GetMethodData(action.Method, sut);
+            bool executed = false;
+            Action action = () => { executed = true; };
+            MethodData methodData = GetMethodData(action.Method, sut, action.Target);
 
             // Act
             await methodData.ExecuteAction();
+            Assert.True(executed);
         }
 
         [Theory, AutoMock]
@@ -90,18 +94,20 @@
             Action action = () => { throw new FileLoadException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.Method, sut));
+            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.Method, sut, action.Target));
         }
 
         [Theory, AutoMock]
         public async Task ExecuteAsynchronousMethod(DefaultExecutionSetup sut)
         {
             // Arrange
-            Func<Task> action = async () => { await Task.Yield(); };
-            MethodData methodData = GetMethodData(action.Method, sut);
+            bool executed = false;
+            Func<Task> action = async () => { await Task.Yield(); executed = true; };
+            MethodData methodData = GetMethodData(action.Method, sut, action.Target);
 
             // Act
             await methodData.ExecuteAction();
+            Assert.True(executed);
         }
 
         [Theory, AutoMock]
@@ -115,7 +121,7 @@
                 };
 
             // AAA
-            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.Method, sut));
+            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.Method, sut, action.Target));
         }
 
         [Theory, AutoMock]
@@ -125,7 +131,7 @@
             Func<Task> action = () => { throw new FieldAccessException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.Method, sut));
+            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.Method, sut, action.Target));
         }
     }
 }

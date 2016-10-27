@@ -7,7 +7,6 @@
     using System.Text.RegularExpressions;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class RegexFilterShould
     {
@@ -74,7 +73,7 @@
             Assert.Equal("RegexFilter", sut.Name);
         }
 
-        [Theory, PropertyData("AllRuleTypes")]
+        [Theory, MemberData(nameof(AllRuleTypes))]
         public void ReturnTypeRules(
             List<RegexRule> typeRules,
             List<RegexRule> methodRules,
@@ -98,7 +97,7 @@
             Assert.False(typeRules.Where(r => !r.Include).Except(actualExcludeTypeRules).Any());
         }
 
-        [Theory, PropertyData("AllRuleTypes")]
+        [Theory, MemberData(nameof(AllRuleTypes))]
         public void ReturnMethodRules(
             List<RegexRule> typeRules,
             List<RegexRule> methodRules,
@@ -122,7 +121,7 @@
             Assert.False(methodRules.Where(r => !r.Include).Except(actualExcludeMethodRules).Any());
         }
 
-        [Theory, PropertyData("AllRuleTypes")]
+        [Theory, MemberData(nameof(AllRuleTypes))]
         public void ReturnParameterRules(
             List<RegexRule> typeRules,
             List<RegexRule> methodRules,

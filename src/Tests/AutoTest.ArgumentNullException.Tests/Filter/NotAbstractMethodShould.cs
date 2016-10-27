@@ -5,7 +5,6 @@
     using System.Linq;
     using System.Reflection;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class NotAbstractMethodShould
     {
@@ -41,7 +40,7 @@
             Assert.Equal("NotAbstractMethod", sut.Name);
         }
 
-        [Theory, PropertyData("AbstractMethods")]
+        [Theory, MemberData(nameof(AbstractMethods))]
         public void ExcludeAbstractMethods(Type type, MethodInfo method, bool expected)
         {
             // Arrange

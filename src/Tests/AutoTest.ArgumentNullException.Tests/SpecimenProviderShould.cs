@@ -6,9 +6,8 @@
     using System.Reflection;
     using Moq;
     using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit;
+    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class SpecimenProviderShould
     {

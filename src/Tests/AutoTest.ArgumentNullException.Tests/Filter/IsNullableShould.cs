@@ -6,7 +6,6 @@
     using System.Reflection;
     using Moq;
     using global::Xunit;
-    using global::Xunit.Extensions;
 
     public class IsNullableShould
     {
@@ -21,7 +20,7 @@
             get { return NullExtensionsShould.GetTestNullableParams(); }
         }
 
-        [Theory, PropertyData("NullableParams")]
+        [Theory, MemberData(nameof(NullableParams))]
         public void IncludeNullableParameters(ParameterInfo param, bool include)
         {
             // Arrange

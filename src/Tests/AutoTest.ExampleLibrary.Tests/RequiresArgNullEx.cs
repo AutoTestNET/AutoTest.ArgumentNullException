@@ -9,7 +9,7 @@
     using AutoTest.ExampleLibrary.Issues.Issue009;
     using AutoTest.ExampleLibrary.Issues.Issue020;
     using AutoTest.ExampleLibrary.Issues.Issue022;
-    using Xunit.Extensions;
+    using Xunit;
 
     public class RequiresArgNullEx
     {

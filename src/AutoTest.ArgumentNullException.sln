@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ArgumentNullException", "AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj", "{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F6353456-CCA6-4B1E-BB7E-A61C602C6CD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ArgumentNullException.Tests", "Tests\AutoTest.ArgumentNullException.Tests\AutoTest.ArgumentNullException.Tests.csproj", "{6587C33F-8849-4C90-8E49-ABCE9823F4CB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{31716EDB-62C5-442A-AD33-ABDA87417607}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoTest.ExampleLibrary", "Tests\AutoTest.ExampleLibrary\AutoTest.ExampleLibrary.csproj", "{918E3C57-46B4-4B4A-8A95-45F54FFEBB92}"
 EndProject
