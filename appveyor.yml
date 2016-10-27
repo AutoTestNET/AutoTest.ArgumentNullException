@@ -13,7 +13,7 @@ cache:
   - src\packages -> **\packages.config
 
 # version format
-version: 0.7.0.{build}
+version: 0.8.0.{build}
 
 #---------------------------------#
 #    environment configuration    #
