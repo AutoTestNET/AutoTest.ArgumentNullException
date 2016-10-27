@@ -52,6 +52,7 @@
     <Compile Include="Issues\Issue015\OtherEquals.cs" />
     <Compile Include="Issues\Issue020\Mixture.cs" />
     <Compile Include="Issues\Issue022\GenericClass.cs" />
+    <Compile Include="Issues\Issue031\SomeNullableValueTypeParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

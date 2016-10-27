@@ -55,6 +55,7 @@
     <Compile Include="Filter\MethodExtensions.cs" />
     <Compile Include="Filter\NotAbstractMethod.cs" />
     <Compile Include="Filter\NotEqualsMethod.cs" />
+    <Compile Include="Filter\NotNullableValueType.cs" />
     <Compile Include="Filter\NotOutParameter.cs" />
     <Compile Include="Filter\NotPropertySetter.cs" />
     <Compile Include="Filter\TypeFiltering.cs" />
