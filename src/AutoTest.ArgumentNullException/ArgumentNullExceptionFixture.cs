@@ -1,14 +1,17 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Mapping;
-    using Ploeh.AutoFixture;
 
     /// <summary>
     /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw

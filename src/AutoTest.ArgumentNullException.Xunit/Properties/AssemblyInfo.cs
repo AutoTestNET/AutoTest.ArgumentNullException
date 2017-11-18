@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2016 James Skimming. All rights reserved.
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 using System.Reflection;
@@ -7,17 +7,19 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-#if NET45
-[assembly: AssemblyTitle("Castle.Core.AsyncInterceptor .NET Framework")]
+#if NET452
+[assembly: AssemblyTitle("AutoTest.ArgumentNullException.Xunit .NET Framework")]
 #else
-[assembly: AssemblyTitle("Castle.Core.AsyncInterceptor .NET Standard")]
+[assembly: AssemblyTitle("AutoTest.ArgumentNullException.Xunit .NET Standard")]
 #endif
 
-[assembly: AssemblyDescription("AsyncInterceptor is an extension to Castle DynamicProxy to simplify the development of interceptors for asynchronous methods.")]
+[assembly: AssemblyDescription(
+    "AutoTest.ArgumentNullException is an automated unit testing component to ensure methods with nullable " +
+    "parameters correctly throw an ArgumentNullException when they are supplied null parameters.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Castle.Core.AsyncInterceptor")]
-[assembly: AssemblyCopyright("Copyright © 2016 James Skimming")]
+[assembly: AssemblyProduct("AutoTest.ArgumentNullException")]
+[assembly: AssemblyCopyright("Copyright © 2013 - 2017 James Skimming")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
