@@ -97,7 +97,7 @@ namespace AutoTest.ArgNullEx.Execution
             try
             {
                 var methodInfo = _methodUnderTest as MethodInfo;
-                if (methodInfo != null && typeof(Task).IsAssignableFrom(methodInfo.ReturnType))
+                if (methodInfo != null && typeof(Task).GetTypeInfo().IsAssignableFrom(methodInfo.ReturnType))
                 {
                     return ExecuteAsynchronously();
                 }

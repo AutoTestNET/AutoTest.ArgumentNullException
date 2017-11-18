@@ -7,8 +7,8 @@ namespace AutoTest.ArgNullEx
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Kernel;
+    using AutoFixture;
+    using AutoFixture.Kernel;
 
     /// <summary>
     /// Provides parameter and instance specimens for a null parameter invocation of a method.
@@ -72,7 +72,7 @@ namespace AutoTest.ArgNullEx
             if (parameters.Count == 1)
                 return new object[1];
 
-            var data = new object[parameters.Count];
+            object[] data = new object[parameters.Count];
             for (int parameterIndex = 0; parameterIndex < parameters.Count; ++parameterIndex)
             {
                 ParameterInfo parameter = parameters[parameterIndex];
@@ -115,7 +115,8 @@ namespace AutoTest.ArgNullEx
                 throw new ArgumentNullException("fixture");
 
             // Don't need to create complex graphs, just need objects.
-            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            ThrowingRecursionBehavior throwingRecursionBehavior =
+                fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
             if (throwingRecursionBehavior != null)
             {
                 fixture.Behaviors.Remove(throwingRecursionBehavior);

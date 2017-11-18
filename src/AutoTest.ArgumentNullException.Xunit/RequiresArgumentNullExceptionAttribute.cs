@@ -83,7 +83,7 @@ namespace AutoTest.ArgNullEx.Xunit
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
 
-            return assemblyUnderTest.Assembly;
+            return assemblyUnderTest.GetTypeInfo().Assembly;
         }
 
         /// <summary>

@@ -53,11 +53,12 @@ namespace AutoTest.ArgNullEx.Mapping
             Type newType = mapping.MapTo(originalType);
             if (originalType != newType)
             {
-                Trace.TraceInformation(
-                    "The type '{0}' was mapped to the type '{1}' by the mapping '{2}'.",
-                    originalType,
-                    newType,
-                    mapping.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The type '{0}' was mapped to the type '{1}' by the mapping '{2}'.",
+                ////    originalType,
+                ////    newType,
+                ////    mapping.Name);
             }
 
             return newType;

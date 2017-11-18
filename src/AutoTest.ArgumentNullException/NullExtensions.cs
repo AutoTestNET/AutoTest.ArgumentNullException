@@ -7,6 +7,7 @@ namespace AutoTest.ArgNullEx
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -28,8 +29,10 @@ namespace AutoTest.ArgNullEx
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return (!type.IsValueType && !type.IsByRef)
-                   || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            return (!typeInfo.IsValueType && !type.IsByRef)
+                   || (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))
                    || type.IsNullableByRef();
         }
 
@@ -81,10 +84,10 @@ namespace AutoTest.ArgNullEx
             if (member == null)
                 throw new ArgumentNullException("member");
 
-            if (Attribute.GetCustomAttribute(member, typeof(CompilerGeneratedAttribute)) != null)
+            if (member.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
                 return true;
 
-            return member.DeclaringType != null && IsCompilerGenerated(member.DeclaringType);
+            return member.DeclaringType != null && IsCompilerGenerated(member.DeclaringType.GetTypeInfo());
         }
 
         /// <summary>

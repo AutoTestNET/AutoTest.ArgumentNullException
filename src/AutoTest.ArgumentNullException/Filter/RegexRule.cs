@@ -70,11 +70,9 @@ namespace AutoTest.ArgNullEx.Filter
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-// ReSharper disable UnusedMember.Local
         private string DebuggerDisplay
         {
             get { return "RegexRule: " + Name; }
         }
-// ReSharper restore UnusedMember.Local
     }
 }

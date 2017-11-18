@@ -54,10 +54,11 @@ namespace AutoTest.ArgNullEx.Filter
             bool excludeType = filter.ExcludeType(type);
             if (excludeType)
             {
-                Trace.TraceInformation(
-                    "The type '{0}' was excluded by the filter '{1}'.",
-                    type,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The type '{0}' was excluded by the filter '{1}'.",
+                ////    type,
+                ////    filter.Name);
             }
 
             return excludeType;

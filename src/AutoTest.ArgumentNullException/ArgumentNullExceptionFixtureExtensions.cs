@@ -63,7 +63,7 @@ namespace AutoTest.ArgNullEx
             if (filterType == null)
                 throw new ArgumentNullException("filterType");
 
-            fixture.Filters.RemoveAll(filterType.IsInstanceOfType);
+            fixture.Filters.RemoveAll(filterType.GetTypeInfo().IsInstanceOfType);
 
             return fixture;
         }
@@ -87,7 +87,7 @@ namespace AutoTest.ArgNullEx
             {
                 fixture.Filters.Remove(filter);
             }
- 
+
             return fixture;
         }
 
@@ -485,7 +485,7 @@ namespace AutoTest.ArgNullEx
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
-            var regexFilter =
+            IRegexFilter regexFilter =
                 fixture.Filters
                        .OfType<IRegexFilter>()
                        .SingleOrDefault();

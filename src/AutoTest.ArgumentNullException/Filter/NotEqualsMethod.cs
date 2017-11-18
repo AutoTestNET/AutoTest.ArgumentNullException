@@ -49,7 +49,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (methodDefinition.DeclaringType == typeof(object))
                 return true;
 
-            Type[] interfaces = type.GetInterfaces();
+            Type[] interfaces = type.GetTypeInfo().GetInterfaces();
             return interfaces.Where(IsEqualsInterface).Any(t => IsImplementationOfEquals(methodInfo, t));
         }
 
@@ -68,7 +68,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            if (!type.IsGenericType)
+            if (!type.GetTypeInfo().IsGenericType)
                 return false;
 
             Type definition = type.GetGenericTypeDefinition();
@@ -93,7 +93,7 @@ namespace AutoTest.ArgNullEx.Filter
                 throw new ArgumentNullException("interfaceImpl");
 
             Type definition = interfaceImpl.GetGenericTypeDefinition();
-            int equalsParamsCount = definition.GetMethod("Equals").GetParameters().Length;
+            int equalsParamsCount = definition.GetTypeInfo().GetMethod("Equals").GetParameters().Length;
 
             ParameterInfo[] prms = method.GetParameters();
 

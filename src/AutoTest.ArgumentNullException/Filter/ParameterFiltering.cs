@@ -39,12 +39,13 @@ namespace AutoTest.ArgNullEx.Filter
             bool excludeParameter = filter.ExcludeParameter(type, method, parameter);
             if (excludeParameter)
             {
-                Trace.TraceInformation(
-                    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
-                    type.Name,
-                    method.Name,
-                    parameter.Name,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
+                ////    type.Name,
+                ////    method.Name,
+                ////    parameter.Name,
+                ////    filter.Name);
             }
 
             return excludeParameter;

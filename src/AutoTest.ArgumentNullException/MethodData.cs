@@ -98,12 +98,10 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-// ReSharper disable UnusedMember.Local
         private string DebuggerDisplay
         {
             get { return "MethodData: " + ToString(); }
         }
-// ReSharper restore UnusedMember.Local
 
         /// <summary>
         /// Executes the action for the <see cref="MethodUnderTest"/>.

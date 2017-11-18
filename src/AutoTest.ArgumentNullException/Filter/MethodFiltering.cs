@@ -33,8 +33,8 @@ namespace AutoTest.ArgNullEx.Filter
                 throw new ArgumentNullException("filters");
 
             IEnumerable<MethodBase> allMethods =
-                type.GetMethods(bindingAttr).Cast<MethodBase>()
-                    .Union(type.GetConstructors(bindingAttr));
+                type.GetTypeInfo().GetMethods(bindingAttr).Cast<MethodBase>()
+                    .Union(type.GetTypeInfo().GetConstructors(bindingAttr));
 
             IEnumerable<MethodBase> filteredMethods =
                 filters.Aggregate(
@@ -93,11 +93,12 @@ namespace AutoTest.ArgNullEx.Filter
             bool excludeMethod = filter.ExcludeMethod(type, method);
             if (excludeMethod)
             {
-                Trace.TraceInformation(
-                    "The method '{0}.{1}' was excluded by the filter '{2}'.",
-                    type.Name,
-                    method.Name,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The method '{0}.{1}' was excluded by the filter '{2}'.",
+                ////    type.Name,
+                ////    method.Name,
+                ////    filter.Name);
             }
 
             return excludeMethod;

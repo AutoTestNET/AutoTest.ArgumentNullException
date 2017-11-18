@@ -27,10 +27,16 @@
 
   <ItemGroup>
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
+    <PackageReference Include="xunit.assert" Version="2.3.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj" />
   </ItemGroup>
 
 </Project>

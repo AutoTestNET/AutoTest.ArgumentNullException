@@ -6,6 +6,7 @@ namespace AutoTest.ArgNullEx.Filter
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     /// Filters out types that are not classes or structs.
@@ -25,7 +26,8 @@ namespace AutoTest.ArgNullEx.Filter
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return !type.IsClass && (!type.IsValueType || type.IsEnum);
+            TypeInfo typeInfo = type.GetTypeInfo();
+            return !typeInfo.IsClass && (!typeInfo.IsValueType || typeInfo.IsEnum);
         }
     }
 }

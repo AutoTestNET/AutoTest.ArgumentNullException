@@ -33,7 +33,8 @@ namespace AutoTest.ArgNullEx.Filter
                 throw new ArgumentNullException(nameof(parameter));
 
             Type parameterType = parameter.ParameterType;
-            return parameterType.IsGenericType && parameterType.GetGenericTypeDefinition() == typeof(Nullable<>);
+            TypeInfo parameterTypeInfo = parameterType.GetTypeInfo();
+            return parameterTypeInfo.IsGenericType && parameterType.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
     }
 }

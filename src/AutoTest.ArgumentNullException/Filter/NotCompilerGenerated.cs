@@ -26,7 +26,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return type.IsCompilerGenerated();
+            return type.GetTypeInfo().IsCompilerGenerated();
         }
 
         /// <summary>

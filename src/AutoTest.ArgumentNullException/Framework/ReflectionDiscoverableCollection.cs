@@ -254,8 +254,8 @@ namespace AutoTest.ArgNullEx.Framework
             var allTypes = AssemblyTypesResolver.ResolveTypes(assembly);
 
             var concreteTypes = allTypes.Where(type => typeof(T).IsAssignableFrom(type) &&
-                                                       !type.IsInterface &&
-                                                       !type.IsAbstract &&
+                                                       !type.GetTypeInfo().IsInterface &&
+                                                       !type.GetTypeInfo().IsAbstract &&
                                                        !IgnoredTypes.Contains(type));
             foreach (var type in concreteTypes)
             {

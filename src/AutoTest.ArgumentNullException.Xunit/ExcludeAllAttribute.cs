@@ -23,7 +23,7 @@ namespace AutoTest.ArgNullEx.Xunit
             ExclusionType = ExclusionType.Types;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Gets or sets the type of exclusion, the default is <see cref="Xunit.ExclusionType.Types"/>.
         /// </summary>
         public ExclusionType ExclusionType { get; set; }
