@@ -32,11 +32,11 @@
 
         [Theory, AutoMock]
         public void ApplyFiltersCorrectly(
-            Assembly assembly,
             IsClassOrStruct filter)
         {
             // Arrange
-            List<Type> interfaceTypes = assembly.GetTypes().Where(t => t.IsInterface).ToList();
+            Assembly assembly = typeof(IsClassOrStruct).GetTypeInfo().Assembly;
+            List<Type> interfaceTypes = assembly.GetTypes().Where(t => t.GetTypeInfo().IsInterface).ToList();
 
             // Confirm there are interfaces to exclude.
             Assert.NotEmpty(interfaceTypes);

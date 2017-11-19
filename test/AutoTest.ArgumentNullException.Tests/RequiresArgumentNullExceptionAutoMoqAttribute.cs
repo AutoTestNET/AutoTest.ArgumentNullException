@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture;
     using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Xunit;
-    using Ploeh.AutoFixture;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public class RequiresArgumentNullExceptionAutoMoqAttribute : RequiresArgumentNullExceptionAttribute
@@ -25,12 +25,12 @@
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
 
-            return assemblyUnderTest.Assembly;
+            return assemblyUnderTest.GetTypeInfo().Assembly;
         }
 
         private static IArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
         {
-            var fixture =
+            IFixture fixture =
                 new Fixture().Customize(new AutoFixtureCustomizations())
                              .Customize(new NullTestsCustomization());
 

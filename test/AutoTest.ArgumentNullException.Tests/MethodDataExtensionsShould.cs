@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoFixture.Xunit2;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Xunit;
     using Moq;
-    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
     using global::Xunit.Sdk;
 

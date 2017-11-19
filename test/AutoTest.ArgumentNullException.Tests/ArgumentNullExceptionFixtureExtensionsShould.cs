@@ -22,11 +22,19 @@
             IEnumerable<BindingFlags> compositeBindingFlags =
                 new[]
                     {
+#if NETCOREAPP1_1
                         BindingFlags.CreateInstance | BindingFlags.DeclaredOnly,
+                        BindingFlags.FlattenHierarchy,
+                        BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.IgnoreCase,
+                        BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
+                        BindingFlags.Public | BindingFlags.SetField
+#else
+                    BindingFlags.CreateInstance | BindingFlags.DeclaredOnly,
                         BindingFlags.ExactBinding | BindingFlags.FlattenHierarchy,
                         BindingFlags.GetField | BindingFlags.GetProperty | BindingFlags.IgnoreCase,
                         BindingFlags.IgnoreReturn | BindingFlags.Instance | BindingFlags.InvokeMethod | BindingFlags.NonPublic,
                         BindingFlags.OptionalParamBinding | BindingFlags.Public | BindingFlags.PutDispProperty | BindingFlags.PutRefDispProperty | BindingFlags.SetField
+#endif
                     };
             return
                 Enum.GetValues(typeof(BindingFlags))
@@ -41,7 +49,7 @@
             BindingFlags mask)
         {
             // Arrange.
-            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
+            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).GetTypeInfo().Assembly);
 
             // Get the original value which should be preserved.
             BindingFlags original = sut.BindingFlags;
@@ -61,7 +69,7 @@
             BindingFlags mask)
         {
             // Arrange.
-            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).Assembly);
+            IArgumentNullExceptionFixture sut = new ArgumentNullExceptionFixture(typeof(ArgumentNullExceptionFixtureExtensionsShould).GetTypeInfo().Assembly);
 
             // Get the original value which should be preserved with the exception of the cleared values.
             BindingFlags original = sut.BindingFlags;
@@ -76,9 +84,9 @@
             Assert.Equal(original & ~mask, sut.BindingFlags);
         }
 
-        #endregion Clear/SetBindingFlag
+#endregion Clear/SetBindingFlag
 
-        #region Add/Remove Filters
+#region Add/Remove Filters
 
         [Theory, AutoMock]
         public void AddFilters(
@@ -189,9 +197,9 @@
             Assert.False(originalFilters.Except(filters).Any());
         }
 
-        #endregion Add/Remove Filters
+#endregion Add/Remove Filters
 
-        #region Exclude/Incude Type
+#region Exclude/Incude Type
 
 // ReSharper disable UnusedParameter.Local
         private void AssertTypeRule(
@@ -298,9 +306,9 @@
             Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeType(GetType()));
         }
 
-        #endregion Exclude/Incude Type
+#endregion Exclude/Incude Type
 
-        #region Exclude/Incude Method
+#region Exclude/Incude Method
 
 // ReSharper disable UnusedParameter.Local
         private void AssertMethodRule(
@@ -463,9 +471,9 @@
             Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeMethod("methodName" + Guid.NewGuid()));
         }
 
-        #endregion Exclude/Incude Method
+#endregion Exclude/Incude Method
 
-        #region Exclude/Incude Parameter
+#region Exclude/Incude Parameter
 
 // ReSharper disable UnusedParameter.Local
         private void AssertParameterRule(
@@ -777,9 +785,9 @@
             Assert.Throws<InvalidOperationException>(() => fixtureMock.Object.IncludeParameter("parameterName" + Guid.NewGuid()));
         }
 
-        #endregion Exclude/Incude Parameter
+#endregion Exclude/Incude Parameter
 
-        #region ExcludeAll
+#region ExcludeAll
 
         [Theory, AutoMock]
         void ExcludeAllTypes(
@@ -869,9 +877,9 @@
             Assert.False(existingRules.Except(regexRules).Any());
         }
 
-        #endregion ExcludeAll
+#endregion ExcludeAll
 
-        #region ExcludePrivate
+#region ExcludePrivate
 
         [Theory]
         [InlineData(ArgumentNullExceptionFixture.DefaultBindingFlags,
@@ -894,9 +902,9 @@
             Assert.Same(fixtureMock.Object, fixture);
         }
 
-        #endregion ExcludePrivate
+#endregion ExcludePrivate
 
-        #region Customizations
+#region Customizations
 
         [Theory, AutoMock]
         public void ApplyACustomization(
@@ -914,6 +922,6 @@
             customizationMock.Verify();
         }
 
-        #endregion Customizations
+#endregion Customizations
     }
 }

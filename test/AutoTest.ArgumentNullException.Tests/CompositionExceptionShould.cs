@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture.Xunit2;
     using Moq;
-    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
 
     public class CompositionExceptionShould
@@ -21,19 +21,16 @@
         [Theory, AutoMock]
         public void ComposeMessageFromParameters(
             Type classUnderTest,
-            Mock<MethodBase> methodUnderTestMock,
+            MethodBase methodUnderTest,
             string nullParameter,
             Exception innerException)
         {
-            // Arrange
-            methodUnderTestMock.SetupGet(m => m.Name).Returns("Name" + Guid.NewGuid());
-
             // Act
-            var sut = new CompositionException(classUnderTest, methodUnderTestMock.Object, nullParameter, innerException);
+            var sut = new CompositionException(classUnderTest, methodUnderTest, nullParameter, innerException);
 
             // Assert
             Assert.Contains(classUnderTest.Name, sut.Message);
-            Assert.Contains(methodUnderTestMock.Object.Name, sut.Message);
+            Assert.Contains(methodUnderTest.Name, sut.Message);
             Assert.Contains(nullParameter, sut.Message);
             Assert.Contains(innerException.ToString(), sut.Message);
         }

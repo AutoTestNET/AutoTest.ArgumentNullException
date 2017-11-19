@@ -19,18 +19,19 @@
             // Arrange
             parameterMock.Setup(p => p.ToString()).Returns(typeof(ParameterInfo).ToString);
 
-            parameterMock.SetupGet(p => p.Name)
-                .Returns(Guid.NewGuid().ToString())
-                .Verifiable();
-            methodMock.SetupGet(m => m.Name)
-                .Returns(Guid.NewGuid().ToString())
-                .Verifiable();
+            //// The names were only used by logging which I've temporarily commended out.
+            ////parameterMock.SetupGet(p => p.Name)
+            ////    .Returns(Guid.NewGuid().ToString())
+            ////    .Verifiable();
+            ////methodMock.SetupGet(m => m.Name)
+            ////    .Returns(Guid.NewGuid().ToString())
+            ////    .Verifiable();
             filterMock.Setup(f => f.ExcludeParameter(type, methodMock.Object, parameterMock.Object))
                 .Returns(true)
                 .Verifiable();
-            filterMock.SetupGet(f => f.Name)
-                      .Returns("mocked filter")
-                      .Verifiable();
+            ////filterMock.SetupGet(f => f.Name)
+            ////          .Returns("mocked filter")
+            ////          .Verifiable();
 
             // Act
             bool actual = filterMock.Object.ApplyFilter(type, methodMock.Object, parameterMock.Object);

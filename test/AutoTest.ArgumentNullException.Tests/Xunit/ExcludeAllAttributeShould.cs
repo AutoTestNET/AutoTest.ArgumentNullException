@@ -68,7 +68,7 @@
         {
             // Arrange
             sut.ExclusionType = ExclusionType.Types;
-            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            var fixture = new ArgumentNullExceptionFixture(GetType().GetTypeInfo().Assembly);
             IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act
@@ -89,7 +89,7 @@
         {
             // Arrange
             sut.ExclusionType = ExclusionType.Methods;
-            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            var fixture = new ArgumentNullExceptionFixture(GetType().GetTypeInfo().Assembly);
             IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act
@@ -110,7 +110,7 @@
         {
             // Arrange
             sut.ExclusionType = ExclusionType.Parameters;
-            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            var fixture = new ArgumentNullExceptionFixture(GetType().GetTypeInfo().Assembly);
             IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act
@@ -131,7 +131,7 @@
         {
             // Arrange
             sut.ExclusionType = ExclusionType.All;
-            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            var fixture = new ArgumentNullExceptionFixture(GetType().GetTypeInfo().Assembly);
             IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act
@@ -154,7 +154,7 @@
         {
             // Arrange
             sut.ExclusionType = ExclusionType.None;
-            var fixture = new ArgumentNullExceptionFixture(GetType().Assembly);
+            var fixture = new ArgumentNullExceptionFixture(GetType().GetTypeInfo().Assembly);
             IArgNullExCustomization customization = sut.GetCustomization(method);
 
             // Act

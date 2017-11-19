@@ -28,7 +28,7 @@
         public void ProvideDebuggerDisplay(RegexRule sut)
         {
             // Assert as we go
-            var debuggerDisplay = sut.GetType().GetCustomAttribute<DebuggerDisplayAttribute>(inherit: false);
+            DebuggerDisplayAttribute debuggerDisplay = sut.GetType().GetTypeInfo().GetCustomAttribute<DebuggerDisplayAttribute>(inherit: false);
             Assert.NotNull(debuggerDisplay);
             Assert.Contains("DebuggerDisplay", debuggerDisplay.Value);
 
@@ -38,7 +38,7 @@
             MethodInfo getMethod = propertyInfo.GetGetMethod(true);
             Assert.NotNull(getMethod);
 
-            var display = Assert.IsType<string>(getMethod.Invoke(sut, new object[] {}));
+            string display = Assert.IsType<string>(getMethod.Invoke(sut, new object[] {}));
             Assert.Contains(sut.Name, display);
         }
     }

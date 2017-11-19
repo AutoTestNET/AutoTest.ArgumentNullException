@@ -202,9 +202,7 @@ namespace AutoTest.ArgNullEx
         /// <returns>The list of filters.</returns>
         private static List<IFilter> DiscoverFilters()
         {
-            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
-            IEnumerable<Type> types = assemblyTypes.Where(t => typeof(IFilter).GetTypeInfo().IsAssignableFrom(t));
-            List<IFilter> filters = types.Select(Activator.CreateInstance).Cast<IFilter>().ToList();
+            List<IFilter> filters = DiscoverTypes<IFilter>().ToList();
             return filters;
         }
 
@@ -214,10 +212,21 @@ namespace AutoTest.ArgNullEx
         /// <returns>The list of mappings.</returns>
         private static List<IMapping> DiscoverMappings()
         {
-            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
-            IEnumerable<Type> types = assemblyTypes.Where(t => typeof(IMapping).GetTypeInfo().IsAssignableFrom(t));
-            List<IMapping> mappings = types.Select(Activator.CreateInstance).Cast<IMapping>().ToList();
+            List<IMapping> mappings = DiscoverTypes<IMapping>().ToList();
             return mappings;
+        }
+
+        private static IEnumerable<T> DiscoverTypes<T>()
+        {
+            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
+            IEnumerable<Type> types =
+                assemblyTypes.Where(
+                    type => typeof(T).GetTypeInfo().IsAssignableFrom(type)
+                            && !type.GetTypeInfo().IsInterface
+                            && !type.GetTypeInfo().IsAbstract);
+
+            IEnumerable<T> instances = types.Select(Activator.CreateInstance).Cast<T>();
+            return instances;
         }
 
         /// <summary>

@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
+    using AutoFixture;
+    using AutoFixture.Xunit2;
 
     public class AutoMockAttribute : AutoDataAttribute
     {

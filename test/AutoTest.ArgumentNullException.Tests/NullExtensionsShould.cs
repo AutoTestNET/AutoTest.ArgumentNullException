@@ -183,7 +183,7 @@
         public void IdentifyCompilerGeneratedTypes(Type type, bool expected)
         {
             // Act
-            bool actual = type.IsCompilerGenerated();
+            bool actual = type.GetTypeInfo().IsCompilerGenerated();
 
             // Assert
             Assert.Equal(expected, actual);

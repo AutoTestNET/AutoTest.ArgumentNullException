@@ -80,7 +80,7 @@
             // Arrange
             bool executed = false;
             Action action = () => { executed = true; };
-            MethodData methodData = GetMethodData(action.Method, sut, action.Target);
+            MethodData methodData = GetMethodData(action.GetMethodInfo(), sut, action.Target);
 
             // Act
             await methodData.ExecuteAction();
@@ -94,7 +94,7 @@
             Action action = () => { throw new FileLoadException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.Method, sut, action.Target));
+            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
         }
 
         [Theory, AutoMock]
@@ -103,7 +103,7 @@
             // Arrange
             bool executed = false;
             Func<Task> action = async () => { await Task.Yield(); executed = true; };
-            MethodData methodData = GetMethodData(action.Method, sut, action.Target);
+            MethodData methodData = GetMethodData(action.GetMethodInfo(), sut, action.Target);
 
             // Act
             await methodData.ExecuteAction();
@@ -121,7 +121,7 @@
                 };
 
             // AAA
-            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.Method, sut, action.Target));
+            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
         }
 
         [Theory, AutoMock]
@@ -131,7 +131,7 @@
             Func<Task> action = () => { throw new FieldAccessException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.Method, sut, action.Target));
+            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
         }
     }
 }

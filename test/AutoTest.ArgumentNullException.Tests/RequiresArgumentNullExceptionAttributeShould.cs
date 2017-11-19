@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture.Xunit2;
     using AutoTest.ArgNullEx.Xunit;
     using Moq;
-    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
 
     public class RequiresArgumentNullExceptionAttributeShould
@@ -27,8 +27,8 @@
 
             // Assert
             Assert.NotNull(sut.Fixture);
-            var fixture = Assert.IsType<ArgumentNullExceptionFixture>(sut.Fixture);
-            Assert.Same(typeof(Uri).Assembly, fixture.AssemblyUnderTest);
+            ArgumentNullExceptionFixture fixture = Assert.IsType<ArgumentNullExceptionFixture>(sut.Fixture);
+            Assert.Same(typeof(Uri).GetTypeInfo().Assembly, fixture.AssemblyUnderTest);
         }
 
         [Theory, AutoMock]

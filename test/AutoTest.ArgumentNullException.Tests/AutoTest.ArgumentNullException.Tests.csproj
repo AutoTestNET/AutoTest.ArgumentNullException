@@ -1,136 +1,26 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6587C33F-8849-4C90-8E49-ABCE9823F4CB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net47;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <IsPackable>false</IsPackable>
     <RootNamespace>AutoTest.ArgNullEx</RootNamespace>
-    <AssemblyName>AutoTest.ArgumentNullException.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Moq, Version=4.5.3.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Moq.4.5.3\lib\net45\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.3.50.2\lib\net40\Ploeh.AutoFixture.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture.AutoMoq, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.AutoMoq.3.50.2\lib\net40\Ploeh.AutoFixture.AutoMoq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ploeh.AutoFixture.Xunit2, Version=3.50.2.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoFixture.Xunit2.3.50.2\lib\net45\Ploeh.AutoFixture.Xunit2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.0.0-rc1" />
+    <PackageReference Include="AutoFixture.Xunit2" Version="4.0.0-rc1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="Moq" Version="4.7.145" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.analyzers" Version="0.7.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\..\Common\AssemblyInfoCommon.cs">
-      <Link>Properties\AssemblyInfoCommon.cs</Link>
-    </Compile>
-    <Compile Include="ArgNullExCompositeCustomizationShould.cs" />
-    <Compile Include="ArgumentNullExceptionFixtureExtensionsShould.cs" />
-    <Compile Include="ArgumentNullExceptionFixtureShould.cs" />
-    <Compile Include="AutoFixtureCustomizations.cs" />
-    <Compile Include="AutoMockAttribute.cs" />
-    <Compile Include="CompositionExceptionShould.cs" />
-    <Compile Include="Execution\DefaultExecutionSetupShould.cs" />
-    <Compile Include="Execution\ErroredExecutionSetupShould.cs" />
-    <Compile Include="Filter\NotAbstractMethodShould.cs" />
-    <Compile Include="Filter\NotNullableValueTypeShould.cs" />
-    <Compile Include="Filter\NotOutParameterShould.cs" />
-    <Compile Include="Filter\NotPropertySetterShould.cs" />
-    <Compile Include="Filter\ParameterFilteringShould.cs" />
-    <Compile Include="Filter\RegexRuleShould.cs" />
-    <Compile Include="Filter\TypeFilteringShould.cs" />
-    <Compile Include="Filter\HasNullableParametersWithoutNullDefaultsShould.cs" />
-    <Compile Include="Filter\IsNullableShould.cs" />
-    <Compile Include="Filter\NotNullDefaultShould.cs" />
-    <Compile Include="Filter\RegexFilterExtensionsShould.cs" />
-    <Compile Include="Filter\RegexFilterShould.cs" />
-    <Compile Include="Filter\RegexRuleExtensionsShould.cs" />
-    <Compile Include="Filter\MethodFilteringShould.cs" />
-    <Compile Include="Lock\ReadLockDisposableUnitTests.cs" />
-    <Compile Include="Lock\WriteLockDisposableUnitTests.cs" />
-    <Compile Include="MappingExtensionsShould.cs" />
-    <Compile Include="MethodDataExtensionsShould.cs" />
-    <Compile Include="Filter\NotCompilerGeneratedShould.cs" />
-    <Compile Include="MethodDataShould.cs" />
-    <Compile Include="NullExtensionsShould.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequiresArgumentNullExceptionAttributeShould.cs" />
-    <Compile Include="RequiresArgumentNullExceptionAutoMoqAttribute.cs" />
-    <Compile Include="SpecimenProviderShould.cs" />
-    <Compile Include="TestNullArguments.cs" />
-    <Compile Include="Filter\IsClassOrStructShould.cs" />
-    <Compile Include="Xunit\ExcludeAttributeShould.cs" />
-    <Compile Include="Xunit\ExcludeAllAttributeShould.cs" />
-    <Compile Include="Xunit\IncludeAttributeShould.cs" />
-    <Compile Include="Xunit\SubstituteAttributeShould.cs" />
+    <ProjectReference Include="..\..\src\AutoTest.ArgumentNullException.Xunit\AutoTest.ArgumentNullException.Xunit.csproj" />
+    <ProjectReference Include="..\..\src\AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\AutoTest.ArgumentNullException.Xunit\AutoTest.ArgumentNullException.Xunit.csproj">
-      <Project>{73c0260e-db5d-465d-a3d9-a37b443b9074}</Project>
-      <Name>AutoTest.ArgumentNullException.Xunit</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj">
-      <Project>{1efce40c-40d8-421c-b756-01e9a5c6ea1f}</Project>
-      <Name>AutoTest.ArgumentNullException</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

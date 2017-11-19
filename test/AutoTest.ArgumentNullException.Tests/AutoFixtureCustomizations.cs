@@ -4,16 +4,29 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
-    using Ploeh.AutoFixture.Kernel;
+    using AutoFixture;
+    using AutoFixture.AutoMoq;
+    using AutoFixture.Kernel;
 
     public class ReflectionCustomization : ICustomization
     {
+        private static readonly MethodInfo MethodInfo = GetMethodInfo();
+
+        private static MethodInfo GetMethodInfo()
+        {
+            MethodInfo method =
+                typeof(ReflectionCustomization).GetMethod(
+                    "GetMethodInfo",
+                    BindingFlags.NonPublic | BindingFlags.Static);
+            return method;
+        }
+
         void ICustomization.Customize(IFixture fixture)
         {
+            fixture.Inject(MethodInfo);
             fixture.Customize<MethodBase>(
                 composer => composer.FromFactory(new TypeRelay(typeof(MethodBase), typeof(MethodInfo))));
+            fixture.Inject(GetType().GetTypeInfo().Assembly);
         }
     }
 
@@ -21,11 +34,10 @@
     {
         private static readonly ParameterInfo ParameterInfo = GetParameterInfo();
 
-// ReSharper disable UnusedParameter.Local
+        // ReSharper disable once UnusedParameter.Local
         private static ParameterInfo GetParameterInfo(object unused = null)
-// ReSharper restore UnusedParameter.Local
         {
-            var method =
+            MethodInfo method =
                 typeof(NullTestsCustomization).GetMethod("GetParameterInfo",
                                                           BindingFlags.NonPublic | BindingFlags.Static);
 

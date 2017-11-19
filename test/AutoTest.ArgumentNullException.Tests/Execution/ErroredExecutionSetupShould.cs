@@ -4,14 +4,18 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Ploeh.AutoFixture.Xunit2;
+    using AutoFixture.Xunit2;
     using global::Xunit;
 
     public class ErroredExecutionSetupShould
     {
+        public class MyException : Exception
+        {
+        }
+
         [Theory, AutoMock]
         public void InitialiseException(
-            [Frozen(Matching.DirectBaseType)] SystemException expected,
+            [Frozen(Matching.DirectBaseType)] MyException expected,
             ErroredExecutionSetup sut)
         {
             Assert.Same(expected, sut.Exception);
@@ -19,7 +23,7 @@
 
         [Theory, AutoMock]
         public async Task SetupThrowingExecution(
-            [Frozen(Matching.DirectBaseType)] ApplicationException expected,
+            [Frozen(Matching.DirectBaseType)] MyException expected,
             ErroredExecutionSetup sut,
             MethodData methodData)
         {
@@ -31,7 +35,7 @@
 
             // Assert
             Assert.True(task.IsFaulted);
-            ApplicationException actual = await Assert.ThrowsAsync<ApplicationException>(() => task);
+            MyException actual = await Assert.ThrowsAsync<MyException>(() => task);
             Assert.Same(expected, actual);
         }
     }

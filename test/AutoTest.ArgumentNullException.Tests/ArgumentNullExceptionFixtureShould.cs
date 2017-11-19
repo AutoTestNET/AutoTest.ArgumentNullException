@@ -6,12 +6,12 @@
     using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using AutoFixture;
+    using AutoFixture.Xunit2;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
     using AutoTest.ArgNullEx.Mapping;
     using Moq;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
 
     public class ArgumentNullExceptionFixtureShould
@@ -79,7 +79,7 @@
                   .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
 
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                new ArgumentNullExceptionFixture(typeof(Uri).GetTypeInfo().Assembly,
                                                  specimenProvider,
                                                  new List<IFilter> { filter },
                                                  new List<IMapping>());
@@ -102,7 +102,7 @@
                   .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
 
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                new ArgumentNullExceptionFixture(typeof(Uri).GetTypeInfo().Assembly,
                                                  specimenProvider,
                                                  new List<IFilter> { filter },
                                                  new List<IMapping>());
@@ -128,7 +128,7 @@
                   .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
 
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                new ArgumentNullExceptionFixture(typeof(Uri).GetTypeInfo().Assembly,
                                                  specimenProviderMock.Object,
                                                  new List<IFilter> { filter },
                                                  new List<IMapping>());
@@ -142,7 +142,7 @@
             Assert.Equal(5, executionSetups.Count);
             foreach (ErroredExecutionSetup executionSetup in executionSetups)
             {
-                var compositionException = Assert.IsType<CompositionException>(executionSetup.Exception);
+                CompositionException compositionException = Assert.IsType<CompositionException>(executionSetup.Exception);
                 Assert.Same(exception, compositionException.InnerException);
             }
         }
@@ -159,7 +159,7 @@
                   .Rules.Add(new RegexRule("exclude all", type: new Regex(".*"), method: new Regex(".*")));
 
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(Uri).Assembly,
+                new ArgumentNullExceptionFixture(typeof(Uri).GetTypeInfo().Assembly,
                                                  specimenProvider,
                                                  new List<IFilter> { filter },
                                                  new List<IMapping>());

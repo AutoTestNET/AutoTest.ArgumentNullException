@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture;
+    using AutoFixture.Xunit2;
     using Moq;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.Xunit2;
     using global::Xunit;
 
     public class SpecimenProviderShould
@@ -37,7 +37,7 @@
             IFixture fixture)
         {
             // Arrange
-            var throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
+            ThrowingRecursionBehavior throwingRecursionBehavior = fixture.Behaviors.OfType<ThrowingRecursionBehavior>().SingleOrDefault();
             if (throwingRecursionBehavior != null)
             {
                 fixture.Behaviors.Remove(throwingRecursionBehavior);
@@ -98,7 +98,7 @@
         {
             // Arrange
             Action<int, Guid, object, object, string> action = (i, g, o, n, s) => { };
-            ParameterInfo[] parameters = action.Method.GetParameters();
+            ParameterInfo[] parameters = action.GetMethodInfo().GetParameters();
 
             // Act
             object[] actualParameters = ((ISpecimenProvider)sut).GetParameterSpecimens(parameters, 3);
