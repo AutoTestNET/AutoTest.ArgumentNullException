@@ -10,7 +10,6 @@ namespace AutoTest.ArgNullEx
     using AutoFixture;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
-    using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Mapping;
 
     /// <summary>
@@ -203,9 +202,10 @@ namespace AutoTest.ArgNullEx
         /// <returns>The list of filters.</returns>
         private static List<IFilter> DiscoverFilters()
         {
-            var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
-            discoverableCollection.Discover();
-            return discoverableCollection.Items;
+            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
+            IEnumerable<Type> types = assemblyTypes.Where(t => typeof(IFilter).GetTypeInfo().IsAssignableFrom(t));
+            List<IFilter> filters = types.Select(Activator.CreateInstance).Cast<IFilter>().ToList();
+            return filters;
         }
 
         /// <summary>
@@ -214,9 +214,10 @@ namespace AutoTest.ArgNullEx
         /// <returns>The list of mappings.</returns>
         private static List<IMapping> DiscoverMappings()
         {
-            var discoverableCollection = new ReflectionDiscoverableCollection<IMapping>();
-            discoverableCollection.Discover();
-            return discoverableCollection.Items;
+            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
+            IEnumerable<Type> types = assemblyTypes.Where(t => typeof(IMapping).GetTypeInfo().IsAssignableFrom(t));
+            List<IMapping> mappings = types.Select(Activator.CreateInstance).Cast<IMapping>().ToList();
+            return mappings;
         }
 
         /// <summary>
