@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using System.Threading.Tasks;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
@@ -46,7 +47,7 @@
         public void ShouldOnlyGet5Tests()
         {
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(ExplicitEquals).Assembly)
+                new ArgumentNullExceptionFixture(typeof(ExplicitEquals).GetTypeInfo().Assembly)
                     .ExcludeAllTypes()
                     .IncludeType(typeof(ExplicitEquals));
 
@@ -61,7 +62,7 @@
         public void ShouldOnlyGet2Tests()
         {
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(ImplicitEquals).Assembly)
+                new ArgumentNullExceptionFixture(typeof(ImplicitEquals).GetTypeInfo().Assembly)
                     .ExcludeAllTypes()
                     .IncludeType(typeof(ImplicitEquals));
 
@@ -76,7 +77,7 @@
         public void ShouldGetAll5Tests()
         {
             IArgumentNullExceptionFixture sut =
-                new ArgumentNullExceptionFixture(typeof(OtherEquals).Assembly)
+                new ArgumentNullExceptionFixture(typeof(OtherEquals).GetTypeInfo().Assembly)
                     .ExcludeAllTypes()
                     .IncludeType(typeof(OtherEquals));
 

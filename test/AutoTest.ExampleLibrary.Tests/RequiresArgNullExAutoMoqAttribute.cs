@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture;
+    using AutoFixture.AutoMoq;
     using AutoTest.ArgNullEx;
     using AutoTest.ArgNullEx.Xunit;
-    using Ploeh.AutoFixture;
-    using Ploeh.AutoFixture.AutoMoq;
 
     public class RequiresArgNullExAutoMoqAttribute : RequiresArgumentNullExceptionAttribute
     {
@@ -25,12 +25,12 @@
             if (assemblyUnderTest == null)
                 throw new ArgumentNullException("assemblyUnderTest");
 
-            return assemblyUnderTest.Assembly;
+            return assemblyUnderTest.GetTypeInfo().Assembly;
         }
 
         private static IArgumentNullExceptionFixture CreateFixture(Assembly assemblyUnderTest)
         {
-            var fixture = new Fixture().Customize(new AutoMoqCustomization());
+            IFixture fixture = new Fixture().Customize(new AutoMoqCustomization());
 
             return new ArgumentNullExceptionFixture(assemblyUnderTest, fixture);
         }

@@ -1,66 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{918E3C57-46B4-4B4A-8A95-45F54FFEBB92}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AutoTest.ExampleLibrary</RootNamespace>
-    <AssemblyName>AutoTest.ExampleLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFrameworks>net40;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\Common\AssemblyInfoCommon.cs">
-      <Link>Properties\AssemblyInfoCommon.cs</Link>
-    </Compile>
-    <Compile Include="Class1.cs" />
-    <Compile Include="Issues\Issue001\ComplexGenericMethods.cs" />
-    <Compile Include="Issues\Issue001\InterfaceGenericMethods.cs" />
-    <Compile Include="Issues\Issue001\MixedGenericMethods.cs" />
-    <Compile Include="Issues\Issue001\SimpleGenericMethods.cs" />
-    <Compile Include="Issues\Issue004\SomeOutParameters.cs" />
-    <Compile Include="Issues\Issue005\PropertySetters.cs" />
-    <Compile Include="Issues\Issue006\SpecialCharacters.cs" />
-    <Compile Include="Issues\Issue009\InternalInnerInterface.cs" />
-    <Compile Include="Issues\Issue012\YieldExample.cs" />
-    <Compile Include="Issues\Issue015\ExplicitEquals.cs" />
-    <Compile Include="Issues\Issue015\ImplicitEquals.cs" />
-    <Compile Include="Issues\Issue015\OtherEquals.cs" />
-    <Compile Include="Issues\Issue020\Mixture.cs" />
-    <Compile Include="Issues\Issue022\GenericClass.cs" />
-    <Compile Include="Issues\Issue031\SomeNullableValueTypeParameters.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
