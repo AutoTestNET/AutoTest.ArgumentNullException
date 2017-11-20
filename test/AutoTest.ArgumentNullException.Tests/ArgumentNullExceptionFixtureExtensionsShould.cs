@@ -345,6 +345,9 @@
         }
 // ReSharper restore UnusedParameter.Local
 
+//// Cannot Create mocks of MethodBase and ParameterInfo in 1.1, as this is an issue with the tests not the library,
+//// it's simper to just exclude these tests.
+#if !NETCOREAPP1_1
         [Theory, AutoMock]
         public void ExcludeAMethodWithType(
             Type type,
@@ -418,6 +421,7 @@
             // Act/Assert
             AssertMethodRule(fixtureMock.Object.IncludeMethod, methodMock.Object, null, regexRules.ToArray(), regexRules, expectedInclude: true);
         }
+#endif
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenExcludingAMethod(
@@ -521,6 +525,9 @@
         }
 // ReSharper restore UnusedParameter.Local
 
+//// Cannot Create mocks of MethodBase and ParameterInfo in 1.1, as this is an issue with tests not the library, it's
+//// simper to just exclude these tests.
+#if !NETCOREAPP1_1
         [Theory, AutoMock]
         public void ExcludeAParameterWithType(
             Type type,
@@ -732,6 +739,7 @@
                 regexRules,
                 expectedInclude: true);
         }
+#endif
 
         [Theory, AutoMock]
         public void ThrowIfNoIRegexFilterWhenExcludingAParameter(
