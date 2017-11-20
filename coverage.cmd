@@ -48,7 +48,7 @@
 @dotnet build --configuration %config% "%~dp0test\AutoTest.ArgumentNullException.Tests\AutoTest.ArgumentNullException.Tests.csproj"
 
 @echo dotnet build --configuration %config% "%~dp0test\AutoTest.ExampleLibrary.Tests\AutoTest.ExampleLibrary.Tests.csproj"
-::@dotnet build --configuration %config% "%~dp0test\AutoTest.ExampleLibrary.Tests\AutoTest.ExampleLibrary.Tests.csproj"
+@dotnet build --configuration %config% "%~dp0test\AutoTest.ExampleLibrary.Tests\AutoTest.ExampleLibrary.Tests.csproj"
 
 cd "%~dp0test\AutoTest.ArgumentNullException.Tests"
 
@@ -68,7 +68,7 @@ cd "%~dp0test\AutoTest.ExampleLibrary.Tests"
 ::@dotnet.exe xunit -configuration %config% -nobuild -noshadow -html %xunit_results%
 
 @echo "%cover_exe%" -register:user "-target:dotnet.exe" "-targetargs:xunit -configuration %config% -nobuild -noshadow -html %xunit_results%" -returntargetcode -filter:^"%coverage_filter%^" "-output:%coverage_results%" -mergeoutput
-::@"%cover_exe%" -register:user "-target:dotnet.exe" "-targetargs:xunit -configuration %config% -nobuild -noshadow -html %xunit_results%" -returntargetcode -filter:^"%coverage_filter%^" "-output:%coverage_results%" -mergeoutput
+@"%cover_exe%" -register:user "-target:dotnet.exe" "-targetargs:xunit -configuration %config% -nobuild -noshadow -html %xunit_results%" -returntargetcode -filter:^"%coverage_filter%^" "-output:%coverage_results%" -mergeoutput
 @IF ERRORLEVEL 1 (
    echo Error executing the internal xunit tests
    EXIT /B 2
