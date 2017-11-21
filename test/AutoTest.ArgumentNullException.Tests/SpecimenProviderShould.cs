@@ -28,7 +28,7 @@
             // Act/Assert
             Assert.Same(fixture, sut.Builder);
             Assert.Empty(fixture.Behaviors.OfType<ThrowingRecursionBehavior>());
-            Assert.Equal(1, fixture.Behaviors.OfType<OmitOnRecursionBehavior>().Count());
+            Assert.Single(fixture.Behaviors.OfType<OmitOnRecursionBehavior>());
             Assert.True(fixture.OmitAutoProperties);
         }
 
@@ -51,7 +51,7 @@
             // Assert
             Assert.Same(fixture, sut.Builder);
             Assert.Empty(fixture.Behaviors.OfType<ThrowingRecursionBehavior>());
-            Assert.Equal(1, fixture.Behaviors.OfType<OmitOnRecursionBehavior>().Count());
+            Assert.Single(fixture.Behaviors.OfType<OmitOnRecursionBehavior>());
             Assert.True(fixture.OmitAutoProperties);
         }
 
@@ -89,7 +89,7 @@
             object[] actualParameters = ((ISpecimenProvider) sut).GetParameterSpecimens(new ParameterInfo[1], 0);
 
             Assert.NotNull(actualParameters);
-            Assert.Equal(1, actualParameters.Length);
+            Assert.Single(actualParameters);
             Assert.Null(actualParameters[0]);
         }
 

@@ -28,7 +28,6 @@
             Type originalType,
             Type newType1,
             Type newType2,
-            List<IMapping> mapings,
             ArgumentNullExceptionFixture fixture)
         {
             // Arrange

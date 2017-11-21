@@ -41,7 +41,7 @@
         {
             RegexRule regexRule = regexFilter.TypeRules.Single();
             Assert.False(regexRule.Include);
-            Assert.True(regexRule.Type.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(regexRule.Type, Guid.NewGuid().ToString());
         }
 
         private static void AssertSingleExcludeAllMethodsRule(IRegexFilter regexFilter)
@@ -49,7 +49,7 @@
             RegexRule regexRule = regexFilter.MethodRules.Single();
             Assert.False(regexRule.Include);
             Assert.Null(regexRule.Type);
-            Assert.True(regexRule.Method.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(regexRule.Method, Guid.NewGuid().ToString());
         }
 
         private static void AssertSingleExcludeAllParametersRule(IRegexFilter regexFilter)
@@ -58,7 +58,7 @@
             Assert.False(regexRule.Include);
             Assert.Null(regexRule.Type);
             Assert.Null(regexRule.Method);
-            Assert.True(regexRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(regexRule.Parameter, Guid.NewGuid().ToString());
         }
 
         [Theory, AutoMock]
@@ -78,7 +78,7 @@
             // Assert
             Assert.Empty(data);
             IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
-            Assert.Equal(1, regexFilter.Rules.Count);
+            Assert.Single(regexFilter.Rules);
             AssertSingleExcludeAllTypesRule(regexFilter);
         }
 
@@ -99,7 +99,7 @@
             // Assert
             Assert.Empty(data);
             IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
-            Assert.Equal(1, regexFilter.Rules.Count);
+            Assert.Single(regexFilter.Rules);
             AssertSingleExcludeAllMethodsRule(regexFilter);
         }
 
@@ -120,7 +120,7 @@
             // Assert
             Assert.Empty(data);
             IRegexFilter regexFilter = fixture.Filters.OfType<IRegexFilter>().Single();
-            Assert.Equal(1, regexFilter.Rules.Count);
+            Assert.Single(regexFilter.Rules);
             AssertSingleExcludeAllParametersRule(regexFilter);
         }
 

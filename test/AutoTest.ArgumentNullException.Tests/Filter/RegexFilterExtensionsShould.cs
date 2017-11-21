@@ -17,7 +17,7 @@
             IRegexFilter actualFilter = addMethod(GetType());
 
             Assert.Same(addMethod.Target, actualFilter);
-            Assert.Equal(1, actualFilter.Rules.Count);
+            Assert.Single(actualFilter.Rules);
             RegexRule addedRule = actualFilter.Rules.Single();
             Assert.Equal(expectedInclude, addedRule.Include);
             Assert.NotNull(addedRule.Type);
@@ -296,9 +296,9 @@
 
             // Assert
             Assert.Same(sut, result);
-            Assert.Equal(1, sut.Rules.Count);
+            Assert.Single(sut.Rules);
             RegexRule typeRule = sut.TypeRules.Single();
-            Assert.True(typeRule.Type.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(typeRule.Type, Guid.NewGuid().ToString());
         }
 
         [Fact]
@@ -312,9 +312,9 @@
 
             // Assert
             Assert.Same(sut, result);
-            Assert.Equal(1, sut.Rules.Count);
+            Assert.Single(sut.Rules);
             RegexRule methodRule = sut.MethodRules.Single();
-            Assert.True(methodRule.Method.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(methodRule.Method, Guid.NewGuid().ToString());
         }
 
         [Fact]
@@ -328,9 +328,9 @@
 
             // Assert
             Assert.Same(sut, result);
-            Assert.Equal(1, sut.Rules.Count);
+            Assert.Single(sut.Rules);
             RegexRule parameterRule = sut.ParameterRules.Single();
-            Assert.True(parameterRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(parameterRule.Parameter, Guid.NewGuid().ToString());
         }
 
         [Fact]
@@ -346,11 +346,11 @@
             Assert.Same(sut, result);
             Assert.Equal(3, sut.Rules.Count);
             RegexRule typeRule = sut.TypeRules.Single();
-            Assert.True(typeRule.Type.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(typeRule.Type, Guid.NewGuid().ToString());
             RegexRule methodRule = sut.MethodRules.Single();
-            Assert.True(methodRule.Method.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(methodRule.Method, Guid.NewGuid().ToString());
             RegexRule parameterRule = sut.ParameterRules.Single();
-            Assert.True(parameterRule.Parameter.IsMatch(Guid.NewGuid().ToString()));
+            Assert.Matches(parameterRule.Parameter, Guid.NewGuid().ToString());
         }
 
         #endregion ExcludeAll

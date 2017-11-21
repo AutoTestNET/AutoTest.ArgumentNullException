@@ -9,7 +9,7 @@
     public class AutoMockAttribute : AutoDataAttribute
     {
         public AutoMockAttribute()
-            : base(CreateFixture())
+            : base(CreateFixture)
         {
         }
 
