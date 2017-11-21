@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx.Filter
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx.Filter
 {
     using System;
     using System.Collections.Generic;
@@ -36,12 +39,13 @@
             bool excludeParameter = filter.ExcludeParameter(type, method, parameter);
             if (excludeParameter)
             {
-                Trace.TraceInformation(
-                    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
-                    type.Name,
-                    method.Name,
-                    parameter.Name,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The parameter '{0}.{1}({2})' was excluded by the filter '{3}'.",
+                ////    type.Name,
+                ////    method.Name,
+                ////    parameter.Name,
+                ////    filter.Name);
             }
 
             return excludeParameter;

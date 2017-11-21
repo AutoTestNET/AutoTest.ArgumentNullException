@@ -1,126 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1EFCE40C-40D8-421C-B756-01E9A5C6EA1F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net452;netstandard1.5;netstandard2.0</TargetFrameworks>
     <RootNamespace>AutoTest.ArgNullEx</RootNamespace>
-    <AssemblyName>AutoTest.ArgumentNullException</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Authors>James Skimming</Authors>
+    <Description>AutoTest.ArgumentNullException is an automated unit testing component to ensure methods with nullable parameters correctly throw an ArgumentNullException when they are supplied null parameters.</Description>
+    <Copyright>Copyright © 2013 - 2017 James Skimming</Copyright>
+    <PackageLicenseUrl>https://github.com/AutoTestNET/AutoTest.ArgumentNullException/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/AutoTestNET/AutoTest.ArgumentNullException</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AutoTestNET/AutoTest.ArgumentNullException</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Unit Test TDD AutoFixture Exception ArgumentNullException</PackageTags>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DocumentationFile>bin\Debug\AutoTest.ArgumentNullException.xml</DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <StyleCopTreatErrorsAsWarnings Condition="'$(StyleCopTreatErrorsAsWarnings)'==''">false</StyleCopTreatErrorsAsWarnings>
-    <CodeAnalysisTreatWarningsAsErrors Condition="'$(CodeAnalysisTreatWarningsAsErrors)'==''">true</CodeAnalysisTreatWarningsAsErrors>
-    <DocumentationFile>bin\Release\AutoTest.ArgumentNullException.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Ploeh.AutoFixture, Version=3.0.1.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoFixture.3.0.1\lib\net40\Ploeh.AutoFixture.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfoCommon.cs">
-      <Link>Properties\AssemblyInfoCommon.cs</Link>
-    </Compile>
-    <Compile Include="ArgNullExCompositeCustomization.cs" />
-    <Compile Include="ArgumentNullExceptionFixture.cs" />
-    <Compile Include="ArgumentNullExceptionFixtureExtensions.cs" />
-    <Compile Include="Filter\MethodExtensions.cs" />
-    <Compile Include="Filter\NotAbstractMethod.cs" />
-    <Compile Include="Filter\NotEqualsMethod.cs" />
-    <Compile Include="Filter\NotNullableValueType.cs" />
-    <Compile Include="Filter\NotOutParameter.cs" />
-    <Compile Include="Filter\NotPropertySetter.cs" />
-    <Compile Include="Filter\TypeFiltering.cs" />
-    <Compile Include="CompositionException.cs" />
-    <Compile Include="Execution\DefaultExecutionSetup.cs" />
-    <Compile Include="Execution\ErroredExecutionSetup.cs" />
-    <Compile Include="Filter\FilterBase.cs" />
-    <Compile Include="Filter\IRegexFilter.cs" />
-    <Compile Include="Filter\ParameterFiltering.cs" />
-    <Compile Include="Filter\RegexFilter.cs" />
-    <Compile Include="Filter\RegexFilterExtensions.cs" />
-    <Compile Include="Filter\RegexRule.cs" />
-    <Compile Include="Filter\RegexRuleExtensions.cs" />
-    <Compile Include="Filter\MethodFiltering.cs" />
-    <Compile Include="Framework\AssemblyTypesResolver.cs" />
-    <Compile Include="Framework\IDiscoverableCollection.cs" />
-    <Compile Include="Framework\ReflectionBlackList.cs" />
-    <Compile Include="Framework\ReflectionDiscoverableCollection.cs" />
-    <Compile Include="GenericTypeConversion.cs" />
-    <Compile Include="IArgNullExCustomization.cs" />
-    <Compile Include="IArgumentNullExceptionFixture.cs" />
-    <Compile Include="Execution\IExecutionSetup.cs" />
-    <Compile Include="Filter\IFilter.cs" />
-    <Compile Include="Filter\IParameterFilter.cs" />
-    <Compile Include="ISpecimenProvider.cs" />
-    <Compile Include="Lock\ReadLockDisposable.cs" />
-    <Compile Include="Lock\WriteLockDisposable.cs" />
-    <Compile Include="MappingExtensions.cs" />
-    <Compile Include="Mapping\IMapping.cs" />
-    <Compile Include="Mapping\ITypeMapping.cs" />
-    <Compile Include="Mapping\MappingBase.cs" />
-    <Compile Include="Mapping\SubstituteType.cs" />
-    <Compile Include="Mapping\TypeMapping.cs" />
-    <Compile Include="Mapping\TypeMappingBase.cs" />
-    <Compile Include="MethodData.cs" />
-    <Compile Include="Filter\IMethodFilter.cs" />
-    <Compile Include="Filter\NotCompilerGenerated.cs" />
-    <Compile Include="Filter\HasNullableParametersWithoutNullDefaults.cs" />
-    <Compile Include="Filter\IsNullable.cs" />
-    <Compile Include="Filter\NotNullDefault.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NullExtensions.cs" />
-    <Compile Include="Filter\IsClassOrStruct.cs" />
-    <Compile Include="Filter\ITypeFilter.cs" />
-    <Compile Include="SpecimenProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AutoTest.ArgumentNullException.nuspec" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets" Condition="Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\StyleCop.MSBuild.4.7.49.0\build\StyleCop.MSBuild.Targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
+
+  <!--
+  Force the net45 build to generate non Portable PDB until such time that OpenCover supports Portable PDBs
+  https://github.com/OpenCover/opencover/issues/610
   -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Framework\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.0.0-rc1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' != 'net452' ">
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
 </Project>

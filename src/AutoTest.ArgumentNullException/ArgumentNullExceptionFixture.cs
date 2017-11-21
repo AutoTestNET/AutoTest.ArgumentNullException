@@ -1,14 +1,16 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using AutoFixture;
     using AutoTest.ArgNullEx.Execution;
     using AutoTest.ArgNullEx.Filter;
-    using AutoTest.ArgNullEx.Framework;
     using AutoTest.ArgNullEx.Mapping;
-    using Ploeh.AutoFixture;
 
     /// <summary>
     /// A custom builder to generate the parameter specimens to execute methods to ensure they correctly throw
@@ -200,9 +202,8 @@
         /// <returns>The list of filters.</returns>
         private static List<IFilter> DiscoverFilters()
         {
-            var discoverableCollection = new ReflectionDiscoverableCollection<IFilter>();
-            discoverableCollection.Discover();
-            return discoverableCollection.Items;
+            List<IFilter> filters = DiscoverTypes<IFilter>().ToList();
+            return filters;
         }
 
         /// <summary>
@@ -211,9 +212,21 @@
         /// <returns>The list of mappings.</returns>
         private static List<IMapping> DiscoverMappings()
         {
-            var discoverableCollection = new ReflectionDiscoverableCollection<IMapping>();
-            discoverableCollection.Discover();
-            return discoverableCollection.Items;
+            List<IMapping> mappings = DiscoverTypes<IMapping>().ToList();
+            return mappings;
+        }
+
+        private static IEnumerable<T> DiscoverTypes<T>()
+        {
+            IEnumerable<Type> assemblyTypes = typeof(ArgumentNullExceptionFixture).GetTypeInfo().Assembly.GetTypes();
+            IEnumerable<Type> types =
+                assemblyTypes.Where(
+                    type => typeof(T).GetTypeInfo().IsAssignableFrom(type)
+                            && !type.GetTypeInfo().IsInterface
+                            && !type.GetTypeInfo().IsAbstract);
+
+            IEnumerable<T> instances = types.Select(Activator.CreateInstance).Cast<T>();
+            return instances;
         }
 
         /// <summary>

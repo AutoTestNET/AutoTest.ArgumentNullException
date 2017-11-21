@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx.Filter
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx.Filter
 {
     using System;
     using System.Collections.Generic;
@@ -51,10 +54,11 @@
             bool excludeType = filter.ExcludeType(type);
             if (excludeType)
             {
-                Trace.TraceInformation(
-                    "The type '{0}' was excluded by the filter '{1}'.",
-                    type,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The type '{0}' was excluded by the filter '{1}'.",
+                ////    type,
+                ////    filter.Name);
             }
 
             return excludeType;

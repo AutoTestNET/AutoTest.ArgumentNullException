@@ -1,9 +1,11 @@
 ﻿AutoTest.ArgumentNullException
 ==============================
-[![NuGet Version](https://img.shields.io/nuget/v/AutoTest.ArgumentNullException.svg)](https://www.nuget.org/packages/AutoTest.ArgumentNullException/ "NuGet Version")
-[![NuGet Downloads](https://img.shields.io/nuget/dt/AutoTest.ArgumentNullException.svg)](https://www.nuget.org/packages/AutoTest.ArgumentNullException/ "NuGet Downloads")
-[![Build status](https://img.shields.io/appveyor/ci/JSkimming/autotest-argumentnullexception.svg)](https://ci.appveyor.com/project/JSkimming/autotest-argumentnullexception "Build status")
-[![Coverage Status](https://coveralls.io/repos/AutoTestNET/AutoTest.ArgumentNullException/badge.svg?branch=master)](https://coveralls.io/r/AutoTestNET/AutoTest.ArgumentNullException?branch=master "Coverage Status")
+[![NuGet Version](https://img.shields.io/nuget/v/AutoTest.ArgumentNullException.svg)](https://www.nuget.org/packages/AutoTest.ArgumentNullException "NuGet Version")
+[![NuGet Downloads](https://img.shields.io/nuget/dt/AutoTest.ArgumentNullException.svg)](https://www.nuget.org/packages/AutoTest.ArgumentNullException "NuGet Downloads")
+[![Build status](https://img.shields.io/appveyor/ci/JSkimming/autotest-argumentnullexception/master.svg?label=Windows)](https://ci.appveyor.com/project/JSkimming/autotest-argumentnullexception "AppVeyor build status")
+[![Travis build Status](https://img.shields.io/travis/AutoTestNET/AutoTest.ArgumentNullException/master.svg?label=Linux/Mac)](https://travis-ci.org/AutoTestNET/AutoTest.ArgumentNullException "Travis build status")
+[![Codecov Coverage Status](https://img.shields.io/codecov/c/github/AutoTestNET/AutoTest.ArgumentNullException/master.svg?label=Codecov%20coverage)](https://codecov.io/gh/AutoTestNET/AutoTest.ArgumentNullException "Codecov Coverage Status")
+[![Coveralls Coverage Status](https://img.shields.io/coveralls/github/AutoTestNET/AutoTest.ArgumentNullException/master.svg?label=Coveralls%20coverage)](https://coveralls.io/r/AutoTestNET/AutoTest.ArgumentNullException "Coveralls Coverage Status")
 [![Coverity Scan Status](https://img.shields.io/coverity/scan/4829.svg)](https://scan.coverity.com/projects/4829 "Coverity Scan Status")
 [![Latest release](https://img.shields.io/github/release/AutoTestNET/AutoTest.ArgumentNullException.svg)](https://github.com/AutoTestNET/AutoTest.ArgumentNullException/releases "Latest release")
 

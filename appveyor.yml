@@ -8,71 +8,87 @@
 #      general configuration      #
 #---------------------------------#
 
-# Retain the NuGet packages between builds
-cache:
-  - src\packages -> **\packages.config
-
 # version format
-version: 0.8.0.{build}
+version: 0.8.{build}
+pull_requests:
+  do_not_increment_build_number: true
+
+branches:
+  only:
+    - master
 
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
 
-# http://blog.appveyor.com/2014/06/04/shallow-clone-for-git-repositories/
-shallow_clone: true
+# Operating system (build VM template)
+image: Visual Studio 2017
 
 environment:
   COVERALLS_REPO_TOKEN:
     secure: y58nAbztko+kSar3VzPnEKhC8W4mA4G0dbtsu4EzpT1G0taRabXjF+v0eggpwcTr
 
-# Automatically register private account and/or project AppVeyor NuGet feeds.
-nuget:
-  account_feed: true
-  project_feed: true
+# scripts that are called at very beginning, before repo cloning
+init:
+  # This gives the login details for the build instance so you can RDP to it.
+  #- ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+  - git config --global core.autocrlf input
+
+configuration: Release
+
+# enable patching of AssemblyInfo.cs files
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 
 #---------------------------------#
 #       build configuration       #
 #---------------------------------#
 
-# build Configuration, i.e. Debug, Release, etc.
-configuration: Release
+build_script:
+  - dotnet pack -c %CONFIGURATION% --include-source /p:PackageVersion=%APPVEYOR_BUILD_VERSION%
 
-build:
-  project: src\AutoTest.ArgumentNullException.sln
-  publish_nuget: true             # package projects with .nuspec files and push to artifacts
-  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
-
-  # MSBuild verbosity level
-  verbosity: minimal
-
-# scripts to run before build
-before_build: |
-  PowerShell .\CiVersion.ps1
-  nuget restore src\AutoTest.ArgumentNullException.sln
- 
 #---------------------------------#
 #      artifacts configuration    #
 #---------------------------------#
 
 artifacts:
-  - path: '*.7z'
+  - path: src\**\*.nupkg
+  - path: test\TestResults
 
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
 
-test_script: coverage.cmd
+test_script:
+  - coverage.cmd %CONFIGURATION%
+  - "SET PATH=C:\\Python34;C:\\Python34\\Scripts;%PATH%"
+  - pip install codecov
+  - codecov -f "test\TestResults\Test.Coverage.xml"
 
 after_test: |
-  7z a CoverageResults_%APPVEYOR_BUILD_VERSION%.7z src\Tests\TestResults\
   FOR /r %%F IN (*coveralls.net.exe) DO SET coveralls_exe=%%F
-  %coveralls_exe% --opencover src\Tests\TestResults\Test.Coverage.xml
+  %coveralls_exe% --opencover test\TestResults\Test.Coverage.xml
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+#---------------------------------#
+#        global handlers          #
+#---------------------------------#
+
+#on_finish:
+#  # This blocks the build server from shutting down giving time to RDP onto it to help with diagnose build issues.
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 #---------------------------------#
 #         notifications           #
 #---------------------------------#
-  
+
 notifications:
 
   # Slack
@@ -80,3 +96,5 @@ notifications:
     auth_token:
       secure: AkSNuuHmfzAFp2+Oq00NRQFOfrXl4ue08SHx0FC2WTeXSiZv8uVKI3ZBWns7HTcV
     channel: autotest
+    on_build_success: false
+    on_build_status_changed: true

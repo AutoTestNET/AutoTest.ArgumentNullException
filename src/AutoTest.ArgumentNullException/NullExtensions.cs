@@ -1,9 +1,13 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -25,8 +29,10 @@
             if (type == null)
                 throw new ArgumentNullException("type");
 
-            return (!type.IsValueType && !type.IsByRef)
-                   || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            TypeInfo typeInfo = type.GetTypeInfo();
+
+            return (!typeInfo.IsValueType && !type.IsByRef)
+                   || (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>))
                    || type.IsNullableByRef();
         }
 
@@ -78,10 +84,10 @@
             if (member == null)
                 throw new ArgumentNullException("member");
 
-            if (Attribute.GetCustomAttribute(member, typeof(CompilerGeneratedAttribute)) != null)
+            if (member.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
                 return true;
 
-            return member.DeclaringType != null && IsCompilerGenerated(member.DeclaringType);
+            return member.DeclaringType != null && IsCompilerGenerated(member.DeclaringType.GetTypeInfo());
         }
 
         /// <summary>

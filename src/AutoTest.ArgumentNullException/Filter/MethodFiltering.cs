@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx.Filter
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx.Filter
 {
     using System;
     using System.Collections.Generic;
@@ -30,8 +33,8 @@
                 throw new ArgumentNullException("filters");
 
             IEnumerable<MethodBase> allMethods =
-                type.GetMethods(bindingAttr).Cast<MethodBase>()
-                    .Union(type.GetConstructors(bindingAttr));
+                type.GetTypeInfo().GetMethods(bindingAttr).Cast<MethodBase>()
+                    .Union(type.GetTypeInfo().GetConstructors(bindingAttr));
 
             IEnumerable<MethodBase> filteredMethods =
                 filters.Aggregate(
@@ -90,11 +93,12 @@
             bool excludeMethod = filter.ExcludeMethod(type, method);
             if (excludeMethod)
             {
-                Trace.TraceInformation(
-                    "The method '{0}.{1}' was excluded by the filter '{2}'.",
-                    type.Name,
-                    method.Name,
-                    filter.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The method '{0}.{1}' was excluded by the filter '{2}'.",
+                ////    type.Name,
+                ////    method.Name,
+                ////    filter.Name);
             }
 
             return excludeMethod;

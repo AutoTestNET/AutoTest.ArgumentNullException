@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx.Xunit
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx.Xunit
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +23,7 @@
             ExclusionType = ExclusionType.Types;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Gets or sets the type of exclusion, the default is <see cref="Xunit.ExclusionType.Types"/>.
         /// </summary>
         public ExclusionType ExclusionType { get; set; }

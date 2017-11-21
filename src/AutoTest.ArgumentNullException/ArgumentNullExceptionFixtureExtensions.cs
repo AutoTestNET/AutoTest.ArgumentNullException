@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
@@ -60,7 +63,7 @@
             if (filterType == null)
                 throw new ArgumentNullException("filterType");
 
-            fixture.Filters.RemoveAll(filterType.IsInstanceOfType);
+            fixture.Filters.RemoveAll(filterType.GetTypeInfo().IsInstanceOfType);
 
             return fixture;
         }
@@ -84,7 +87,7 @@
             {
                 fixture.Filters.Remove(filter);
             }
- 
+
             return fixture;
         }
 
@@ -482,7 +485,7 @@
             if (fixture == null)
                 throw new ArgumentNullException("fixture");
 
-            var regexFilter =
+            IRegexFilter regexFilter =
                 fixture.Filters
                        .OfType<IRegexFilter>()
                        .SingleOrDefault();

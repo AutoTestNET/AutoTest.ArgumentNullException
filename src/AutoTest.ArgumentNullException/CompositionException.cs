@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +11,9 @@
     /// <summary>
     /// An <see cref="Exception"/> representing an error composing a method execution.
     /// </summary>
+#if !NETSTANDARD1_5
     [Serializable]
+#endif
     public class CompositionException : Exception
     {
         /// <summary>

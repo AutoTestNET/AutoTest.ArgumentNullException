@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
@@ -35,15 +38,15 @@
         {
             get
             {
-                if (null == _moduleBuilder)
+                if (_moduleBuilder == null)
                 {
                     var assemblyName = new AssemblyName("TypesMapping_" + Guid.NewGuid().ToString("N"))
                     {
-                        Version = Assembly.GetExecutingAssembly().GetName().Version,
+                        Version = typeof(GenericTypeConversion).GetTypeInfo().Assembly.GetName().Version,
                     };
 
                     AssemblyBuilder assemblyBuilder =
-                        AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
+                        AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run);
 
                     _moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name);
                 }
@@ -110,8 +113,9 @@
             if (genericType == null)
                 throw new ArgumentNullException("genericType");
 
-            Type[] constraints = genericType.GetGenericParameterConstraints();
-            GenericParameterAttributes attributes = genericType.GenericParameterAttributes;
+            TypeInfo genericTypeInfo = genericType.GetTypeInfo();
+            Type[] constraints = genericTypeInfo.GetGenericParameterConstraints();
+            GenericParameterAttributes attributes = genericTypeInfo.GenericParameterAttributes;
 
             // Handle the simple situation where there are no constraints.
             if (constraints.Length == 0)
@@ -145,7 +149,7 @@
                 // has a default constructor, just use the constraint as the non generic type.
                 if (attributes == GenericParameterAttributes.DefaultConstructorConstraint)
                 {
-                    if (constraint.GetConstructor(Type.EmptyTypes) != null)
+                    if (constraint.GetTypeInfo().GetConstructor(Type.EmptyTypes) != null)
                     {
                         nonGenericType = constraint;
                         return true;
@@ -170,10 +174,10 @@
             if (genericType == null)
                 throw new ArgumentNullException("genericType");
 
-            Type[] constraints = genericType.GetGenericParameterConstraints();
+            Type[] constraints = genericType.GetTypeInfo().GetGenericParameterConstraints();
 
             // Cannot yet handle mixed constraints, so just return the generic type which will cause a failure later.
-            if (constraints.Any(c => !c.IsInterface))
+            if (constraints.Any(c => !c.GetTypeInfo().IsInterface))
                 return genericType;
 
             TypeBuilder builder =
@@ -189,7 +193,7 @@
             try
             {
                 // Try to create the type.
-                return builder.CreateType();
+                return builder.CreateTypeInfo().AsType();
             }
             catch
             {

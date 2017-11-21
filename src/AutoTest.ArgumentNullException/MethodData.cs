@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx
 {
     using System;
     using System.Collections.Generic;
@@ -95,12 +98,10 @@
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-// ReSharper disable UnusedMember.Local
         private string DebuggerDisplay
         {
             get { return "MethodData: " + ToString(); }
         }
-// ReSharper restore UnusedMember.Local
 
         /// <summary>
         /// Executes the action for the <see cref="MethodUnderTest"/>.

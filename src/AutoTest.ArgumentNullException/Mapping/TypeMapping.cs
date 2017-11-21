@@ -1,4 +1,7 @@
-﻿namespace AutoTest.ArgNullEx.Mapping
+﻿// Copyright (c) 2013 - 2017 James Skimming. All rights reserved.
+// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+
+namespace AutoTest.ArgNullEx.Mapping
 {
     using System;
     using System.Collections.Generic;
@@ -50,11 +53,12 @@
             Type newType = mapping.MapTo(originalType);
             if (originalType != newType)
             {
-                Trace.TraceInformation(
-                    "The type '{0}' was mapped to the type '{1}' by the mapping '{2}'.",
-                    originalType,
-                    newType,
-                    mapping.Name);
+                ////TODO: Look into Tracing.
+                ////Trace.TraceInformation(
+                ////    "The type '{0}' was mapped to the type '{1}' by the mapping '{2}'.",
+                ////    originalType,
+                ////    newType,
+                ////    mapping.Name);
             }
 
             return newType;
