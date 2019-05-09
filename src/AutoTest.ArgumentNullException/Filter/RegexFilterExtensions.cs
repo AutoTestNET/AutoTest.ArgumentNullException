@@ -392,7 +392,7 @@ namespace AutoTest.ArgNullEx.Filter
         /// Adds the rule to include or exclude the <paramref name="methodName"/>.
         /// </summary>
         /// <param name="filter">The <see cref="Regex"/> filter.</param>
-        /// <param name="parameterName">The parameter name</param>
+        /// <param name="parameterName">The parameter name.</param>
         /// <param name="include">A value indicating whether this is a include or exclude rule.</param>
         /// <param name="typeFullName">The <see cref="Type.FullName"/> of the <see cref="Type"/>.</param>
         /// <param name="methodName">The method name.</param>
