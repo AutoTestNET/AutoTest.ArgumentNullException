@@ -18,5 +18,4 @@ branches:
   - master
 
 script:
-  - dotnet test -c Release -f netcoreapp2.1 test/AutoTest.ArgumentNullException.Tests/AutoTest.ArgumentNullException.Tests.csproj
-  - dotnet test -c Release -f netcoreapp2.1 test/AutoTest.ExampleLibrary.Tests/AutoTest.ExampleLibrary.Tests.csproj
+  - ./coverage.sh netcoreapp2.1 Release
