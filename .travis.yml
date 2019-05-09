@@ -7,17 +7,16 @@ matrix:
 
   include:
     - os: linux
-      dist: trusty
-      dotnet: 2.0.0
+      dotnet: 2.1
       mono: none
     - os: osx
-      osx_image: xcode8.2
-      dotnet: 2.0.0
+      dotnet: 2.1.506
       mono: none
 
 branches:
   only:
   - master
+
 script:
-  - dotnet test -c Release -f netcoreapp2.0 test/AutoTest.ArgumentNullException.Tests/AutoTest.ArgumentNullException.Tests.csproj
-  - dotnet test -c Release -f netcoreapp2.0 test/AutoTest.ExampleLibrary.Tests/AutoTest.ExampleLibrary.Tests.csproj
+  - dotnet test -c Release -f netcoreapp2.1 test/AutoTest.ArgumentNullException.Tests/AutoTest.ArgumentNullException.Tests.csproj
+  - dotnet test -c Release -f netcoreapp2.1 test/AutoTest.ExampleLibrary.Tests/AutoTest.ExampleLibrary.Tests.csproj
