@@ -3,8 +3,9 @@
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.5;netstandard2.0</TargetFrameworks>
     <RootNamespace>AutoTest.ArgNullEx</RootNamespace>
+    <LangVersion>latest</LangVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Authors>James Skimming</Authors>
@@ -18,7 +19,7 @@
   </PropertyGroup>
 
   <!--
-  Force the net45 build to generate non Portable PDB until such time that OpenCover supports Portable PDBs
+  Force the net452 build to generate non Portable PDB until such time that OpenCover supports Portable PDBs
   https://github.com/OpenCover/opencover/issues/610
   -->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">
@@ -30,8 +31,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoFixture" Version="4.0.0-rc1" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" PrivateAssets="All" />
+    <PackageReference Include="AutoFixture" Version="4.0.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' != 'net452' ">

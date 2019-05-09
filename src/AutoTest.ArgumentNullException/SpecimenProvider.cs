@@ -91,7 +91,7 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Creates an instance of the specified <paramref name="type"/>.
         /// </summary>
-        /// <param name="type">The <see cref="Type"/> to create</param>
+        /// <param name="type">The <see cref="Type"/> to create.</param>
         /// <returns>The instance of the <paramref name="type"/>.</returns>
         /// <exception cref="ArgumentNullException">The <paramref name="type"/> parameter is
         /// <see langword="null"/>.</exception>
