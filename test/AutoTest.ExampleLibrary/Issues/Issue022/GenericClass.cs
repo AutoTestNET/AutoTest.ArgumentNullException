@@ -26,7 +26,7 @@
             if (value == null)
             {
                 Tested = true;
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             Value = value;

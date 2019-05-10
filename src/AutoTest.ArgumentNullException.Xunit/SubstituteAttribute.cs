@@ -24,9 +24,9 @@ namespace AutoTest.ArgNullEx.Xunit
         public SubstituteAttribute(Type originalType, Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
             if (newType == null)
-                throw new ArgumentNullException("newType");
+                throw new ArgumentNullException(nameof(newType));
 
             OriginalType = originalType;
             NewType = newType;
@@ -52,7 +52,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public override IArgNullExCustomization GetCustomization(MethodInfo method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             return this;
         }
@@ -67,7 +67,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.SubstituteType(OriginalType, NewType);
         }

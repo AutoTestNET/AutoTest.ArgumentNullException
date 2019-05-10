@@ -40,7 +40,7 @@ namespace AutoTest.ArgNullEx.Xunit
             IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             _fixture = fixture;
         }
@@ -64,7 +64,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             if (testMethod == null)
-                throw new ArgumentNullException("testMethod");
+                throw new ArgumentNullException(nameof(testMethod));
 
             CustomizeFixture(testMethod, _fixture);
 
@@ -81,7 +81,7 @@ namespace AutoTest.ArgNullEx.Xunit
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
             if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
+                throw new ArgumentNullException(nameof(assemblyUnderTest));
 
             return assemblyUnderTest.GetTypeInfo().Assembly;
         }
@@ -96,9 +96,9 @@ namespace AutoTest.ArgNullEx.Xunit
         private static void CustomizeFixture(MethodInfo method, IArgumentNullExceptionFixture fixture)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IEnumerable<CustomizeAttribute> customizeAttributes =
                 method.GetCustomAttributes(typeof(CustomizeAttribute), inherit: false)

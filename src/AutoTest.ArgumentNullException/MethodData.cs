@@ -14,7 +14,7 @@ namespace AutoTest.ArgNullEx
     /// <summary>
     /// The data representing a single instance of a <see cref="ArgumentNullException"/> use case test.
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public class MethodData
     {
         /// <summary>
@@ -41,15 +41,15 @@ namespace AutoTest.ArgNullEx
             IExecutionSetup executionSetup)
         {
             if (classUnderTest == null)
-                throw new ArgumentNullException("classUnderTest");
+                throw new ArgumentNullException(nameof(classUnderTest));
             if (methodUnderTest == null)
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException(nameof(methodUnderTest));
             if (parameters == null)
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             if (nullParameter == null)
-                throw new ArgumentNullException("nullParameter");
+                throw new ArgumentNullException(nameof(nullParameter));
             if (executionSetup == null)
-                throw new ArgumentNullException("executionSetup");
+                throw new ArgumentNullException(nameof(executionSetup));
 
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;

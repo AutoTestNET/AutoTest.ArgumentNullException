@@ -24,9 +24,9 @@ namespace AutoTest.ArgNullEx.Mapping
         public static IEnumerable<Type> MapTypes(this IEnumerable<Type> types, IEnumerable<ITypeMapping> mappings)
         {
             if (types == null)
-                throw new ArgumentNullException("types");
+                throw new ArgumentNullException(nameof(types));
             if (mappings == null)
-                throw new ArgumentNullException("mappings");
+                throw new ArgumentNullException(nameof(mappings));
 
             return mappings.Aggregate(
                 types,
@@ -46,9 +46,9 @@ namespace AutoTest.ArgNullEx.Mapping
         private static Type ApplyMapping(this Type originalType, ITypeMapping mapping)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
             if (mapping == null)
-                throw new ArgumentNullException("mapping");
+                throw new ArgumentNullException(nameof(mapping));
 
             Type newType = mapping.MapTo(originalType);
             if (originalType != newType)

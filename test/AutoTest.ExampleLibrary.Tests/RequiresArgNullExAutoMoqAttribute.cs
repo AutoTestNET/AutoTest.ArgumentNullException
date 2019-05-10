@@ -23,7 +23,7 @@
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
             if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
+                throw new ArgumentNullException(nameof(assemblyUnderTest));
 
             return assemblyUnderTest.GetTypeInfo().Assembly;
         }

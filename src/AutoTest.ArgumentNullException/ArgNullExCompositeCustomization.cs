@@ -25,7 +25,7 @@ namespace AutoTest.ArgNullEx
         public ArgNullExCompositeCustomization(IEnumerable<IArgNullExCustomization> customizations)
         {
             if (customizations == null)
-                throw new ArgumentNullException("customizations");
+                throw new ArgumentNullException(nameof(customizations));
 
             _customizations = customizations.ToList();
         }
@@ -55,7 +55,7 @@ namespace AutoTest.ArgNullEx
         public void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             _customizations.ForEach(customization => customization.Customize(fixture));
         }

@@ -36,13 +36,13 @@
             if (classValue == null)
             {
                 ClassValueTested = true;
-                throw new ArgumentNullException("classValue");
+                throw new ArgumentNullException(nameof(classValue));
             }
 
             if (stringValue == null)
             {
                 StringValueTested = true;
-                throw new ArgumentNullException("stringValue");
+                throw new ArgumentNullException(nameof(stringValue));
             }
 
             throw new Exception("Shouldn't ever get here.");

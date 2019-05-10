@@ -98,13 +98,13 @@ namespace AutoTest.ArgNullEx
             List<IMapping> mappings)
         {
             if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
+                throw new ArgumentNullException(nameof(assemblyUnderTest));
             if (specimenProvider == null)
-                throw new ArgumentNullException("specimenProvider");
+                throw new ArgumentNullException(nameof(specimenProvider));
             if (filters == null)
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
             if (mappings == null)
-                throw new ArgumentNullException("mappings");
+                throw new ArgumentNullException(nameof(mappings));
 
             _assemblyUnderTest = assemblyUnderTest;
             _specimenProvider = specimenProvider;
@@ -240,9 +240,9 @@ namespace AutoTest.ArgNullEx
         private IEnumerable<MethodData> SetupParameterData(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             ParameterInfo[] parameterInfos = method.GetParameters();
             var data = new List<MethodData>(parameterInfos.Length);

@@ -29,9 +29,9 @@ namespace AutoTest.ArgNullEx.Mapping
         public void Substitute(Type originalType, Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
             if (newType == null)
-                throw new ArgumentNullException("newType");
+                throw new ArgumentNullException(nameof(newType));
 
             try
             {
@@ -60,7 +60,7 @@ namespace AutoTest.ArgNullEx.Mapping
         protected override bool MapTo(Type originalType, out Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
 
             return _substitutions.TryGetValue(originalType, out newType);
         }

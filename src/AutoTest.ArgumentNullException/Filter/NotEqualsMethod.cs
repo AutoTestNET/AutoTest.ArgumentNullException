@@ -29,9 +29,9 @@ namespace AutoTest.ArgNullEx.Filter
         bool IMethodFilter.ExcludeMethod(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             // Don't exclude non "Equals" methods.
             if (method.GetMethodName() != "Equals")
@@ -66,7 +66,7 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool IsEqualsInterface(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             if (!type.GetTypeInfo().IsGenericType)
                 return false;
@@ -88,9 +88,9 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool IsImplementationOfEquals(MethodBase method, Type interfaceImpl)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (interfaceImpl == null)
-                throw new ArgumentNullException("interfaceImpl");
+                throw new ArgumentNullException(nameof(interfaceImpl));
 
             Type definition = interfaceImpl.GetGenericTypeDefinition();
             int equalsParamsCount = definition.GetTypeInfo().GetMethod("Equals").GetParameters().Length;

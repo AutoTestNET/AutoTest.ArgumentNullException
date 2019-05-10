@@ -25,7 +25,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public override IArgNullExCustomization GetCustomization(MethodInfo method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             return this;
         }
@@ -39,7 +39,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public virtual void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.ExcludePrivate();
         }

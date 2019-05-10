@@ -38,7 +38,7 @@
         int IEqualityComparer<string>.GetHashCode(string obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             return obj.GetHashCode();
         }
@@ -51,7 +51,7 @@
         int IEqualityComparer<object>.GetHashCode(object obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             return obj.GetHashCode();
         }
@@ -61,12 +61,12 @@
             if (stringValue1 == null)
             {
                 TestedStringValue1 = true;
-                throw new ArgumentNullException("stringValue1");
+                throw new ArgumentNullException(nameof(stringValue1));
             }
             if (stringValue2 == null)
             {
                 TestedStringValue2 = true;
-                throw new ArgumentNullException("stringValue2");
+                throw new ArgumentNullException(nameof(stringValue2));
             }
 
             throw new Exception("Shouldn't ever get here.");
@@ -82,7 +82,7 @@
             }
 
             TestedStringValue3 = true;
-            throw new ArgumentNullException("stringValue3");
+            throw new ArgumentNullException(nameof(stringValue3));
         }
     }
 }

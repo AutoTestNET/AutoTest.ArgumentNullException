@@ -36,12 +36,12 @@
             if (classValue == null)
             {
                 ClassValueTested = true;
-                throw new ArgumentNullException("classValue");
+                throw new ArgumentNullException(nameof(classValue));
             }
             if (genericClassMethodStringValue == null)
             {
                 GenericClassMethodStringValueTested = true;
-                throw new ArgumentNullException("genericClassMethodStringValue");
+                throw new ArgumentNullException(nameof(genericClassMethodStringValue));
             }
 
             throw new Exception("Shouldn't ever get here.");
@@ -63,12 +63,12 @@
             if (exceptionValue == null)
             {
                 ExceptionValueTested = true;
-                throw new ArgumentNullException("exceptionValue");
+                throw new ArgumentNullException(nameof(exceptionValue));
             }
             if (genericExceptionMethodStringValue == null)
             {
                 GenericExceptionMethodStringValueTested = true;
-                throw new ArgumentNullException("genericExceptionMethodStringValue");
+                throw new ArgumentNullException(nameof(genericExceptionMethodStringValue));
             }
 
             throw new Exception("Shouldn't ever get here.");

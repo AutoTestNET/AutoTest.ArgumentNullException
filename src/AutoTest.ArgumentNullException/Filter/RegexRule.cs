@@ -12,7 +12,7 @@ namespace AutoTest.ArgNullEx.Filter
     /// <summary>
     /// The <see cref="Regex"/>s to Include on a filter.
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public class RegexRule
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace AutoTest.ArgNullEx.Filter
             Regex parameter = null)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException("name");
+                throw new ArgumentNullException(nameof(name));
 
             Name = name;
             Include = include;

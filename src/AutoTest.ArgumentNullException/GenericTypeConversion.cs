@@ -65,7 +65,7 @@ namespace AutoTest.ArgNullEx
         internal static Type GetNonGenericType(Type genericType)
         {
             if (genericType == null)
-                throw new ArgumentNullException("genericType");
+                throw new ArgumentNullException(nameof(genericType));
 
             using (new ReadLockDisposable(Lock))
             {
@@ -111,7 +111,7 @@ namespace AutoTest.ArgNullEx
         private static bool TrySimple(Type genericType, out Type nonGenericType)
         {
             if (genericType == null)
-                throw new ArgumentNullException("genericType");
+                throw new ArgumentNullException(nameof(genericType));
 
             TypeInfo genericTypeInfo = genericType.GetTypeInfo();
             Type[] constraints = genericTypeInfo.GetGenericParameterConstraints();
@@ -172,7 +172,7 @@ namespace AutoTest.ArgNullEx
         private static Type GenerateRuntimeType(Type genericType)
         {
             if (genericType == null)
-                throw new ArgumentNullException("genericType");
+                throw new ArgumentNullException(nameof(genericType));
 
             Type[] constraints = genericType.GetTypeInfo().GetGenericParameterConstraints();
 

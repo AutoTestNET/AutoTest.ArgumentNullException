@@ -26,7 +26,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public static Task Execute(this MethodData method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             return Assert.ThrowsAsync<ArgumentNullException>(method.NullParameter, method.ExecuteAction);
         }

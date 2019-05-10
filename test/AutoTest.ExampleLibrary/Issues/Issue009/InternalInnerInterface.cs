@@ -18,7 +18,7 @@
             where T : class, IInternalInterface
         {
             if (privateThing == null)
-                throw new ArgumentNullException("privateThing");
+                throw new ArgumentNullException(nameof(privateThing));
         }
     }
 }

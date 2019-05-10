@@ -35,12 +35,12 @@
             if (stringInput == null)
             {
                 StringInputTested = true;
-                throw new ArgumentNullException("stringInput");
+                throw new ArgumentNullException(nameof(stringInput));
             }
             if (stringRef == null)
             {
                 StringRefTested = true;
-                throw new ArgumentNullException("stringRef");
+                throw new ArgumentNullException(nameof(stringRef));
             }
 
             throw new Exception("Shouldn't ever get here.");

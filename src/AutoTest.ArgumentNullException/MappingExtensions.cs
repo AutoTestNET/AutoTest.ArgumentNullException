@@ -28,9 +28,9 @@ namespace AutoTest.ArgNullEx
             Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
             if (newType == null)
-                throw new ArgumentNullException("newType");
+                throw new ArgumentNullException(nameof(newType));
 
             fixture.GetSubstituteTypeMapping().Substitute(originalType, newType);
 
@@ -50,7 +50,7 @@ namespace AutoTest.ArgNullEx
         private static SubstituteType GetSubstituteTypeMapping(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             var substituteType =
                 fixture.Mappings

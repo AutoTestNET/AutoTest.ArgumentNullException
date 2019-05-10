@@ -34,7 +34,7 @@
             if (value == null)
             {
                 GenericMethod2Tested = true;
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             throw new Exception("Shouldn't ever get here.");
@@ -48,7 +48,7 @@
             if (value == null)
             {
                 GenericExceptionMethodTested = true;
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             throw new Exception("Shouldn't ever get here.");

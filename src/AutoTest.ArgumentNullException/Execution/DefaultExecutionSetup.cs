@@ -68,7 +68,7 @@ namespace AutoTest.ArgNullEx.Execution
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
             if (methodData == null)
-                throw new ArgumentNullException("methodData");
+                throw new ArgumentNullException(nameof(methodData));
 
             _methodUnderTest = methodData.MethodUnderTest;
             _parameters = methodData.Parameters;

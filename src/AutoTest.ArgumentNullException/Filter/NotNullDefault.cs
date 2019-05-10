@@ -26,11 +26,11 @@ namespace AutoTest.ArgNullEx.Filter
         bool IParameterFilter.ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             return parameter.HasNullDefault();
         }

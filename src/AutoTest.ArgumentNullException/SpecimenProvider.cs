@@ -29,7 +29,7 @@ namespace AutoTest.ArgNullEx
         public SpecimenProvider(IFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             _builder = fixture;
             GlobalCustomizations(fixture);
@@ -56,16 +56,16 @@ namespace AutoTest.ArgNullEx
         object[] ISpecimenProvider.GetParameterSpecimens(IList<ParameterInfo> parameters, int nullIndex)
         {
             if (parameters == null)
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             if (parameters.Count == 0)
-                throw new ArgumentException("There are no parameters", "parameters");
+                throw new ArgumentException("There are no parameters", nameof(parameters));
             if (nullIndex >= parameters.Count)
             {
                 string error = string.Format(
                     "The nullIndex '{0}' is beyond the range of the parameters '{1}'.",
                     nullIndex,
                     parameters.Count);
-                throw new ArgumentException(error, "nullIndex");
+                throw new ArgumentException(error, nameof(nullIndex));
             }
 
             // Simple optimization, if the only parameter is to be null.
@@ -98,7 +98,7 @@ namespace AutoTest.ArgNullEx
         object ISpecimenProvider.CreateInstance(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return Resolve(type);
         }
@@ -112,7 +112,7 @@ namespace AutoTest.ArgNullEx
         private static void GlobalCustomizations(IFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             // Don't need to create complex graphs, just need objects.
             ThrowingRecursionBehavior throwingRecursionBehavior =
@@ -136,7 +136,7 @@ namespace AutoTest.ArgNullEx
         private object ResolveParameter(ParameterInfo parameter)
         {
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             // If the parameter IsByRef then the underlying type needs to be resolved.
             return parameter.ParameterType.IsByRef
@@ -154,7 +154,7 @@ namespace AutoTest.ArgNullEx
         private object Resolve(object request)
         {
             if (request == null)
-                throw new ArgumentNullException("request");
+                throw new ArgumentNullException(nameof(request));
 
             return new SpecimenContext(_builder).Resolve(request);
         }

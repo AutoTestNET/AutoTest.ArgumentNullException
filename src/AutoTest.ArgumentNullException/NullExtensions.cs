@@ -27,7 +27,7 @@ namespace AutoTest.ArgNullEx
         public static bool IsNullable(this Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             TypeInfo typeInfo = type.GetTypeInfo();
 
@@ -48,7 +48,7 @@ namespace AutoTest.ArgNullEx
         public static bool IsNullable(this ParameterInfo parameter)
         {
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             return parameter.ParameterType.IsNullable();
         }
@@ -65,7 +65,7 @@ namespace AutoTest.ArgNullEx
         public static bool HasNullDefault(this ParameterInfo parameter)
         {
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             return parameter.RawDefaultValue == null;
         }
@@ -82,7 +82,7 @@ namespace AutoTest.ArgNullEx
         public static bool IsCompilerGenerated(this MemberInfo member)
         {
             if (member == null)
-                throw new ArgumentNullException("member");
+                throw new ArgumentNullException(nameof(member));
 
             if (member.GetCustomAttribute<CompilerGeneratedAttribute>() != null)
                 return true;
@@ -102,7 +102,7 @@ namespace AutoTest.ArgNullEx
         private static bool IsNullableByRef(this Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return type.IsByRef && type.GetElementType().IsNullable();
         }

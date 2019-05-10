@@ -119,7 +119,7 @@ namespace AutoTest.ArgNullEx.Filter
         bool ITypeFilter.ExcludeType(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             // Only exclude the type if it doesn't match any of the include
             // rules and if it does match one of the exclude rules.
@@ -139,9 +139,9 @@ namespace AutoTest.ArgNullEx.Filter
         bool IMethodFilter.ExcludeMethod(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             // Only exclude the method if it doesn't match any of the include
             // rules and if it does match one of the exclude rules.
@@ -162,11 +162,11 @@ namespace AutoTest.ArgNullEx.Filter
         bool IParameterFilter.ExcludeParameter(Type type, MethodBase method, ParameterInfo parameter)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             // Only exclude the parameter if it doesn't match any of the include
             // rules and if it does match one of the exclude rules.
