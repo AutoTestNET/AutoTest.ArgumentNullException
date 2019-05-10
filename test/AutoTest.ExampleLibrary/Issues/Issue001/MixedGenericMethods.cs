@@ -24,8 +24,6 @@
             where TClass : class
             where TStruct : struct
         {
-            ClassValueTested = StringValueTested = false;
-
             if (classValue == null)
             {
                 ClassValueTested = true;

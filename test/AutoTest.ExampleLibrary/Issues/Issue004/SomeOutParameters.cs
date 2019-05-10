@@ -32,8 +32,6 @@
             out string stringOutput,
             out Guid guidOutput)
         {
-            StringInputTested = StringRefTested = false;
-
             if (stringInput == null)
             {
                 StringInputTested = true;

@@ -58,8 +58,6 @@
 
         private bool Equals(string stringValue1, string stringValue2)
         {
-            TestedStringValue1 = TestedStringValue2 = false;
-
             if (stringValue1 == null)
             {
                 TestedStringValue1 = true;

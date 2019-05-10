@@ -16,7 +16,7 @@
         public async Task TestGenericClass(MethodData method)
         {
             await method.Execute();
-            Assert.True(GenericClass<Version>.Tested);
+            Assert.True(GenericClassBase.Tested);
         }
     }
 }

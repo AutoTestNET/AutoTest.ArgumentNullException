@@ -33,8 +33,6 @@
         public static void GenericClassMethod<TClass>(TClass classValue, string genericClassMethodStringValue)
             where TClass : class, ITest1, ITest2
         {
-            ClassValueTested = GenericClassMethodStringValueTested = false;
-
             if (classValue == null)
             {
                 ClassValueTested = true;
@@ -62,8 +60,6 @@
         public static void GenericExceptionMethod<TException>(TException exceptionValue, string genericExceptionMethodStringValue)
             where TException : Exception, new()
         {
-            ExceptionValueTested = GenericExceptionMethodStringValueTested = false;
-
             if (exceptionValue == null)
             {
                 ExceptionValueTested = true;
