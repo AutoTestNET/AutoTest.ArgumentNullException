@@ -14,7 +14,7 @@
         [Include(Type = typeof(Mixture))]
         public async Task OnlyTestPublic(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
             Assert.True(Mixture.Tested);
         }
     }

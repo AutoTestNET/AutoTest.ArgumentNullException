@@ -14,7 +14,7 @@
         [Include(Type = typeof(YieldExample))]
         public async Task TestNullArguments(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(YieldExample.Tested);
         }

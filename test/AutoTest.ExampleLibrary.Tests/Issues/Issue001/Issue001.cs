@@ -15,7 +15,7 @@
         [Include(Type = typeof(SimpleGenericMethods))]
         public async Task Simple(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(SimpleGenericMethods.GenericMethod2Tested);
         }
@@ -27,7 +27,7 @@
             Method = "GenericExceptionMethod")]
         public async Task SimpleException(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(SimpleGenericMethods.GenericExceptionMethodTested);
         }
@@ -40,7 +40,7 @@
             Parameter = "classValue")]
         public async Task MixedClassValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(MixedGenericMethods.ClassValueTested);
         }
@@ -53,7 +53,7 @@
             Parameter = "stringValue")]
         public async Task MixedStringValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(MixedGenericMethods.StringValueTested);
         }
@@ -66,7 +66,7 @@
             Parameter = "classValue")]
         public async Task InterfaceClassValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(InterfaceGenericMethods.ClassValueTested);
         }
@@ -79,7 +79,7 @@
             Parameter = "stringValue")]
         public async Task InterfaceStringValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(InterfaceGenericMethods.StringValueTested);
         }
@@ -92,7 +92,7 @@
             Parameter = "classValue")]
         public async Task ComplexClassValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(ComplexGenericMethods.ClassValueTested);
         }
@@ -105,7 +105,7 @@
             Parameter = "genericClassMethodStringValue")]
         public async Task ComplexGenericClassMethodStringValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(ComplexGenericMethods.GenericClassMethodStringValueTested);
         }
@@ -118,7 +118,7 @@
             Parameter = "exceptionValue")]
         public async Task ComplexExceptionValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(ComplexGenericMethods.ExceptionValueTested);
         }
@@ -131,7 +131,7 @@
             Parameter = "genericExceptionMethodStringValue")]
         public async Task ComplexGenericExceptionMethodStringValue(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(ComplexGenericMethods.GenericExceptionMethodStringValueTested);
         }

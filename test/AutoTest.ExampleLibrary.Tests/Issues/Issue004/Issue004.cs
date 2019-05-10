@@ -18,7 +18,7 @@
             Parameter = "stringInput")]
         public async Task TestStringInput(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(SomeOutParameters.StringInputTested);
         }
@@ -31,7 +31,7 @@
             Parameter = "stringRef")]
         public async Task TestStringRef(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(SomeOutParameters.StringRefTested);
         }
