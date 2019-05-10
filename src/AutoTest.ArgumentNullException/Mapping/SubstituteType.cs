@@ -29,9 +29,9 @@ namespace AutoTest.ArgNullEx.Mapping
         public void Substitute(Type originalType, Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
             if (newType == null)
-                throw new ArgumentNullException("newType");
+                throw new ArgumentNullException(nameof(newType));
 
             try
             {
@@ -40,10 +40,8 @@ namespace AutoTest.ArgNullEx.Mapping
             catch (ArgumentException ex)
             {
                 string message =
-                    string.Format(
-                        "Unable to add a substitute for the type '{0}' to the type '{1}', one may already exist.",
-                        originalType,
-                        newType);
+                    $"Unable to add a substitute for the type '{originalType}' " +
+                    $"to the type '{newType}', one may already exist.";
                 throw new InvalidOperationException(message, ex);
             }
         }
@@ -60,7 +58,7 @@ namespace AutoTest.ArgNullEx.Mapping
         protected override bool MapTo(Type originalType, out Type newType)
         {
             if (originalType == null)
-                throw new ArgumentNullException("originalType");
+                throw new ArgumentNullException(nameof(originalType));
 
             return _substitutions.TryGetValue(originalType, out newType);
         }

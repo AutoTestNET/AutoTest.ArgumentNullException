@@ -15,10 +15,7 @@
             Assert.Equal("IsNullable", sut.Name);
         }
 
-        public static IEnumerable<object[]> NullableParams
-        {
-            get { return NullExtensionsShould.GetTestNullableParams(); }
-        }
+        public static IEnumerable<object[]> NullableParams => NullExtensionsShould.GetTestNullableParams();
 
         [Theory, MemberData(nameof(NullableParams))]
         public void IncludeNullableParameters(ParameterInfo param, bool include)

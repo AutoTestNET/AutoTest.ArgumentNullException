@@ -14,7 +14,7 @@ namespace AutoTest.ArgNullEx
     /// <summary>
     /// The data representing a single instance of a <see cref="ArgumentNullException"/> use case test.
     /// </summary>
-    [DebuggerDisplay("{DebuggerDisplay,nq}")]
+    [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public class MethodData
     {
         /// <summary>
@@ -41,15 +41,15 @@ namespace AutoTest.ArgNullEx
             IExecutionSetup executionSetup)
         {
             if (classUnderTest == null)
-                throw new ArgumentNullException("classUnderTest");
+                throw new ArgumentNullException(nameof(classUnderTest));
             if (methodUnderTest == null)
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException(nameof(methodUnderTest));
             if (parameters == null)
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             if (nullParameter == null)
-                throw new ArgumentNullException("nullParameter");
+                throw new ArgumentNullException(nameof(nullParameter));
             if (executionSetup == null)
-                throw new ArgumentNullException("executionSetup");
+                throw new ArgumentNullException(nameof(executionSetup));
 
             ClassUnderTest = classUnderTest;
             InstanceUnderTest = instanceUnderTest;
@@ -63,45 +63,42 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Gets the type of the class under test.
         /// </summary>
-        public Type ClassUnderTest { get; private set; }
+        public Type ClassUnderTest { get; }
 
         /// <summary>
         /// Gets the instance of the class under test if the <see cref="MethodUnderTest"/> is not static.
         /// </summary>
-        public object InstanceUnderTest { get; private set; }
+        public object InstanceUnderTest { get; }
 
         /// <summary>
         /// Gets the method under test.
         /// </summary>
-        public MethodBase MethodUnderTest { get; private set; }
+        public MethodBase MethodUnderTest { get; }
 
         /// <summary>
         /// Gets the parameters to the <see cref="MethodUnderTest"/>.
         /// </summary>
-        public object[] Parameters { get; private set; }
+        public object[] Parameters { get; }
 
         /// <summary>
         /// Gets the name of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
-        public string NullParameter { get; private set; }
+        public string NullParameter { get; }
 
         /// <summary>
         /// Gets the index of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
-        public int NullIndex { get; private set; }
+        public int NullIndex { get; }
 
         /// <summary>
         /// Gets the setup for <see cref="ExecuteAction"/>.
         /// </summary>
-        public IExecutionSetup ExecutionSetup { get; private set; }
+        public IExecutionSetup ExecutionSetup { get; }
 
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-        private string DebuggerDisplay
-        {
-            get { return "MethodData: " + ToString(); }
-        }
+        private string DebuggerDisplay => nameof(MethodData) + ": " + ToString();
 
         /// <summary>
         /// Executes the action for the <see cref="MethodUnderTest"/>.
@@ -118,7 +115,7 @@ namespace AutoTest.ArgNullEx
         /// <returns>A human readable representation of the <see cref="MethodData"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2}=null", ClassUnderTest.Name, MethodUnderTest.Name, NullParameter);
+            return $"{ClassUnderTest.Name}.{MethodUnderTest.Name} {NullParameter}=null";
         }
     }
 }

@@ -25,9 +25,9 @@ namespace AutoTest.ArgNullEx.Filter
         bool IMethodFilter.ExcludeMethod(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             return method.IsAbstract;
         }

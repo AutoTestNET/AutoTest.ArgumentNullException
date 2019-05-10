@@ -48,20 +48,17 @@ namespace AutoTest.ArgNullEx
             Exception innerException)
         {
             if (classUnderTest == null)
-                throw new ArgumentNullException("classUnderTest");
+                throw new ArgumentNullException(nameof(classUnderTest));
             if (methodUnderTest == null)
-                throw new ArgumentNullException("methodUnderTest");
+                throw new ArgumentNullException(nameof(methodUnderTest));
             if (nullParameter == null)
-                throw new ArgumentNullException("nullParameter");
+                throw new ArgumentNullException(nameof(nullParameter));
             if (innerException == null)
-                throw new ArgumentNullException("innerException");
+                throw new ArgumentNullException(nameof(innerException));
 
-            return string.Format(
-                "Error in the composition for the test '{0}.{1} {2}=null'.\n{3}",
-                classUnderTest.Name,
-                methodUnderTest.Name,
-                nullParameter,
-                innerException);
+            return
+                $"Error in the composition for the test '{classUnderTest.Name}.{methodUnderTest.Name} " +
+                $"{nullParameter}=null'.\n{innerException}";
         }
     }
 }

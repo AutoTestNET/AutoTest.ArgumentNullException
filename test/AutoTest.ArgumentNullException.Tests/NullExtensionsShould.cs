@@ -30,15 +30,9 @@
             { }
         }
 
-        public static IEnumerable<object[]> NullableParams
-        {
-            get { return GetTestNullableParams(); }
-        }
+        public static IEnumerable<object[]> NullableParams => GetTestNullableParams();
 
-        public static IEnumerable<object[]> NullDefaultParams
-        {
-            get { return GetTestNullDefaultParams(); }
-        }
+        public static IEnumerable<object[]> NullDefaultParams => GetTestNullDefaultParams();
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedParameter.Local

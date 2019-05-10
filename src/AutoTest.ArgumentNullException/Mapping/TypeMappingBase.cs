@@ -16,7 +16,7 @@ namespace AutoTest.ArgNullEx.Mapping
         public virtual Type MapTo(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             Type newType;
             return MapTo(type, out newType) ? newType : type;

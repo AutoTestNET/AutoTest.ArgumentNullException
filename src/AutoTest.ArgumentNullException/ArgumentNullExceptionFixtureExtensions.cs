@@ -24,7 +24,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ClearBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.BindingFlags = fixture.BindingFlags & ~mask;
 
@@ -41,7 +41,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture SetBindingFlags(this IArgumentNullExceptionFixture fixture, BindingFlags mask)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.BindingFlags = fixture.BindingFlags | mask;
 
@@ -59,9 +59,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture RemoveFilters(this IArgumentNullExceptionFixture fixture, Type filterType)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (filterType == null)
-                throw new ArgumentNullException("filterType");
+                throw new ArgumentNullException(nameof(filterType));
 
             fixture.Filters.RemoveAll(filterType.GetTypeInfo().IsInstanceOfType);
 
@@ -79,9 +79,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture RemoveFilters(this IArgumentNullExceptionFixture fixture, IEnumerable<IFilter> filtersToRemove)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (filtersToRemove == null)
-                throw new ArgumentNullException("filtersToRemove");
+                throw new ArgumentNullException(nameof(filtersToRemove));
 
             foreach (IFilter filter in filtersToRemove)
             {
@@ -102,9 +102,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture AddFilters(this IArgumentNullExceptionFixture fixture, IEnumerable<IFilter> filters)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (filters == null)
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
 
             foreach (IFilter filter in filters.Where(filter => !fixture.Filters.Contains(filter)))
             {
@@ -125,7 +125,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return fixture.ExcludeType(type.FullName);
         }
@@ -141,9 +141,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(typeFullName))
-                throw new ArgumentNullException("typeFullName");
+                throw new ArgumentNullException(nameof(typeFullName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -164,7 +164,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return fixture.IncludeType(type.FullName);
         }
@@ -181,9 +181,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture IncludeType(this IArgumentNullExceptionFixture fixture, string typeFullName)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(typeFullName))
-                throw new ArgumentNullException("typeFullName");
+                throw new ArgumentNullException(nameof(typeFullName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -222,9 +222,9 @@ namespace AutoTest.ArgNullEx
             string typeFullName = null)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(methodName))
-                throw new ArgumentNullException("methodName");
+                throw new ArgumentNullException(nameof(methodName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -265,9 +265,9 @@ namespace AutoTest.ArgNullEx
             string typeFullName = null)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(methodName))
-                throw new ArgumentNullException("methodName");
+                throw new ArgumentNullException(nameof(methodName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -310,9 +310,9 @@ namespace AutoTest.ArgNullEx
             string methodName = null)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException("parameterName");
+                throw new ArgumentNullException(nameof(parameterName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -355,9 +355,9 @@ namespace AutoTest.ArgNullEx
             string methodName = null)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException("parameterName");
+                throw new ArgumentNullException(nameof(parameterName));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -375,7 +375,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeAllTypes(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -393,7 +393,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeAllMethods(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -411,7 +411,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeAllParameters(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -429,7 +429,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludeAll(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IRegexFilter regexFilter = fixture.GetRegexFilter();
 
@@ -447,7 +447,7 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture ExcludePrivate(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             fixture.BindingFlags &= ~BindingFlags.NonPublic;
 
@@ -465,9 +465,9 @@ namespace AutoTest.ArgNullEx
         public static IArgumentNullExceptionFixture Customize(this IArgumentNullExceptionFixture fixture, IArgNullExCustomization customization)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
             if (customization == null)
-                throw new ArgumentNullException("customization");
+                throw new ArgumentNullException(nameof(customization));
 
             customization.Customize(fixture);
             return fixture;
@@ -483,7 +483,7 @@ namespace AutoTest.ArgNullEx
         private static IRegexFilter GetRegexFilter(this IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IRegexFilter regexFilter =
                 fixture.Filters

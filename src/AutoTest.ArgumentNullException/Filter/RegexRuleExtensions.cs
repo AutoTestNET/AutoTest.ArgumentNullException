@@ -27,11 +27,11 @@ namespace AutoTest.ArgNullEx.Filter
         public static bool MatchType(this RegexRule rule, Type type)
         {
             if (rule == null)
-                throw new ArgumentNullException("rule");
+                throw new ArgumentNullException(nameof(rule));
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (rule.Type == null)
-                throw new ArgumentException("The rule has a null Type regular expression.", "rule");
+                throw new ArgumentException("The rule has a null Type regular expression.", nameof(rule));
 
             return rule.Type.IsMatch(type.FullName);
         }
@@ -52,13 +52,13 @@ namespace AutoTest.ArgNullEx.Filter
         public static bool MatchMethod(this RegexRule rule, Type type, MethodBase method)
         {
             if (rule == null)
-                throw new ArgumentNullException("rule");
+                throw new ArgumentNullException(nameof(rule));
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (rule.Method == null)
-                throw new ArgumentException("The rule has a null Method regular expression.", "rule");
+                throw new ArgumentException("The rule has a null Method regular expression.", nameof(rule));
 
             // If there is a type regular expression it must match the type.
             if (rule.Type != null && !rule.MatchType(type))
@@ -85,15 +85,15 @@ namespace AutoTest.ArgNullEx.Filter
         public static bool MatchParameter(this RegexRule rule, Type type, MethodBase method, ParameterInfo parameter)
         {
             if (rule == null)
-                throw new ArgumentNullException("rule");
+                throw new ArgumentNullException(nameof(rule));
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
             if (rule.Parameter == null)
-                throw new ArgumentException("The rule has a null Parameter regular expression.", "rule");
+                throw new ArgumentException("The rule has a null Parameter regular expression.", nameof(rule));
 
             // If there is a method regular expression it must match the method.
             if (rule.Method != null)

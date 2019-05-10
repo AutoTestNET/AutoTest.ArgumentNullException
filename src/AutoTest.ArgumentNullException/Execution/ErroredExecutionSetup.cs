@@ -21,7 +21,7 @@ namespace AutoTest.ArgNullEx.Execution
         public ErroredExecutionSetup(Exception exception)
         {
             if (exception == null)
-                throw new ArgumentNullException("exception");
+                throw new ArgumentNullException(nameof(exception));
 
             Exception = exception;
         }
@@ -29,7 +29,7 @@ namespace AutoTest.ArgNullEx.Execution
         /// <summary>
         /// Gets the <see cref="Exception"/> to throw when executed.
         /// </summary>
-        public Exception Exception { get; private set; }
+        public Exception Exception { get; }
 
         /// <summary>
         /// Sets up an errored execute setup.
@@ -40,7 +40,7 @@ namespace AutoTest.ArgNullEx.Execution
         Func<Task> IExecutionSetup.Setup(MethodData methodData)
         {
             if (methodData == null)
-                throw new ArgumentNullException("methodData");
+                throw new ArgumentNullException(nameof(methodData));
 
             return Execute;
         }

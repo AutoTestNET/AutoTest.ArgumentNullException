@@ -28,9 +28,9 @@ namespace AutoTest.ArgNullEx.Filter
         public static IEnumerable<MethodBase> GetMethods(this Type type, BindingFlags bindingAttr, IEnumerable<IMethodFilter> filters)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (filters == null)
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
 
             IEnumerable<MethodBase> allMethods =
                 type.GetTypeInfo().GetMethods(bindingAttr).Cast<MethodBase>()
@@ -55,7 +55,7 @@ namespace AutoTest.ArgNullEx.Filter
         private static MethodBase ConvertGenericMethod(MethodBase method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             // If it's not generic return the method.
             if (!method.IsGenericMethodDefinition)
@@ -84,11 +84,11 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool ApplyFilter(this MethodBase method, Type type, IMethodFilter filter)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             bool excludeMethod = filter.ExcludeMethod(type, method);
             if (excludeMethod)

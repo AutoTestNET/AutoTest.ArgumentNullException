@@ -51,7 +51,7 @@ namespace AutoTest.ArgNullEx.Xunit
         public override void Customize(IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             if (Type != null && !string.IsNullOrWhiteSpace(TypeFullName))
             {

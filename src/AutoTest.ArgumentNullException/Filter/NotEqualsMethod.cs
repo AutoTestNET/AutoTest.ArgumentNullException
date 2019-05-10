@@ -29,9 +29,9 @@ namespace AutoTest.ArgNullEx.Filter
         bool IMethodFilter.ExcludeMethod(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             // Don't exclude non "Equals" methods.
             if (method.GetMethodName() != "Equals")
@@ -66,7 +66,7 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool IsEqualsInterface(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             if (!type.GetTypeInfo().IsGenericType)
                 return false;
@@ -88,9 +88,9 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool IsImplementationOfEquals(MethodBase method, Type interfaceImpl)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (interfaceImpl == null)
-                throw new ArgumentNullException("interfaceImpl");
+                throw new ArgumentNullException(nameof(interfaceImpl));
 
             Type definition = interfaceImpl.GetGenericTypeDefinition();
             int equalsParamsCount = definition.GetTypeInfo().GetMethod("Equals").GetParameters().Length;
@@ -102,8 +102,7 @@ namespace AutoTest.ArgNullEx.Filter
                 return false;
 
             // Check if this method's parameter is a match for the interface implementation.
-            string implName =
-                string.Format("{0}[[{1}]]", definition.FullName, prms[0].ParameterType.AssemblyQualifiedName);
+            string implName = $"{definition.FullName}[[{prms[0].ParameterType.AssemblyQualifiedName}]]";
             if (implName != interfaceImpl.FullName)
                 return false;
 
@@ -113,10 +112,7 @@ namespace AutoTest.ArgNullEx.Filter
 
             // Check the method name for the explicit implementation.
             string explicitName =
-                string.Format(
-                    "{0}<{1}>.Equals",
-                    definition.FullName.Replace("`1", string.Empty),
-                    prms[0].ParameterType.FullName);
+                $"{definition.FullName.Replace("`1", string.Empty)}<{prms[0].ParameterType.FullName}>.Equals";
             return method.Name == explicitName;
         }
     }

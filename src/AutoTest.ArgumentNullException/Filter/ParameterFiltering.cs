@@ -28,13 +28,13 @@ namespace AutoTest.ArgNullEx.Filter
         public static bool ApplyFilter(this IParameterFilter filter, Type type, MethodBase method, ParameterInfo parameter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (parameter == null)
-                throw new ArgumentNullException("parameter");
+                throw new ArgumentNullException(nameof(parameter));
 
             bool excludeParameter = filter.ExcludeParameter(type, method, parameter);
             if (excludeParameter)

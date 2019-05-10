@@ -15,8 +15,8 @@
         [Substitute(typeof(GenericClass<>), typeof(GenericClass<Version>))]
         public async Task TestGenericClass(MethodData method)
         {
-            await method.Execute();
-            Assert.True(GenericClass<Version>.Tested);
+            await method.Execute().ConfigureAwait(false);
+            Assert.True(GenericClassBase.Tested);
         }
     }
 }

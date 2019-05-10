@@ -34,7 +34,7 @@ namespace AutoTest.ArgNullEx.Lock
         public ReadLockDisposable(ReaderWriterLockSlim slimLock, bool aquireLock = true)
         {
             if (slimLock == null)
-                throw new ArgumentNullException("slimLock");
+                throw new ArgumentNullException(nameof(slimLock));
 
             _slimLock = slimLock;
             _lockAcquired = false;

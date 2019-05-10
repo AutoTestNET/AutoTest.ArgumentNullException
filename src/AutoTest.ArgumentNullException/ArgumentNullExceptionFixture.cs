@@ -29,26 +29,6 @@ namespace AutoTest.ArgNullEx
             | BindingFlags.DeclaredOnly;
 
         /// <summary>
-        /// The assembly under test.
-        /// </summary>
-        private readonly Assembly _assemblyUnderTest;
-
-        /// <summary>
-        /// The parameter specimen provider.
-        /// </summary>
-        private readonly ISpecimenProvider _specimenProvider;
-
-        /// <summary>
-        /// The list of filters.
-        /// </summary>
-        private readonly List<IFilter> _filters;
-
-        /// <summary>
-        /// The list of filters.
-        /// </summary>
-        private readonly List<IMapping> _mappings;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ArgumentNullExceptionFixture"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
@@ -98,76 +78,55 @@ namespace AutoTest.ArgNullEx
             List<IMapping> mappings)
         {
             if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
+                throw new ArgumentNullException(nameof(assemblyUnderTest));
             if (specimenProvider == null)
-                throw new ArgumentNullException("specimenProvider");
+                throw new ArgumentNullException(nameof(specimenProvider));
             if (filters == null)
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
             if (mappings == null)
-                throw new ArgumentNullException("mappings");
+                throw new ArgumentNullException(nameof(mappings));
 
-            _assemblyUnderTest = assemblyUnderTest;
-            _specimenProvider = specimenProvider;
-            _filters = filters;
-            _mappings = mappings;
+            AssemblyUnderTest = assemblyUnderTest;
+            SpecimenProvider = specimenProvider;
+            Filters = filters;
+            Mappings = mappings;
             BindingFlags = DefaultBindingFlags;
         }
 
         /// <summary>
         /// Gets the assembly under test.
         /// </summary>
-        public Assembly AssemblyUnderTest
-        {
-            get { return _assemblyUnderTest; }
-        }
+        public Assembly AssemblyUnderTest { get; }
 
         /// <summary>
         /// Gets the <see cref="ISpecimenProvider"/> used to create parameter specimens.
         /// </summary>
-        public ISpecimenProvider SpecimenProvider
-        {
-            get { return _specimenProvider; }
-        }
+        public ISpecimenProvider SpecimenProvider { get; }
 
         /// <summary>
         /// Gets the list of filters.
         /// </summary>
-        public List<IFilter> Filters
-        {
-            get { return _filters; }
-        }
+        public List<IFilter> Filters { get; }
 
         /// <summary>
         /// Gets the list of mappings.
         /// </summary>
-        public List<IMapping> Mappings
-        {
-            get { return _mappings; }
-        }
+        public List<IMapping> Mappings { get; }
 
         /// <summary>
         /// Gets the list of <see cref="ITypeFilter"/> objects.
         /// </summary>
-        public IEnumerable<ITypeFilter> TypeFilters
-        {
-            get { return _filters.OfType<ITypeFilter>(); }
-        }
+        public IEnumerable<ITypeFilter> TypeFilters => Filters.OfType<ITypeFilter>();
 
         /// <summary>
         /// Gets the list of <see cref="IMethodFilter"/> objects.
         /// </summary>
-        public IEnumerable<IMethodFilter> MethodFilters
-        {
-            get { return _filters.OfType<IMethodFilter>(); }
-        }
+        public IEnumerable<IMethodFilter> MethodFilters => Filters.OfType<IMethodFilter>();
 
         /// <summary>
         /// Gets the list of <see cref="IParameterFilter"/> objects.
         /// </summary>
-        public IEnumerable<IParameterFilter> ParameterFilters
-        {
-            get { return _filters.OfType<IParameterFilter>(); }
-        }
+        public IEnumerable<IParameterFilter> ParameterFilters => Filters.OfType<IParameterFilter>();
 
         /// <summary>
         /// Gets or sets the flags that control binding and the way in which the search for members and types is
@@ -178,10 +137,7 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Gets the list of <see cref="ITypeMapping"/> objects.
         /// </summary>
-        internal IEnumerable<ITypeMapping> TypeMappings
-        {
-            get { return _mappings.OfType<ITypeMapping>(); }
-        }
+        internal IEnumerable<ITypeMapping> TypeMappings => Mappings.OfType<ITypeMapping>();
 
         /// <summary>
         /// Returns the data for the methods to test.
@@ -190,7 +146,7 @@ namespace AutoTest.ArgNullEx
         public IEnumerable<MethodData> GetData()
         {
             return
-                from type in _assemblyUnderTest.GetTypes(TypeFilters).MapTypes(TypeMappings)
+                from type in AssemblyUnderTest.GetTypes(TypeFilters).MapTypes(TypeMappings)
                 from method in type.GetMethods(BindingFlags, MethodFilters)
                 from data in SetupParameterData(type, method)
                 select data;
@@ -240,9 +196,9 @@ namespace AutoTest.ArgNullEx
         private IEnumerable<MethodData> SetupParameterData(Type type, MethodBase method)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             ParameterInfo[] parameterInfos = method.GetParameters();
             var data = new List<MethodData>(parameterInfos.Length);
@@ -257,12 +213,12 @@ namespace AutoTest.ArgNullEx
 
                 try
                 {
-                    object[] parameters = _specimenProvider.GetParameterSpecimens(parameterInfos, parameterIndex);
+                    object[] parameters = SpecimenProvider.GetParameterSpecimens(parameterInfos, parameterIndex);
 
                     object instanceUnderTest = null;
                     if (!method.IsStatic)
                     {
-                        instanceUnderTest = _specimenProvider.CreateInstance(type);
+                        instanceUnderTest = SpecimenProvider.CreateInstance(type);
                     }
 
                     data.Add(

@@ -15,7 +15,7 @@
 #pragma warning restore 108,114
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             return false;
         }
@@ -23,7 +23,7 @@
         public bool Equals(OtherEquals obj)
         {
             if (obj == null)
-                throw new ArgumentNullException("obj");
+                throw new ArgumentNullException(nameof(obj));
 
             return false;
         }
@@ -31,7 +31,7 @@
         public bool Equals(string other)
         {
             if (other == null)
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
 
             return false;
         }
@@ -39,9 +39,9 @@
         public bool Equals(string x, string y)
         {
             if (x == null)
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             if (y == null)
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
 
             return false;
         }

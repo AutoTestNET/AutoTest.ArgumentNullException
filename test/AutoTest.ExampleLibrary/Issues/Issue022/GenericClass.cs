@@ -4,26 +4,29 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    /// <summary>
-    /// Test class used to demonstrate issue 22
-    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/22
-    /// </summary>
-    public class GenericClass<T>
-        where T: class
+    public class GenericClassBase
     {
         /// <summary>
         /// Gets a value indicating if the <see cref="GenericClass{T}"/> has been tested.
         /// </summary>
-        public static bool Tested { get; private set; }
+        public static bool Tested { get; protected set; }
+    }
 
-        public T Value { get; private set; }
+    /// <summary>
+    /// Test class used to demonstrate issue 22
+    /// https://github.com/AutoTestNET/AutoTest.ArgumentNullException/issues/22
+    /// </summary>
+    public class GenericClass<T> : GenericClassBase
+        where T: class
+    {
+        public T Value { get; }
 
         public GenericClass(T value)
         {
             if (value == null)
             {
                 Tested = true;
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             }
 
             Value = value;

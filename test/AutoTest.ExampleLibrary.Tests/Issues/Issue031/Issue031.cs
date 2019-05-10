@@ -18,7 +18,7 @@
             Parameter = "stringInput")]
         public async Task TestStringInput(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(SomeNullableValueTypeParameters.StringInputTested);
         }

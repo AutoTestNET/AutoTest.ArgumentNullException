@@ -26,7 +26,7 @@
             }
 
             Tested = true;
-            throw new ArgumentNullException("stringValue");
+            throw new ArgumentNullException(nameof(stringValue));
         }
     }
 }

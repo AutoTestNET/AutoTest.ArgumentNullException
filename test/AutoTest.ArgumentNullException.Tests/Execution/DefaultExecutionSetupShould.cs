@@ -35,7 +35,7 @@
             // Assert
             try
             {
-                await executeAction;
+                await executeAction.ConfigureAwait(false);
             }
             catch (T)
             {
@@ -71,7 +71,7 @@
                     new DefaultExecutionSetupShould());
 
             // Act
-            await methodData.ExecuteAction();
+            await methodData.ExecuteAction().ConfigureAwait(false);
         }
 
         [Theory, AutoMock]
@@ -83,7 +83,7 @@
             MethodData methodData = GetMethodData(action.GetMethodInfo(), sut, action.Target);
 
             // Act
-            await methodData.ExecuteAction();
+            await methodData.ExecuteAction().ConfigureAwait(false);
             Assert.True(executed);
         }
 
@@ -94,7 +94,8 @@
             Action action = () => { throw new FileLoadException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
+            await AssertExecutionThrows<FileLoadException>(GetMethodData(action.GetMethodInfo(), sut, action.Target))
+                .ConfigureAwait(false);
         }
 
         [Theory, AutoMock]
@@ -106,7 +107,7 @@
             MethodData methodData = GetMethodData(action.GetMethodInfo(), sut, action.Target);
 
             // Act
-            await methodData.ExecuteAction();
+            await methodData.ExecuteAction().ConfigureAwait(false);
             Assert.True(executed);
         }
 
@@ -121,7 +122,8 @@
                 };
 
             // AAA
-            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
+            await AssertExecutionThrows<FileNotFoundException>(GetMethodData(action.GetMethodInfo(), sut, action.Target))
+                .ConfigureAwait(false);
         }
 
         [Theory, AutoMock]
@@ -131,7 +133,8 @@
             Func<Task> action = () => { throw new FieldAccessException("Some random message " + Guid.NewGuid()); };
 
             // Act/Assert
-            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.GetMethodInfo(), sut, action.Target));
+            await AssertExecutionThrows<FieldAccessException>(GetMethodData(action.GetMethodInfo(), sut, action.Target))
+                .ConfigureAwait(false);
         }
     }
 }

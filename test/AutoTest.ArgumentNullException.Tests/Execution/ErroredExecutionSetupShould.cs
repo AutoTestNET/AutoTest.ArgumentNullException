@@ -35,7 +35,7 @@
 
             // Assert
             Assert.True(task.IsFaulted);
-            MyException actual = await Assert.ThrowsAsync<MyException>(() => task);
+            MyException actual = await Assert.ThrowsAsync<MyException>(() => task).ConfigureAwait(false);
             Assert.Same(expected, actual);
         }
     }

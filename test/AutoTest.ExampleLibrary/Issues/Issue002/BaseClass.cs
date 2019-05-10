@@ -7,7 +7,7 @@
         public void AMethod(object data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
         }
 
         public abstract void MethodToCall(object data);
@@ -20,7 +20,7 @@
         public override void MethodToCall(object data1)
         {
             if (data1 == null)
-                throw new ArgumentNullException("data1");
+                throw new ArgumentNullException(nameof(data1));
             BaseCalled = true;
         }
     }
@@ -32,7 +32,7 @@
         public override void MethodToCall(object data2)
         {
             if (data2 == null)
-                throw new ArgumentNullException("data2");
+                throw new ArgumentNullException(nameof(data2));
             DerivedCalled = true;
         }
     }

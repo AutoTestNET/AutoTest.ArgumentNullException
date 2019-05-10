@@ -26,9 +26,9 @@ namespace AutoTest.ArgNullEx.Filter
         public static IEnumerable<Type> GetTypes(this Assembly assembly, IEnumerable<ITypeFilter> filters)
         {
             if (assembly == null)
-                throw new ArgumentNullException("assembly");
+                throw new ArgumentNullException(nameof(assembly));
             if (filters == null)
-                throw new ArgumentNullException("filters");
+                throw new ArgumentNullException(nameof(filters));
 
             return filters.Aggregate(
                 assembly.GetTypes().AsEnumerable(),
@@ -47,9 +47,9 @@ namespace AutoTest.ArgNullEx.Filter
         private static bool ApplyFilter(this Type type, ITypeFilter filter)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             bool excludeType = filter.ExcludeType(type);
             if (excludeType)

@@ -9,13 +9,13 @@
         public Class1(object input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
         }
 
         public void Amethod(object input)
         {
             if (input == null)
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
         }
     }
 }

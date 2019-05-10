@@ -15,10 +15,7 @@
             Assert.Equal("NotNullDefault", sut.Name);
         }
 
-        public static IEnumerable<object[]> NullDefaultParams
-        {
-            get { return NullExtensionsShould.GetTestNullDefaultParams(); }
-        }
+        public static IEnumerable<object[]> NullDefaultParams => NullExtensionsShould.GetTestNullDefaultParams();
 
         [Theory, MemberData(nameof(NullDefaultParams))]
         public void ExcludeNullDefault(ParameterInfo param, bool exclude)

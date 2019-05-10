@@ -12,10 +12,7 @@
     {
         #region Clear/SetBindingFlag
 
-        public static IEnumerable<object[]> AllBindingFlags
-        {
-            get { return GetAllBindingFlags(); }
-        }
+        public static IEnumerable<object[]> AllBindingFlags => GetAllBindingFlags();
 
         private static IEnumerable<object[]> GetAllBindingFlags()
         {

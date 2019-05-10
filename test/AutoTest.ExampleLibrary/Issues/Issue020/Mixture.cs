@@ -24,7 +24,7 @@
                 return returnVal;
 
             Tested = true;
-            throw new ArgumentNullException("stringValue");
+            throw new ArgumentNullException(nameof(stringValue));
         }
 
         private static string Private(string stringValue)

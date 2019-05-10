@@ -24,7 +24,7 @@ namespace AutoTest.ArgNullEx.Filter
         bool ITypeFilter.ExcludeType(Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             TypeInfo typeInfo = type.GetTypeInfo();
             return !typeInfo.IsClass && (!typeInfo.IsValueType || typeInfo.IsEnum);

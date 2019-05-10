@@ -23,7 +23,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static string GetMethodName(this MethodBase method)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
 
             string name = method.Name;
             int index = method.Name.LastIndexOf('.') + 1;

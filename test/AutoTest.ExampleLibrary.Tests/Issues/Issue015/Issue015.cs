@@ -16,7 +16,7 @@
         [Exclude(Method = "System.Collections.Generic.IEqualityComparer<System.String>.GetHashCode")]
         public async Task ExplicitEquals(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             if (method.NullParameter == "stringValue1")
                 Assert.True(Issues.Issue015.ExplicitEquals.TestedStringValue1);
@@ -35,7 +35,7 @@
             ExclusionType = ExclusionType.Types | ExclusionType.Methods)]
         public async Task ImplicitEquals(MethodData method)
         {
-            await method.Execute();
+            await method.Execute().ConfigureAwait(false);
 
             Assert.True(Issues.Issue015.ImplicitEquals.Tested);
         }

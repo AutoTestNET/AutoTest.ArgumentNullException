@@ -29,7 +29,7 @@
         private static Task ExceptionTask(Exception exception)
         {
             if (exception == null)
-                throw new ArgumentNullException("exception");
+                throw new ArgumentNullException(nameof(exception));
 
             var tcs = new TaskCompletionSource<int>();
             tcs.SetException(exception);

@@ -25,7 +25,7 @@
                     throw new Exception("Shouldn't ever get here.");
 
                 Tested = true;
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
             }
         }
     }

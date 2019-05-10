@@ -29,7 +29,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter ExcludeType(this IRegexFilter filter, Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return filter.ExcludeType(type.FullName);
         }
@@ -59,7 +59,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter IncludeType(this IRegexFilter filter, Type type)
         {
             if (type == null)
-                throw new ArgumentNullException("type");
+                throw new ArgumentNullException(nameof(type));
 
             return filter.IncludeType(type.FullName);
         }
@@ -250,7 +250,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter ExcludeAllTypes(this IRegexFilter filter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             filter.Rules.Add(new RegexRule(
                                  "Exclude all types",
@@ -270,7 +270,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter ExcludeAllMethods(this IRegexFilter filter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             filter.Rules.Add(new RegexRule(
                                  "Exclude all methods",
@@ -290,7 +290,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter ExcludeAllParameters(this IRegexFilter filter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             filter.Rules.Add(new RegexRule(
                                  "Exclude all parameters",
@@ -310,7 +310,7 @@ namespace AutoTest.ArgNullEx.Filter
         public static IRegexFilter ExcludeAll(this IRegexFilter filter)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
 
             return
                 filter.ExcludeAllTypes()
@@ -342,11 +342,11 @@ namespace AutoTest.ArgNullEx.Filter
         private static IRegexFilter AddTypeRule(this IRegexFilter filter, string typeFullName, bool include)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
             if (string.IsNullOrWhiteSpace(typeFullName))
-                throw new ArgumentNullException("typeFullName");
+                throw new ArgumentNullException(nameof(typeFullName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", typeFullName);
+            string name = string.Concat(include ? "Include " : "Exclude ", typeFullName);
 
             filter.Rules.Add(new RegexRule(
                                  name,
@@ -373,11 +373,11 @@ namespace AutoTest.ArgNullEx.Filter
             string typeFullName = null)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
             if (string.IsNullOrWhiteSpace(methodName))
-                throw new ArgumentNullException("methodName");
+                throw new ArgumentNullException(nameof(methodName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", methodName);
+            string name = string.Concat(include ? "Include " : "Exclude ", methodName);
 
             filter.Rules.Add(new RegexRule(
                                  name,
@@ -407,11 +407,11 @@ namespace AutoTest.ArgNullEx.Filter
             string methodName = null)
         {
             if (filter == null)
-                throw new ArgumentNullException("filter");
+                throw new ArgumentNullException(nameof(filter));
             if (string.IsNullOrWhiteSpace(parameterName))
-                throw new ArgumentNullException("parameterName");
+                throw new ArgumentNullException(nameof(parameterName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", parameterName);
+            string name = string.Concat(include ? "Include " : "Exclude ", parameterName);
 
             filter.Rules.Add(new RegexRule(
                                  name,

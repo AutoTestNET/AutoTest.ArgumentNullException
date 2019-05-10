@@ -17,11 +17,6 @@ namespace AutoTest.ArgNullEx.Xunit
     public class RequiresArgumentNullExceptionAttribute : DataAttribute
     {
         /// <summary>
-        /// The fixture.
-        /// </summary>
-        private readonly IArgumentNullExceptionFixture _fixture;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
@@ -40,18 +35,15 @@ namespace AutoTest.ArgNullEx.Xunit
             IArgumentNullExceptionFixture fixture)
         {
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         /// <summary>
         /// Gets the <see cref="IArgumentNullExceptionFixture"/>.
         /// </summary>
-        public IArgumentNullExceptionFixture Fixture
-        {
-            get { return _fixture; }
-        }
+        public IArgumentNullExceptionFixture Fixture { get; }
 
         /// <summary>
         /// Returns the data for the test <see cref="TheoryAttribute"/>.
@@ -64,11 +56,11 @@ namespace AutoTest.ArgNullEx.Xunit
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             if (testMethod == null)
-                throw new ArgumentNullException("testMethod");
+                throw new ArgumentNullException(nameof(testMethod));
 
-            CustomizeFixture(testMethod, _fixture);
+            CustomizeFixture(testMethod, Fixture);
 
-            return _fixture.GetData().Select(data => new object[] { data });
+            return Fixture.GetData().Select(data => new object[] { data });
         }
 
         /// <summary>
@@ -81,7 +73,7 @@ namespace AutoTest.ArgNullEx.Xunit
         private static Assembly GetAssembly(Type assemblyUnderTest)
         {
             if (assemblyUnderTest == null)
-                throw new ArgumentNullException("assemblyUnderTest");
+                throw new ArgumentNullException(nameof(assemblyUnderTest));
 
             return assemblyUnderTest.GetTypeInfo().Assembly;
         }
@@ -96,9 +88,9 @@ namespace AutoTest.ArgNullEx.Xunit
         private static void CustomizeFixture(MethodInfo method, IArgumentNullExceptionFixture fixture)
         {
             if (method == null)
-                throw new ArgumentNullException("method");
+                throw new ArgumentNullException(nameof(method));
             if (fixture == null)
-                throw new ArgumentNullException("fixture");
+                throw new ArgumentNullException(nameof(fixture));
 
             IEnumerable<CustomizeAttribute> customizeAttributes =
                 method.GetCustomAttributes(typeof(CustomizeAttribute), inherit: false)
