@@ -346,7 +346,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (string.IsNullOrWhiteSpace(typeFullName))
                 throw new ArgumentNullException(nameof(typeFullName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", typeFullName);
+            string name = string.Concat(include ? "Include " : "Exclude ", typeFullName);
 
             filter.Rules.Add(new RegexRule(
                                  name,
@@ -377,7 +377,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (string.IsNullOrWhiteSpace(methodName))
                 throw new ArgumentNullException(nameof(methodName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", methodName);
+            string name = string.Concat(include ? "Include " : "Exclude ", methodName);
 
             filter.Rules.Add(new RegexRule(
                                  name,
@@ -411,7 +411,7 @@ namespace AutoTest.ArgNullEx.Filter
             if (string.IsNullOrWhiteSpace(parameterName))
                 throw new ArgumentNullException(nameof(parameterName));
 
-            var name = string.Concat(include ? "Include " : "Exclude ", parameterName);
+            string name = string.Concat(include ? "Include " : "Exclude ", parameterName);
 
             filter.Rules.Add(new RegexRule(
                                  name,

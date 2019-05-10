@@ -52,7 +52,7 @@ namespace AutoTest.ArgNullEx
             if (fixture == null)
                 throw new ArgumentNullException(nameof(fixture));
 
-            var substituteType =
+            SubstituteType substituteType =
                 fixture.Mappings
                        .OfType<SubstituteType>()
                        .SingleOrDefault();
