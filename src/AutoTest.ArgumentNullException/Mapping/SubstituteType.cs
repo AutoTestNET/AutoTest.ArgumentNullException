@@ -40,10 +40,8 @@ namespace AutoTest.ArgNullEx.Mapping
             catch (ArgumentException ex)
             {
                 string message =
-                    string.Format(
-                        "Unable to add a substitute for the type '{0}' to the type '{1}', one may already exist.",
-                        originalType,
-                        newType);
+                    $"Unable to add a substitute for the type '{originalType}' " +
+                    $"to the type '{newType}', one may already exist.";
                 throw new InvalidOperationException(message, ex);
             }
         }

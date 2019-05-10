@@ -56,12 +56,9 @@ namespace AutoTest.ArgNullEx
             if (innerException == null)
                 throw new ArgumentNullException(nameof(innerException));
 
-            return string.Format(
-                "Error in the composition for the test '{0}.{1} {2}=null'.\n{3}",
-                classUnderTest.Name,
-                methodUnderTest.Name,
-                nullParameter,
-                innerException);
+            return
+                $"Error in the composition for the test '{classUnderTest.Name}.{methodUnderTest.Name} " +
+                $"{nullParameter}=null'.\n{innerException}";
         }
     }
 }

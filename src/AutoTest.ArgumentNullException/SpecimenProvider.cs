@@ -53,10 +53,8 @@ namespace AutoTest.ArgNullEx
                 throw new ArgumentException("There are no parameters", nameof(parameters));
             if (nullIndex >= parameters.Count)
             {
-                string error = string.Format(
-                    "The nullIndex '{0}' is beyond the range of the parameters '{1}'.",
-                    nullIndex,
-                    parameters.Count);
+                string error =
+                    $"The nullIndex '{nullIndex}' is beyond the range of the parameters '{parameters.Count}'.";
                 throw new ArgumentException(error, nameof(nullIndex));
             }
 

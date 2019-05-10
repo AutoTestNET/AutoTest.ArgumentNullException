@@ -102,8 +102,7 @@ namespace AutoTest.ArgNullEx.Filter
                 return false;
 
             // Check if this method's parameter is a match for the interface implementation.
-            string implName =
-                string.Format("{0}[[{1}]]", definition.FullName, prms[0].ParameterType.AssemblyQualifiedName);
+            string implName = $"{definition.FullName}[[{prms[0].ParameterType.AssemblyQualifiedName}]]";
             if (implName != interfaceImpl.FullName)
                 return false;
 
@@ -113,10 +112,7 @@ namespace AutoTest.ArgNullEx.Filter
 
             // Check the method name for the explicit implementation.
             string explicitName =
-                string.Format(
-                    "{0}<{1}>.Equals",
-                    definition.FullName.Replace("`1", string.Empty),
-                    prms[0].ParameterType.FullName);
+                $"{definition.FullName.Replace("`1", string.Empty)}<{prms[0].ParameterType.FullName}>.Equals";
             return method.Name == explicitName;
         }
     }

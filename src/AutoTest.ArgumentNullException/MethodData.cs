@@ -115,7 +115,7 @@ namespace AutoTest.ArgNullEx
         /// <returns>A human readable representation of the <see cref="MethodData"/>.</returns>
         public override string ToString()
         {
-            return string.Format("{0}.{1} {2}=null", ClassUnderTest.Name, MethodUnderTest.Name, NullParameter);
+            return $"{ClassUnderTest.Name}.{MethodUnderTest.Name} {NullParameter}=null";
         }
     }
 }

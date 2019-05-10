@@ -182,7 +182,7 @@ namespace AutoTest.ArgNullEx
 
             TypeBuilder builder =
                 ModuleBuilder.DefineType(
-                    string.Format("{0}_Dynamic_{1:N}", genericType.Name, Guid.NewGuid()),
+                    $"{genericType.Name}_Dynamic_{Guid.NewGuid():N}",
                     TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Public);
 
             foreach (Type constraint in constraints)
