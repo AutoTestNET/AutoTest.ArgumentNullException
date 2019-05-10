@@ -16,9 +16,6 @@ namespace AutoTest.ArgNullEx.Mapping
         /// <summary>
         /// Gets the name of the Mapping. The default is to use <see cref="MemberInfo.Name"/>.
         /// </summary>
-        public virtual string Name
-        {
-            get { return GetType().Name; }
-        }
+        public virtual string Name => GetType().Name;
     }
 }

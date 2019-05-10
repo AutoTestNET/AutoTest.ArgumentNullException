@@ -17,11 +17,6 @@ namespace AutoTest.ArgNullEx.Xunit
     public class RequiresArgumentNullExceptionAttribute : DataAttribute
     {
         /// <summary>
-        /// The fixture.
-        /// </summary>
-        private readonly IArgumentNullExceptionFixture _fixture;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RequiresArgumentNullExceptionAttribute"/> class.
         /// </summary>
         /// <param name="assemblyUnderTest">A <see cref="Type"/> in the assembly under test.</param>
@@ -42,16 +37,13 @@ namespace AutoTest.ArgNullEx.Xunit
             if (fixture == null)
                 throw new ArgumentNullException(nameof(fixture));
 
-            _fixture = fixture;
+            Fixture = fixture;
         }
 
         /// <summary>
         /// Gets the <see cref="IArgumentNullExceptionFixture"/>.
         /// </summary>
-        public IArgumentNullExceptionFixture Fixture
-        {
-            get { return _fixture; }
-        }
+        public IArgumentNullExceptionFixture Fixture { get; }
 
         /// <summary>
         /// Returns the data for the test <see cref="TheoryAttribute"/>.
@@ -66,9 +58,9 @@ namespace AutoTest.ArgNullEx.Xunit
             if (testMethod == null)
                 throw new ArgumentNullException(nameof(testMethod));
 
-            CustomizeFixture(testMethod, _fixture);
+            CustomizeFixture(testMethod, Fixture);
 
-            return _fixture.GetData().Select(data => new object[] { data });
+            return Fixture.GetData().Select(data => new object[] { data });
         }
 
         /// <summary>

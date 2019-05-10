@@ -59,10 +59,7 @@
             }
         }
 
-        public static IEnumerable<object[]> SomePropertySetters
-        {
-            get { return GetSomePropertySetters(); }
-        }
+        public static IEnumerable<object[]> SomePropertySetters => GetSomePropertySetters();
 
         internal static IEnumerable<object[]> GetSomePropertySetters()
         {

@@ -63,45 +63,42 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Gets the type of the class under test.
         /// </summary>
-        public Type ClassUnderTest { get; private set; }
+        public Type ClassUnderTest { get; }
 
         /// <summary>
         /// Gets the instance of the class under test if the <see cref="MethodUnderTest"/> is not static.
         /// </summary>
-        public object InstanceUnderTest { get; private set; }
+        public object InstanceUnderTest { get; }
 
         /// <summary>
         /// Gets the method under test.
         /// </summary>
-        public MethodBase MethodUnderTest { get; private set; }
+        public MethodBase MethodUnderTest { get; }
 
         /// <summary>
         /// Gets the parameters to the <see cref="MethodUnderTest"/>.
         /// </summary>
-        public object[] Parameters { get; private set; }
+        public object[] Parameters { get; }
 
         /// <summary>
         /// Gets the name of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
-        public string NullParameter { get; private set; }
+        public string NullParameter { get; }
 
         /// <summary>
         /// Gets the index of the null parameter in the <see cref="Parameters"/>.
         /// </summary>
-        public int NullIndex { get; private set; }
+        public int NullIndex { get; }
 
         /// <summary>
         /// Gets the setup for <see cref="ExecuteAction"/>.
         /// </summary>
-        public IExecutionSetup ExecutionSetup { get; private set; }
+        public IExecutionSetup ExecutionSetup { get; }
 
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-        private string DebuggerDisplay
-        {
-            get { return "MethodData: " + ToString(); }
-        }
+        private string DebuggerDisplay => nameof(MethodData) + ": " + ToString();
 
         /// <summary>
         /// Executes the action for the <see cref="MethodUnderTest"/>.

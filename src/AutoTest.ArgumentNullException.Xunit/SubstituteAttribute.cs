@@ -35,12 +35,12 @@ namespace AutoTest.ArgNullEx.Xunit
         /// <summary>
         /// Gets the original <see cref="Type"/> to be substituted by the <see cref="NewType"/>.
         /// </summary>
-        public Type OriginalType { get; private set; }
+        public Type OriginalType { get; }
 
         /// <summary>
         /// Gets the new <see cref="Type"/> to substitute in place of the <see cref="OriginalType"/>.
         /// </summary>
-        public Type NewType { get; private set; }
+        public Type NewType { get; }
 
         /// <summary>
         /// Gets a customization for a test method.

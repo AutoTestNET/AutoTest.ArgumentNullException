@@ -16,10 +16,7 @@
             }
         }
 
-        public static IEnumerable<object[]> AbstractMethods
-        {
-            get { return GetAbstractMethods(); }
-        }
+        public static IEnumerable<object[]> AbstractMethods => GetAbstractMethods();
 
         internal static IEnumerable<object[]> GetAbstractMethods()
         {

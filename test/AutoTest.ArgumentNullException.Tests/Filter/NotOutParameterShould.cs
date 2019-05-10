@@ -24,10 +24,7 @@
             guidOutput = Guid.Empty;
         }
 
-        public static IEnumerable<object[]> SomeOutParameters
-        {
-            get { return GetSomeOutParameters(); }
-        }
+        public static IEnumerable<object[]> SomeOutParameters => GetSomeOutParameters();
 
         internal static IEnumerable<object[]> GetSomeOutParameters()
         {

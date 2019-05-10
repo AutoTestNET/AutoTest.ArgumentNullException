@@ -21,43 +21,24 @@ namespace AutoTest.ArgNullEx.Execution
         private static readonly Task CompletedTask = GetCompletedTask();
 
         /// <summary>
-        /// The method information.
-        /// </summary>
-        private MethodBase _methodUnderTest;
-
-        /// <summary>
-        /// The parameters to the <see cref="_methodUnderTest"/>.
+        /// The parameters to the <see cref="MethodUnderTest"/>.
         /// </summary>
         private object[] _parameters;
 
         /// <summary>
-        /// The system under tests, can be <see langword="null"/> if the <see cref="_methodUnderTest"/> is static.
-        /// </summary>
-        private object _sut;
-
-        /// <summary>
         /// Gets the method information.
         /// </summary>
-        public MethodBase MethodUnderTest
-        {
-            get { return _methodUnderTest; }
-        }
+        public MethodBase MethodUnderTest { get; private set; }
 
         /// <summary>
         /// Gets the parameters to the <see cref="MethodUnderTest"/>.
         /// </summary>
-        public IEnumerable<object> Parameters
-        {
-            get { return _parameters; }
-        }
+        public IEnumerable<object> Parameters => _parameters;
 
         /// <summary>
         /// Gets the system under tests, can be <see langword="null"/> if the <see cref="MethodUnderTest"/> is static.
         /// </summary>
-        public object Sut
-        {
-            get { return _sut; }
-        }
+        public object Sut { get; private set; }
 
         /// <summary>
         /// Sets up a reflected asynchronous <see cref="MethodBase"/> execution.
@@ -70,9 +51,9 @@ namespace AutoTest.ArgNullEx.Execution
             if (methodData == null)
                 throw new ArgumentNullException(nameof(methodData));
 
-            _methodUnderTest = methodData.MethodUnderTest;
+            MethodUnderTest = methodData.MethodUnderTest;
             _parameters = methodData.Parameters;
-            _sut = methodData.InstanceUnderTest;
+            Sut = methodData.InstanceUnderTest;
 
             return Execute;
         }
@@ -96,7 +77,7 @@ namespace AutoTest.ArgNullEx.Execution
         {
             try
             {
-                var methodInfo = _methodUnderTest as MethodInfo;
+                var methodInfo = MethodUnderTest as MethodInfo;
                 if (methodInfo != null && typeof(Task).GetTypeInfo().IsAssignableFrom(methodInfo.ReturnType))
                 {
                     return ExecuteAsynchronously();
@@ -115,16 +96,15 @@ namespace AutoTest.ArgNullEx.Execution
         }
 
         /// <summary>
-        /// Executes the <see cref="_methodUnderTest"/> synchronously.
+        /// Executes the <see cref="MethodUnderTest"/> synchronously.
         /// </summary>
         private void ExecuteSynchronously()
         {
             try
             {
-                object result = _methodUnderTest.Invoke(_sut, _parameters);
+                object result = MethodUnderTest.Invoke(Sut, _parameters);
 
-                var enumerable = result as IEnumerable;
-                if (enumerable != null)
+                if (result is IEnumerable enumerable)
                 {
                     enumerable.GetEnumerator().MoveNext();
                 }
@@ -139,14 +119,14 @@ namespace AutoTest.ArgNullEx.Execution
         }
 
         /// <summary>
-        /// Executes the <see cref="_methodUnderTest"/> synchronously.
+        /// Executes the <see cref="MethodUnderTest"/> synchronously.
         /// </summary>
         /// <returns>The <see cref="Task"/> representing the result of the asynchronous operation.</returns>
         private Task ExecuteAsynchronously()
         {
             try
             {
-                var result = (Task)_methodUnderTest.Invoke(_sut, _parameters);
+                var result = (Task)MethodUnderTest.Invoke(Sut, _parameters);
                 return result;
             }
             catch (TargetInvocationException targetInvocationException)

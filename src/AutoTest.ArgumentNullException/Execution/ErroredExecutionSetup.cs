@@ -29,7 +29,7 @@ namespace AutoTest.ArgNullEx.Execution
         /// <summary>
         /// Gets the <see cref="Exception"/> to throw when executed.
         /// </summary>
-        public Exception Exception { get; private set; }
+        public Exception Exception { get; }
 
         /// <summary>
         /// Sets up an errored execute setup.

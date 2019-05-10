@@ -16,9 +16,6 @@ namespace AutoTest.ArgNullEx.Filter
         /// <summary>
         /// Gets the name of the filter. The default is to use <see cref="MemberInfo.Name"/>.
         /// </summary>
-        public virtual string Name
-        {
-            get { return GetType().Name; }
-        }
+        public virtual string Name => GetType().Name;
     }
 }

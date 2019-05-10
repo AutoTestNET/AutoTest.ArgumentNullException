@@ -45,34 +45,31 @@ namespace AutoTest.ArgNullEx.Filter
         /// <summary>
         /// Gets the name of the rule.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets a value indicating whether this is a include or exclude rule.
         /// </summary>
-        public bool Include { get; private set; }
+        public bool Include { get; }
 
         /// <summary>
         /// Gets the <see cref="Regex"/> to include or exclude the type.
         /// </summary>
-        public Regex Type { get; private set; }
+        public Regex Type { get; }
 
         /// <summary>
         /// Gets the <see cref="Regex"/> to include or exclude the method.
         /// </summary>
-        public Regex Method { get; private set; }
+        public Regex Method { get; }
 
         /// <summary>
         /// Gets the <see cref="Regex"/> to include or exclude the parameter.
         /// </summary>
-        public Regex Parameter { get; private set; }
+        public Regex Parameter { get; }
 
         /// <summary>
         /// Gets the text to display within the debugger.
         /// </summary>
-        private string DebuggerDisplay
-        {
-            get { return "RegexRule: " + Name; }
-        }
+        private string DebuggerDisplay => nameof(RegexRule) + ": " + Name;
     }
 }

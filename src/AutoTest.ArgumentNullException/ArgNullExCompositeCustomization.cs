@@ -42,10 +42,7 @@ namespace AutoTest.ArgNullEx
         /// <summary>
         /// Gets the customizations contained within this instance.
         /// </summary>
-        public IEnumerable<IArgNullExCustomization> Customizations
-        {
-            get { return _customizations; }
-        }
+        public IEnumerable<IArgNullExCustomization> Customizations => _customizations;
 
         /// <summary>
         /// Customizes the specified fixture.

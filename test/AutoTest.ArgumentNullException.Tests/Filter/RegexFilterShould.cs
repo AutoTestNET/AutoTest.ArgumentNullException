@@ -12,60 +12,40 @@
     {
         #region Rule types
 
-        private static List<RegexRule> TypeRules
-        {
-            get
+        private static List<RegexRule> TypeRules =>
+            new List<RegexRule>
             {
-                return new List<RegexRule>
-                    {
-                        new RegexRule("Type rule 1", include: true, type: new Regex(".*")),
-                        new RegexRule("Type rule 2", include: false, type: new Regex(".*")),
-                        new RegexRule("Type rule 3", include: true, type: new Regex(".*")),
-                    };
-            }
-        }
+                new RegexRule("Type rule 1", include: true, type: new Regex(".*")),
+                new RegexRule("Type rule 2", include: false, type: new Regex(".*")),
+                new RegexRule("Type rule 3", include: true, type: new Regex(".*")),
+            };
 
-        private static List<RegexRule> MethodRules
-        {
-            get
+        private static List<RegexRule> MethodRules =>
+            new List<RegexRule>
             {
-                return new List<RegexRule>
-                    {
-                        new RegexRule("Method rule 1", include: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 2", include: false, method: new Regex(".*")),
-                        new RegexRule("Method rule 3", include: true, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 4", include: false, type: new Regex(".*"), method: new Regex(".*")),
-                        new RegexRule("Method rule 5", include: true, method: new Regex(".*")),
-                        new RegexRule("Method rule 6", include: false, type: new Regex(".*"), method: new Regex(".*")),
-                    };
-            }
-        }
+                new RegexRule("Method rule 1", include: true, type: new Regex(".*"), method: new Regex(".*")),
+                new RegexRule("Method rule 2", include: false, method: new Regex(".*")),
+                new RegexRule("Method rule 3", include: true, type: new Regex(".*"), method: new Regex(".*")),
+                new RegexRule("Method rule 4", include: false, type: new Regex(".*"), method: new Regex(".*")),
+                new RegexRule("Method rule 5", include: true, method: new Regex(".*")),
+                new RegexRule("Method rule 6", include: false, type: new Regex(".*"), method: new Regex(".*")),
+            };
 
-        private static List<RegexRule> ParameterRules
-        {
-            get
+        private static List<RegexRule> ParameterRules =>
+            new List<RegexRule>
             {
-                return new List<RegexRule>
-                    {
-                        new RegexRule("Parameter rule 1", include: true, parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 2", include: false, type: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 3", include: true, method: new Regex(".*"), parameter: new Regex(".*")),
-                        new RegexRule("Parameter rule 4", include: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
-                    };
-            }
-        }
+                new RegexRule("Parameter rule 1", include: true, parameter: new Regex(".*")),
+                new RegexRule("Parameter rule 2", include: false, type: new Regex(".*"), parameter: new Regex(".*")),
+                new RegexRule("Parameter rule 3", include: true, method: new Regex(".*"), parameter: new Regex(".*")),
+                new RegexRule("Parameter rule 4", include: false, type: new Regex(".*"), method: new Regex(".*"), parameter: new Regex(".*")),
+            };
 
 
-        public static IEnumerable<object[]> AllRuleTypes
-        {
-            get
+        public static IEnumerable<object[]> AllRuleTypes =>
+            new[]
             {
-                return new[]
-                    {
-                        new object[] {TypeRules, MethodRules, ParameterRules}
-                    };
-            }
-        }
+                new object[] {TypeRules, MethodRules, ParameterRules}
+            };
 
         [Theory, AutoMock]
         public void ReturnName(RegexFilter sut)

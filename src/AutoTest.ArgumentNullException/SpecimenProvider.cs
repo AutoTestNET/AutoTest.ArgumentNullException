@@ -16,11 +16,6 @@ namespace AutoTest.ArgNullEx
     public sealed class SpecimenProvider : ISpecimenProvider
     {
         /// <summary>
-        /// The specimen builder.
-        /// </summary>
-        private readonly ISpecimenBuilder _builder;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SpecimenProvider"/> class.
         /// </summary>
         /// <param name="fixture">The specimen fixture.</param>
@@ -31,17 +26,14 @@ namespace AutoTest.ArgNullEx
             if (fixture == null)
                 throw new ArgumentNullException(nameof(fixture));
 
-            _builder = fixture;
+            Builder = fixture;
             GlobalCustomizations(fixture);
         }
 
         /// <summary>
         /// Gets the <see cref="ISpecimenBuilder"/> used to create specimens.
         /// </summary>
-        public ISpecimenBuilder Builder
-        {
-            get { return _builder; }
-        }
+        public ISpecimenBuilder Builder { get; }
 
         /// <summary>
         /// Gets the specimens for the <paramref name="parameters"/>.
@@ -156,7 +148,7 @@ namespace AutoTest.ArgNullEx
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
 
-            return new SpecimenContext(_builder).Resolve(request);
+            return new SpecimenContext(Builder).Resolve(request);
         }
     }
 }
