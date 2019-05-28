@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net472;netcoreapp1.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>net472;netcoreapp2.1</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <RootNamespace>AutoTest.ArgNullEx</RootNamespace>
     <IsPackable>false</IsPackable>
@@ -28,14 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\AutoTest.ArgumentNullException.Xunit\AutoTest.ArgumentNullException.Xunit.csproj" />
     <ProjectReference Include="..\..\src\AutoTest.ArgumentNullException\AutoTest.ArgumentNullException.csproj" />
-  </ItemGroup>
-
-  <!--
-  Cannot Create mocks of MethodBase and ParameterInfo in 1.1, as this is an issue with the tests not the library, it's
-  simper to just exclude these tests.
-  -->
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
-    <Compile Remove="Filter\**" />
   </ItemGroup>
 
   <ItemGroup>
