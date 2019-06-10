@@ -16,6 +16,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.1-alpine
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
+RUN apk add --update dos2unix && rm -rf /var/cache/apk/*
+
 WORKDIR /work
 
 # Copy just the solution and proj files to make best use of docker image caching.
@@ -30,6 +32,8 @@ COPY ./test/AutoTest.ExampleLibrary.Tests/AutoTest.ExampleLibrary.Tests.csproj .
 RUN dotnet restore
 
 COPY . .
+
+RUN dos2unix -k -q ./coverage.sh
 
 RUN ./coverage.sh netcoreapp2.1 Debug
 
@@ -39,6 +43,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine
 
 ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
 
+RUN apk add --update dos2unix && rm -rf /var/cache/apk/*
+
 WORKDIR /work
 
 # Copy just the solution and proj files to make best use of docker image caching.
@@ -53,5 +59,7 @@ COPY ./test/AutoTest.ExampleLibrary.Tests/AutoTest.ExampleLibrary.Tests.csproj .
 RUN dotnet restore
 
 COPY . .
+
+RUN dos2unix -k -q ./coverage.sh
 
 RUN ./coverage.sh netcoreapp2.1 Debug
